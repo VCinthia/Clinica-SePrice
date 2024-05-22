@@ -8,8 +8,8 @@ export class PersonaController {
     constructor(private readonly personaService : PersonaService){}
 
     @Post()
-    createPersona(@Body() PersonaDTO) : Promise<Persona>{
-        return this.personaService.createPersona(PersonaDTO);
+    createPersona(@Body() personaDTO : PersonaDTO) : Promise<Persona>{
+        return this.personaService.createPersona(personaDTO);
     }
 
     //@Public()

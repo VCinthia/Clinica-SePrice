@@ -14,16 +14,25 @@ export class PersonaService {
     ) { }
 
     public async createPersona(personaDTO: PersonaDTO) {
-        try {
-            let newPersona: Persona = await this.personaRepo.save(new Persona(personaDTO.nombre, personaDTO.apellido, personaDTO.fechaNac, personaDTO.dni));
-            if (newPersona)
+        try {            
+            //TODO: agregar verificacion de dni para crear
+            const condition : FindOneOptions = { where : { dni : personaDTO.dni}};
+            const personaExistente : Persona = await this.personaRepo.findOne(condition);
+            console.log('Entre a la funcion');
+            console.log( 'Persona.dni: ', personaDTO.dni);
+            console.log('personaExistente: ', personaExistente);
+
+            if (!personaExistente){
+                let newPersona: Persona = await this.personaRepo.save(new Persona(personaDTO.nombre, personaDTO.apellido, personaDTO.fechaNac, personaDTO.dni));
+                console.log('newPersona.dni: ', newPersona.dni);
                 return newPersona;
-            else
-                throw new Error('La persona no pudo crearse.');
+            }
+            else             
+                throw new Error('La persona ya existe.');
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.NOT_FOUND,
-                error: 'Error en la creacion: ' + error
+                error: 'Falló la creación - ' + error
             },
         HttpStatus.NOT_FOUND);
         }
