@@ -1,0 +1,19 @@
+mat-card{
+    width: 40vw;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    caret-color: var(--accent);
+}
+
+app-btn-primary{
+    width: 360px;
+}
