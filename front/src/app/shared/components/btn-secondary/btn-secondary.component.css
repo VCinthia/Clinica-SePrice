@@ -1,10 +1,16 @@
 button{
-    background-color: #FFFFFF;
+    background-color: var(--background);
     color: var(--accent);
-    height: 50px;
+    height: 100%;
     width: 100%;
     font-size: 18px;
     border-radius: 100px;
     border: none;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+}
 
+button:hover{
+    background-color: #a1cea34f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
