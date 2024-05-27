@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
 import { Paciente } from './entities/paciente.entity';
 import { PacienteDTO } from './dto/paciente.dto';
+import { HistoriaClinica } from 'src/historia-clinica/entities/historia.entity';
 
 @Injectable()
 export class PacienteService {
@@ -10,6 +11,8 @@ export class PacienteService {
     constructor(
         @InjectRepository(Paciente)
         private readonly pacienteRepo: Repository<Paciente>,
+        @InjectRepository(HistoriaClinica)
+        private readonly historiaClinicaRepo: Repository<HistoriaClinica>,
     ) { }
 
     public async createPaciente(pacienteDTO: PacienteDTO) {
@@ -24,7 +27,19 @@ export class PacienteService {
             if (!pacienteExistente) {
                 const newPaciente = this.pacienteRepo.create(pacienteDTO);
                 console.log('newPaciente.dni: ', newPaciente.dni);
-                return this.pacienteRepo.save(newPaciente);
+                //return this.pacienteRepo.save(newPaciente);
+                const savedPaciente = await this.pacienteRepo.save(newPaciente);
+
+                // Crear la historia clínica asociada
+                const historiaClinica = new HistoriaClinica();
+                historiaClinica.paciente = savedPaciente;
+                historiaClinica.detalles = '';
+                historiaClinica.fecha_creacion = new Date();
+                historiaClinica.ultima_modificacion = new Date();
+                //historiaClinica.usuarioUltimaAct = null; // Inicialmente no hay usuario que haya actualizado
+
+                await this.historiaClinicaRepo.save(historiaClinica);
+                return savedPaciente;
             }
             else
                 throw new Error('La persona ya existe.');

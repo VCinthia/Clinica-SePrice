@@ -6,6 +6,7 @@ import typeOrmConfig from 'bdd/typeorm.config';
 import { PersonaModule } from './persona/persona.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { PacienteModule } from './paciente/paciente.module';
+import { HistoriaClinicaModule } from './historia-clinica/historia-clinica.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PacienteModule } from './paciente/paciente.module';
     PersonaModule,
     UsuarioModule,
     PacienteModule,
+    HistoriaClinicaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
