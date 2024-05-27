@@ -5,3 +5,6 @@ export * from './main';
 export * from './persona/dto/persona.dto';
 export * from './persona/entities/persona.entity';
 export * from './persona';
+export * from './usuario/dto/usuario.dto';
+export * from './usuario/entities/usuario.entity';
+export * from './usuario';

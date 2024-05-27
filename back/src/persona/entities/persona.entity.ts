@@ -1,6 +1,6 @@
 import { Column, Entity, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'personas' })
+//@Entity({ name: 'personas' })
 export class Persona {
     @PrimaryColumn()
     dni: number;
@@ -19,9 +19,9 @@ export class Persona {
     @Column()
     email: string;
 
-    // @ForeignKey(() => Usuario)
-    // @Column
-    private idLogin: number;
+    // OneToOne(() => Persona)
+    //@JoinColumn()
+    //username: string;
 
     constructor(dni: number, nombre: string, apellido: string, fechaNac: Date, genero: string, domicilio: string, telefono: string, email: string) {
         this.dni = dni;
