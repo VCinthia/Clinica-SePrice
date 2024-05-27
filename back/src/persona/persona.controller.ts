@@ -5,14 +5,14 @@ import { PersonaDTO } from './dto/persona.dto';
 
 @Controller('persona')
 export class PersonaController {
-    constructor(private readonly personaService : PersonaService){}
+  constructor(private readonly personaService: PersonaService) { }
 
-    @Post()
-    createPersona(@Body() personaDTO : PersonaDTO) : Promise<Persona>{
-        return this.personaService.createPersona(personaDTO);
-    }
+  @Post()
+  createPersona(@Body() personaDTO: PersonaDTO): Promise<Persona> {
+    return this.personaService.createPersona(personaDTO);
+  }
 
-    //@Public()
+  //@Public()
   @Get('/personas/:dni')
   getPersonaByDni(@Param('dni') dni: number): Promise<Persona> {
     return this.personaService.getPersonaByDNI(dni);

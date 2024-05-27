@@ -23,7 +23,7 @@ export class PersonaService {
             console.log('personaExistente: ', personaExistente);
 
             if (!personaExistente){
-                let newPersona: Persona = await this.personaRepo.save(new Persona(personaDTO.nombre, personaDTO.apellido, personaDTO.fechaNac, personaDTO.dni));
+                let newPersona: Persona = await this.personaRepo.save(new Persona(personaDTO.dni,personaDTO.nombre, personaDTO.apellido, personaDTO.fechaNac, personaDTO.genero, personaDTO.domicilio, personaDTO.telefono, personaDTO.email));
                 console.log('newPersona.dni: ', newPersona.dni);
                 return newPersona;
             }

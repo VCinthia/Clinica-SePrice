@@ -1,9 +1,9 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'personas' })
 export class Persona {
-    @PrimaryGeneratedColumn()
-    id?: number;
+    @PrimaryColumn()
+    dni: number;
     @Column()
     nombre: string;
     @Column()
@@ -11,20 +11,34 @@ export class Persona {
     @Column()
     fechaNac: Date;
     @Column()
-    dni: number;
+    genero: string;
+    @Column()
+    domicilio: string;
+    @Column()
+    telefono: string;
+    @Column()
+    email: string;
 
-    // @OneToOne(()=> Login)
-    // login : Login;
+    // @ForeignKey(() => Usuario)
+    // @Column
+    private idLogin: number;
 
-    constructor(nombre: string, apellido: string, fechaNac: Date, dni : number) {
+    constructor(dni: number, nombre: string, apellido: string, fechaNac: Date, genero: string, domicilio: string, telefono: string, email: string) {
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
-        this.dni = dni;
+        this.genero = genero;
+        this.domicilio = domicilio;
+        this.telefono = telefono;
+        this.email = email;
     }
 
-    public getIdPersona(): number {
-        return this.id;
+    public getDni(): number {
+        return this.dni;
+    }
+    public setDni(dni: number): void {
+        this.dni = dni;
     }
 
     public getNombre(): string {
@@ -48,10 +62,32 @@ export class Persona {
         this.fechaNac = fechaNac;
     }
 
-    public getDni(): number {
-        return this.dni;
+    public getgenero(): string {
+        return this.genero;
     }
-    public setDni(dni: number): void {
-        this.dni = dni;
+    public setGenero(genero: string): void {
+        this.genero = genero;
     }
+
+    public getDomicilio(): string {
+        return this.domicilio;
+    }
+    public setDomicilio(domicilio: string): void {
+        this.domicilio = domicilio;
+    }
+
+    public getTelefono(): string {
+        return this.telefono;
+    }
+    public setTelefono(telefono: string): void {
+        this.telefono = telefono;
+    }
+
+    public getEmail(): string {
+        return this.email;
+    }
+    public setEmail(email: string): void {
+        this.email = email;
+    }
+
 }

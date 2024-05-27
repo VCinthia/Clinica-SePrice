@@ -1,7 +1,8 @@
 import { IsNotEmpty } from "class-validator";
 
 export class PersonaDTO {
-    id? : number;//ver de usar un classvalidator para que pueda estar vacio para la creacion
+    @IsNotEmpty()
+    dni : number;
     @IsNotEmpty()
     nombre : string;
     @IsNotEmpty()
@@ -9,5 +10,13 @@ export class PersonaDTO {
     @IsNotEmpty()
     fechaNac : Date;
     @IsNotEmpty()
-    dni : number;
+    genero : string;
+    @IsNotEmpty()
+    domicilio : string;
+    @IsNotEmpty()
+    telefono : string;
+    @IsNotEmpty()
+    email : string;
+    //@IsNotEmpty()
+    username? : string;
 }
