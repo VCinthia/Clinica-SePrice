@@ -40,8 +40,7 @@ export class PacienteService {
 
                 await this.historiaClinicaRepo.save(historiaClinica);
                 return savedPaciente;
-            }
-            else
+            } else
                 throw new Error('La persona ya existe.');
         } catch (error) {
             throw new HttpException({
@@ -54,19 +53,19 @@ export class PacienteService {
 
     public async getPacienteByDNI(dni: number) {
         try {
-            const condition : FindOneOptions = { where : { dni : dni}};
-            const paciente : Paciente = await this.pacienteRepo.findOne(condition);
-            if(paciente){
+            const condition: FindOneOptions = { where: { dni: dni } };
+            const paciente: Paciente = await this.pacienteRepo.findOne(condition);
+            if (paciente) {
                 return paciente;
             } else {
                 throw new Error('No existe el DNI ingresado.');
             }
-        }catch (error) {
+        } catch (error) {
             throw new HttpException({
                 status: HttpStatus.NOT_FOUND,
                 error: 'Error en la busqueda: ' + error
             },
-        HttpStatus.NOT_FOUND);
+                HttpStatus.NOT_FOUND);
         }
     }
 }

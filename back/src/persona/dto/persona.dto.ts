@@ -18,5 +18,5 @@ export class PersonaDTO {
     @IsNotEmpty()
     email : string;
     //@IsNotEmpty()
-    username? : string;
+    //username? : string;
 }
