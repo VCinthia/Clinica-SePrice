@@ -7,6 +7,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCard} from '@angular/material/card'
 import { BtnPrimaryComponent } from '../../../shared/components/btn-primary/btn-primary.component';
 import { BtnSecondaryComponent } from '../../../shared/components/btn-secondary/btn-secondary.component';
+import { Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-login-form',
@@ -23,4 +27,10 @@ export class LoginFormComponent {
     this.hide = !this.hide;
     event.stopPropagation();
   }
+
+  constructor(private router: Router) {}
+
+  navegarAInicio() {
+  this.router.navigate(['/inicio']);
+}
 }

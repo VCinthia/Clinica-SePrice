@@ -4,14 +4,16 @@ import { LoginFormComponent } from './login/components/login-form/login-form.com
 import { MenuTurnosComponent } from './admin/components/menu-turnos/menu-turnos.component';
 import { SeleccionarEstudioComponent } from './admin/components/estudios-clinicos/seleccionar-estudio/seleccionar-estudio.component';
 import { SeleccionarPracticaComponent } from './admin/components/consultorios-externos/seleccionar-practica/seleccionar-practica.component';
+import { FooterComponent } from './layout/components/footer/footer.component';
+import { ToolbarComponent } from './layout/components/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoginFormComponent, MenuTurnosComponent, SeleccionarEstudioComponent, SeleccionarPracticaComponent],
+  imports: [RouterOutlet, FooterComponent ,LoginFormComponent, MenuTurnosComponent, SeleccionarEstudioComponent, SeleccionarPracticaComponent, ToolbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'front';
+  title = 'Clínica SePrice';
 }
