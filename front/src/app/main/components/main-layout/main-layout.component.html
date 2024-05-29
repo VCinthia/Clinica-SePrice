@@ -7,7 +7,9 @@
                   }
              }
              @if (currentRoute?.includes('consultoriosExternosAdmin')) {
-                <p>Content for Page 2</p>
+                @for (opcion of sidenavConsultoriosExternosAdmin; track opcion) {
+                    <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                  }
              }
              @if (currentRoute?.includes('estudiosClinicosProf')) {
                 <p>Content for Page 3</p>
@@ -23,7 +25,10 @@
             @if (currentRoute?.includes('estudiosClinicosAdmin')) {
                 <h1>ESTUDIOS CLÍNICOS</h1>
             }
-            @if (currentRoute === '/estudiosClinicosAdmin') {
+            @if (currentRoute?.includes('consultoriosExternosAdmin')) {
+                <h1>CONSULTORIOS EXTERNOS</h1>
+            }
+            @if (currentRoute === '/estudiosClinicosAdmin' || currentRoute === '/consultoriosExternosAdmin') {
                 <p>En el menú lateral podrás acceder a las distintas opciones disponibles</p>
             }
             <router-outlet></router-outlet>

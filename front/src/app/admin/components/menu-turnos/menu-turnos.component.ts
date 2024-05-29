@@ -17,6 +17,21 @@ export class MenuTurnosComponent {
 
 
   navegarANuevoTurno() {
-    this.router.navigate(['estudiosClinicosAdmin/nuevoTurno']);
+    console.log(this.router.url)
+    if (this.router.url === '/estudiosClinicosAdmin/gestionarTurnos') {
+      this.router.navigate(['estudiosClinicosAdmin/nuevoTurno']);
+    }
+    if (this.router.url === '/consultoriosExternosAdmin/gestionarTurnos') {
+      this.router.navigate(['consultoriosExternosAdmin/nuevoTurno']);
+    }
+  }
+  
+  volver(){
+    if (this.router.url === '/estudiosClinicosAdmin/gestionarTurnos') {
+      this.router.navigate(['estudiosClinicosAdmin']);
+    }
+    if (this.router.url === '/consultoriosExternosAdmin/gestionarTurnos') {
+      this.router.navigate(['consultoriosExternosAdmin']);
+    }
   }
 }

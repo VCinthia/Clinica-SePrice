@@ -38,4 +38,12 @@ export class MainLayoutComponent implements OnInit {
     {name: 'Cerrar Sesión', route:'gestionarTurnos'}
   ];
 
+  sidenavConsultoriosExternosAdmin: Sidenav[] = [
+    {name: 'Gestionar Turnos', route:'gestionarTurnos'},
+    {name: 'Acreditar Turnos',route:'gestionarTurnos'},
+    {name: 'Ver Lista de Espera', route:'gestionarTurnos'},
+    {name: 'Volver al Menu Principal', route:'gestionarTurnos'},
+    {name: 'Cerrar Sesión', route:'gestionarTurnos'}
+  ];
+
 }

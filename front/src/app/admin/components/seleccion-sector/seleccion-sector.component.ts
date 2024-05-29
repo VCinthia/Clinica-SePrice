@@ -13,6 +13,10 @@ export class SeleccionSectorComponent {
 
   constructor(private router: Router) {}
 
+  navegarAConsultoriosExternos() {
+    this.router.navigate(['/consultoriosExternosAdmin']);
+  }
+
   navegarAEstudiosClinicos() {
   this.router.navigate(['/estudiosClinicosAdmin']);
 }

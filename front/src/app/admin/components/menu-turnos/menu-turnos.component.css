@@ -11,6 +11,7 @@ mat-card{
 
 p{
     font-size: 24px;
+    padding-bottom: 30px;
 }
 
 .btnContainer{
@@ -27,4 +28,9 @@ app-btn-primary, app-btn-secondary{
 .mat-mdc-form-field{
     width: 480px;
     background-color: var(--background);
+}
+
+h2{
+    font-size: 28px;
+    font-weight: 500;
 }
