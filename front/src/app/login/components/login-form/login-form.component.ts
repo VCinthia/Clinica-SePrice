@@ -31,6 +31,6 @@ export class LoginFormComponent {
   constructor(private router: Router) {}
 
   navegarAInicio() {
-  this.router.navigate(['/inicio']);
+  this.router.navigate(['/inicioAdmin']);
 }
 }

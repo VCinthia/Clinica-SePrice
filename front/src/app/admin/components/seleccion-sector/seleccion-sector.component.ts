@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BtnPrimaryComponent } from '../../../shared/components/btn-primary/btn-primary.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-seleccion-sector',
@@ -10,4 +11,9 @@ import { BtnPrimaryComponent } from '../../../shared/components/btn-primary/btn-
 })
 export class SeleccionSectorComponent {
 
+  constructor(private router: Router) {}
+
+  navegarAEstudiosClinicos() {
+  this.router.navigate(['/estudiosClinicosAdmin']);
+}
 }

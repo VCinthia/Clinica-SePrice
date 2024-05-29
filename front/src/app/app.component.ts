@@ -6,11 +6,12 @@ import { SeleccionarEstudioComponent } from './admin/components/estudios-clinico
 import { SeleccionarPracticaComponent } from './admin/components/consultorios-externos/seleccionar-practica/seleccionar-practica.component';
 import { FooterComponent } from './layout/components/footer/footer.component';
 import { ToolbarComponent } from './layout/components/toolbar/toolbar.component';
+import { MainLayoutComponent } from './main/components/main-layout/main-layout.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FooterComponent ,LoginFormComponent, MenuTurnosComponent, SeleccionarEstudioComponent, SeleccionarPracticaComponent, ToolbarComponent],
+  imports: [MainLayoutComponent, RouterOutlet, FooterComponent ,LoginFormComponent, MenuTurnosComponent, SeleccionarEstudioComponent, SeleccionarPracticaComponent, ToolbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

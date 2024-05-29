@@ -1,7 +1,7 @@
 <mat-card>
     <p>Seleccione una opción:</p>
     <div class="btnContainer">
-        <app-btn-primary [buttonText]="'Nuevo Turno'"></app-btn-primary>
+        <app-btn-primary (click)="navegarANuevoTurno()" [buttonText]="'Nuevo Turno'"></app-btn-primary>
         <app-btn-primary [buttonText]="'Eliminar Turno'"></app-btn-primary>
     </div>
     <div class="btnContainer">

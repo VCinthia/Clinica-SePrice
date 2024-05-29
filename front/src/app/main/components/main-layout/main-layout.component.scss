@@ -1,0 +1,27 @@
+.example-container{
+    width: auto;
+    min-height: 70vh;
+
+}
+
+.sidenav{
+    background-color: var(--accent);
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidenavContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+a{
+    font-size: 22px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+}
