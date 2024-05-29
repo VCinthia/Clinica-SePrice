@@ -1,8 +1,10 @@
 .example-container{
     width: auto;
-    min-height: 70vh;
-
+    min-height: 80vh;
+    background-color: var(--background);
 }
+
+
 
 .sidenav{
     background-color: var(--accent);
@@ -24,4 +26,15 @@ a{
     color: white;
     font-weight: 600;
     text-decoration: none;
+}
+
+.main-content{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 2 auto;
+    justify-content:flex-start;
+    align-items: center;
+    height: 80vh;
+    gap: 20px;
 }

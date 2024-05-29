@@ -19,10 +19,15 @@
          
     </mat-drawer>
     <mat-drawer-content>
-        @if (currentRoute?.includes('estudiosClinicosAdmin')) {
-            <h1>ESTUDIOS CLÍNICOS</h1>
-            <p>En el menú lateral podrás acceder a las distintas opciones disponibles</p>
-        }
-        <router-outlet></router-outlet>
+        <div class="main-content">
+            @if (currentRoute?.includes('estudiosClinicosAdmin')) {
+                <h1>ESTUDIOS CLÍNICOS</h1>
+            }
+            @if (currentRoute === '/estudiosClinicosAdmin') {
+                <p>En el menú lateral podrás acceder a las distintas opciones disponibles</p>
+            }
+            <router-outlet></router-outlet>
+        </div>
+        
     </mat-drawer-content>
 </mat-drawer-container>
