@@ -1,0 +1,38 @@
+<mat-drawer-container class="example-container">
+    <mat-drawer mode="side" opened class="sidenav">
+        <div class="sidenavContainer">
+            @if (currentRoute?.includes('estudiosClinicosAdmin')) {
+                @for (opcion of sidenavEstudiosClinicosAdmin; track opcion) {
+                    <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                  }
+             }
+             @if (currentRoute?.includes('consultoriosExternosAdmin')) {
+                @for (opcion of sidenavConsultoriosExternosAdmin; track opcion) {
+                    <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                  }
+             }
+             @if (currentRoute?.includes('estudiosClinicosProf')) {
+                <p>Content for Page 3</p>
+             }
+             @if (currentRoute?.includes('consultoriosExternosProf')) {
+                <p>Content for Page 4</p>
+             }
+        </div>
+         
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="main-content">
+            @if (currentRoute?.includes('estudiosClinicosAdmin')) {
+                <h1>ESTUDIOS CLÍNICOS</h1>
+            }
+            @if (currentRoute?.includes('consultoriosExternosAdmin')) {
+                <h1>CONSULTORIOS EXTERNOS</h1>
+            }
+            @if (currentRoute === '/estudiosClinicosAdmin' || currentRoute === '/consultoriosExternosAdmin') {
+                <p>En el menú lateral podrás acceder a las distintas opciones disponibles</p>
+            }
+            <router-outlet></router-outlet>
+        </div>
+        
+    </mat-drawer-content>
+</mat-drawer-container>
