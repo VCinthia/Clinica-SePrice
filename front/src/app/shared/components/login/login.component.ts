@@ -10,13 +10,13 @@ import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
 import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component';
 
 @Component({
-  selector: 'app-login-layout',
+  selector: 'app-login',
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule, MatCard, BtnPrimaryComponent, BtnSecondaryComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginLayoutComponent {
+export class LoginComponent {
   hide = true;
 
   

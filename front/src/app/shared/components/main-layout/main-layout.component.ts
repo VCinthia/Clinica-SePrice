@@ -35,7 +35,7 @@ export class MainLayoutComponent implements OnInit {
     this.currentRoute = this.router.url;
 
     //metodo de prueba,  eliminar
-    this.getPersona(555555); 
+    this.getPersona(12345678); 
   }
 
 
@@ -46,6 +46,7 @@ export class MainLayoutComponent implements OnInit {
         if(!response){
           this.toastr.error('No se ha encontrado la persona','Error' );
         }
+        this.toastr.success('persona encontrada','')
         console.log('Persona data:', response);
       },
       error:(error) => {

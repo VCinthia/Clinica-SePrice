@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { LoginLayoutComponent } from './shared/components/login/login.component';
-import { SeleccionSectorComponent } from './shared/components/circuitos/circuitos.component';
+import { LoginComponent } from './shared/components/login/login.component';
+import { CircuitosComponent } from './shared/components/circuitos/circuitos.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
 import { MenuTurnosComponent } from './shared/components/menu-turnos/menu-turnos.component';
 import { SeleccionarEstudioComponent } from './features/estudios-clinicos/components/seleccionar-estudio/seleccionar-estudio.component';
@@ -9,11 +9,11 @@ import { SeleccionarPracticaComponent } from './features/consultorios-externos/c
 export const routes: Routes = [
     {
         path: '',
-        component: LoginLayoutComponent
+        component: LoginComponent
     },
     {
         path: 'inicio',
-        component: SeleccionSectorComponent ,
+        component: CircuitosComponent ,
     },
     {
         path: 'estudiosClinicos', component: MainLayoutComponent,

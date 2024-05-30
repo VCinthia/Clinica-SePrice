@@ -3,13 +3,13 @@ import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-seleccion-sector',
+  selector: 'app-circuitos',
   standalone: true,
   imports: [BtnPrimaryComponent],
   templateUrl: './circuitos.component.html',
   styleUrl: './circuitos.component.scss'
 })
-export class SeleccionSectorComponent {
+export class CircuitosComponent {
 
   constructor(private router: Router) {}
 
