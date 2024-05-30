@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { LoginLayoutComponent } from './login/components/login-layout/login-layout.component';
-import { AdminLayoutComponent } from './admin/components/admin-layout/admin-layout.component';
-import { MainLayoutComponent } from './main/components/main-layout/main-layout.component';
-import { MenuTurnosComponent } from './admin/components/menu-turnos/menu-turnos.component';
-import { SeleccionarEstudioComponent } from './admin/components/estudios-clinicos/seleccionar-estudio/seleccionar-estudio.component';
-import { SeleccionarPracticaComponent } from './admin/components/consultorios-externos/seleccionar-practica/seleccionar-practica.component';
+import { LoginLayoutComponent } from './shared/components/login/login.component';
+import { SeleccionSectorComponent } from './shared/components/circuitos/circuitos.component';
+import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
+import { MenuTurnosComponent } from './shared/components/menu-turnos/menu-turnos.component';
+import { SeleccionarEstudioComponent } from './features/estudios-clinicos/components/seleccionar-estudio/seleccionar-estudio.component';
+import { SeleccionarPracticaComponent } from './features/consultorios-externos/components/seleccionar-practica/seleccionar-practica.component';
 
 export const routes: Routes = [
     {
@@ -12,18 +12,18 @@ export const routes: Routes = [
         component: LoginLayoutComponent
     },
     {
-        path: 'inicioAdmin',
-        component: AdminLayoutComponent,
+        path: 'inicio',
+        component: SeleccionSectorComponent ,
     },
     {
-        path: 'estudiosClinicosAdmin', component: MainLayoutComponent,
+        path: 'estudiosClinicos', component: MainLayoutComponent,
         children: [
             {path: 'gestionarTurnos', component: MenuTurnosComponent},
             {path: 'nuevoTurno', component: SeleccionarEstudioComponent}
         ]
     },
     {
-        path: 'consultoriosExternosAdmin', component: MainLayoutComponent,
+        path: 'consultoriosExternos', component: MainLayoutComponent,
         children: [
             {path: 'gestionarTurnos', component: MenuTurnosComponent},
             {path: 'nuevoTurno', component: SeleccionarPracticaComponent}

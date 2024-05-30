@@ -13,7 +13,7 @@ export class PersonaController {
   }
 
   //@Public()
-  @Get('/personas/:dni')
+  @Get('/:dni')
   getPersonaByDni(@Param('dni') dni: number): Promise<Persona> {
     return this.personaService.getPersonaByDNI(dni);
   }
