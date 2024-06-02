@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
-import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogNuevoPacienteComponent } from '../dialog-nuevo-paciente/dialog-nuevo-paciente.component';
 
 @Component({
   selector: 'app-card-nuevo-paciente',
@@ -11,9 +12,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CardNuevoPacienteComponent {
 
-  constructor(private toastr: ToastrService) {}
+  constructor(public dialog: MatDialog) {}
 
-  abrirModalNuevoPaciente() {
-    this.toastr.success('Paciente agregado correctamente');
+  abrirModalNuevoPaciente(): void {
+    const dialogRef = this.dialog.open(DialogNuevoPacienteComponent, {
+      width:'520px',
+      height:'520px'
+    });
+
   }
 }
