@@ -6,19 +6,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BtnPrimaryComponent } from '../../../../shared/components/btn-primary/btn-primary.component';
 import { BtnSecondaryComponent } from '../../../../shared/components/btn-secondary/btn-secondary.component';
+import { BtnInactiveComponent } from '../../../../shared/components/btn-inactive/btn-inactive.component';
+import { Router } from '@angular/router';
 
 interface Practica {
   name: string;
 }
 
-interface Tiempo {
-  value: number;
-}
-
 @Component({
   selector: 'app-seleccionar-practica',
   standalone: true,
-  imports: [MatCard, BtnPrimaryComponent, BtnSecondaryComponent, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatInputModule],
+  imports: [MatCard, BtnPrimaryComponent, BtnSecondaryComponent, BtnInactiveComponent, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatInputModule],
   templateUrl: './seleccionar-practica.component.html',
   styleUrl: './seleccionar-practica.component.scss'
 })
@@ -33,11 +31,24 @@ export class SeleccionarPracticaComponent {
     {name: 'Odontología'},
   ];
 
-  tiempoControl = new FormControl<Tiempo | null>(null, Validators.required);
-  selectFormControl2 = new FormControl('', Validators.required);
-  tiempos: Tiempo[] = [
-    {value: 10},
-    {value: 20},
-    {value: 40}
-  ]
+  constructor(private router: Router) {}
+
+
+  navegarASeleccionarTurno() {
+    if (this.router.url === '/estudiosClinicos/nuevoTurno') {
+      this.router.navigate(['estudiosClinicos/seleccionarTurno']);
+    }
+    if (this.router.url === '/consultoriosExternos/nuevoTurno') {
+      this.router.navigate(['consultoriosExternos/seleccionarTurno']);
+    }
+  }
+  
+  volver(){
+    if (this.router.url === '/estudiosClinicos/nuevoTurno') {
+      this.router.navigate(['estudiosClinicos/gestionarTurnos']);
+    }
+    if (this.router.url === '/consultoriosExternos/nuevoTurno') {
+      this.router.navigate(['consultoriosExternos/gestionarTurnos']);
+    }
+  }
 }

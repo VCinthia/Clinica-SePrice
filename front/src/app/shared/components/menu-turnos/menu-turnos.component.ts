@@ -17,7 +17,6 @@ export class MenuTurnosComponent {
 
 
   navegarANuevoTurno() {
-    console.log(this.router.url)
     if (this.router.url === '/estudiosClinicos/gestionarTurnos') {
       this.router.navigate(['estudiosClinicos/nuevoTurno']);
     }

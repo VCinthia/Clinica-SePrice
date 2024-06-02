@@ -30,7 +30,3 @@ app-btn-primary, app-btn-secondary{
     background-color: var(--background);
 }
 
-h2{
-    font-size: 28px;
-    font-weight: 500;
-}
