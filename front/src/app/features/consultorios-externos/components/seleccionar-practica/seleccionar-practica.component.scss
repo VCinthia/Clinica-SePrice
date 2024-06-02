@@ -15,12 +15,12 @@ p{
 }
 
 
-app-btn-primary, app-btn-secondary{
+app-btn-primary, app-btn-secondary, app-btn-inactive{
     width: 333px;
     height: 50px;
 }
 
-app-btn-primary{
+app-btn-primary, app-btn-inactive{
     padding-top: 50px;
 }
 

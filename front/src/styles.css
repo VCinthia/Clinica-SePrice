@@ -12,10 +12,17 @@ body {
     margin: 0; 
     font-family: 'Roboto', sans-serif; 
     height: calc(100vh - 180px); /*no cambiar*/
+    min-height: 500px;
 }
 
 :root{
     --primary: #004D40;
     --accent: #008075;
     --background: #F4FBF8;
+    --terciary: #B2DFDB;
+}
+
+h2{
+    font-size: 28px;
+    font-weight: 500;
 }

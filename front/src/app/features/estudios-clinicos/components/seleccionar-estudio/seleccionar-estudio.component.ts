@@ -6,6 +6,7 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { BtnInactiveComponent } from '../../../../shared/components/btn-inactive/btn-inactive.component';
 
 interface Estudio {
   name: string;
@@ -14,7 +15,7 @@ interface Estudio {
 @Component({
   selector: 'app-seleccionar-estudio',
   standalone: true,
-  imports: [MatCard, BtnPrimaryComponent, BtnSecondaryComponent, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatInputModule],
+  imports: [MatCard, BtnPrimaryComponent, BtnSecondaryComponent, BtnInactiveComponent, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatInputModule],
   templateUrl: './seleccionar-estudio.component.html',
   styleUrl: './seleccionar-estudio.component.scss',
 })

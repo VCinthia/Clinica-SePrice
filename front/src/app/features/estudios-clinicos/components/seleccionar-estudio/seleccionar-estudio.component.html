@@ -13,6 +13,10 @@
           <mat-error>Por favor, elija un estudio/laboratorio para continuar</mat-error>
         }
       </mat-form-field>
-    <app-btn-primary [buttonText]="'Continuar'"></app-btn-primary>
+      @if (estudioControl.hasError('required')) {
+        <app-btn-inactive [buttonText]="'Ver turnos disponibles'"></app-btn-inactive>
+      } @else {
+        <app-btn-primary  [buttonText]="'Ver turnos disponibles'"></app-btn-primary>
+      }
     <app-btn-secondary [buttonText]="'Volver'"></app-btn-secondary>
 </mat-card>
