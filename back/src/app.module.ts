@@ -7,6 +7,8 @@ import { PersonaModule } from './persona/persona.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { PacienteModule } from './paciente/paciente.module';
 import { HistoriaClinicaModule } from './historia-clinica/historia-clinica.module';
+import { InsumoModule } from './insumo/insumo.module';
+import { TurnoModule } from './turno/turno.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { HistoriaClinicaModule } from './historia-clinica/historia-clinica.modul
     UsuarioModule,
     PacienteModule,
     HistoriaClinicaModule,
+    InsumoModule,
+    TurnoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
