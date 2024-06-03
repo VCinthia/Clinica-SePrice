@@ -1,3 +1,4 @@
+import { Paciente } from "src/paciente/entities/paciente.entity";
 import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
@@ -25,8 +26,8 @@ export class Persona {
   @JoinColumn({ name: 'username' })
   username?: Usuario;
 
-  // @OneToOne(() => Paciente, paciente => paciente.persona, { cascade: true, nullable: true })
-  // @JoinColumn({ name: 'dni' })
-  // dni_paciente: Paciente;
+  @OneToOne(() => Paciente, paciente => paciente.persona)//, { cascade: true, nullable: true }
+  //@JoinColumn({ name: 'dni_paciente' })
+  paciente : Paciente;
 
 }
