@@ -1,59 +1,77 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, Repository } from 'typeorm';
+import { Repository, FindOneOptions } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { UsuarioDTO } from './dto/usuario.dto';
+import { Persona } from '../persona/entities/persona.entity';
+import { PersonaDTO } from '../persona/dto/persona.dto';
 
 @Injectable()
 export class UsuarioService {
-    personaNotFound = 'No existe el usuario.';
-    constructor(
-        @InjectRepository(Usuario)
-        private readonly usuarioRepo: Repository<Usuario>,
-    ) { }
+  usuarioNotFound = 'No existe el usuario.';
 
-    public async createUsuario(usuarioDTO: UsuarioDTO) {
-        try {
-            //TODO: agregar verificacion de dni para crear
-            const condition: FindOneOptions = { where: { dni: usuarioDTO.dni } };
-            const usuarioExistente: Usuario = await this.usuarioRepo.findOne(condition);
-            console.log('Entre a la funcion');
-            console.log('Usuario.dni: ', usuarioDTO.dni);
-            console.log('usuarioExistente: ', usuarioExistente);
+  constructor(
+    @InjectRepository(Usuario)
+    private readonly usuarioRepo: Repository<Usuario>,
+    @InjectRepository(Persona)
+    private readonly personaRepo: Repository<Persona>,
+  ) {}
 
-            if (!usuarioExistente) {
-                const newUsuario = this.usuarioRepo.create(usuarioDTO);
-                console.log('newUsuario.dni: ', newUsuario.dni);
-                const savedUsuario = await this.usuarioRepo.save(newUsuario);
+  public async createUsuario(usuarioDTO: UsuarioDTO ) {
+    try {
+      //TODO:verifica existencia de usuario y de persona OK
+      const condition: FindOneOptions<Usuario> = { where: { username: usuarioDTO.username } };
+      //console.log("usuarioDTO: ",usuarioDTO);      
+      const usuarioExistente: Usuario = await this.usuarioRepo.findOne(condition);
 
-                return savedUsuario;
-            } else
-                throw new Error('El usuario ya existe.');
+      if (!usuarioExistente) {
+        let savedPersona: Persona;
+        if (usuarioDTO.persona) {
+          const personaCondition: FindOneOptions<Persona> = { where: { dni: usuarioDTO.persona.dni } };          
+          const personaExistente = await this.personaRepo.findOne(personaCondition);
 
-        } catch (error) {
-            throw new HttpException({
-                status: HttpStatus.NOT_FOUND,
-                error: 'Falló la creación - ' + error
-            },
-                HttpStatus.NOT_FOUND);
-        }
+          if (!personaExistente) {
+            const newPersona = this.personaRepo.create(usuarioDTO.persona);
+            console.log('newPersona: ', newPersona);
+            
+            savedPersona = await this.personaRepo.save(newPersona);
+            console.log('savedPersona: ', savedPersona);
+
+            const newUsuario = this.usuarioRepo.create({
+              ...usuarioDTO,
+              persona: savedPersona,
+            });
+            return this.usuarioRepo.save(newUsuario);
+          }     else {
+            throw new Error('La persona ya existe.');
+          }     
+          
+        }        
+      } else {
+        throw new Error('El usuario ya existe.');
+      }
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'Falló la creación - ' + error,
+      }, HttpStatus.NOT_FOUND);
     }
+  }
 
-    public async getUsuarioByDNI(dni: number) {
-        try {
-            const condition: FindOneOptions = { where: { dni: dni } };
-            const usuario: Usuario = await this.usuarioRepo.findOne(condition);
-            if (usuario) {
-                return usuario;
-            } else {
-                throw new Error('No existe el DNI ingresado.');
-            }
-        } catch (error) {
-            throw new HttpException({
-                status: HttpStatus.NOT_FOUND,
-                error: 'Error en la busqueda: ' + error
-            },
-                HttpStatus.NOT_FOUND);
-        }
+  public async getUsuarioByUsername(username: string) {
+    try {
+      const condition: FindOneOptions<Usuario> = { relations :['persona'] ,where: { username: username } };
+      const usuario: Usuario = await this.usuarioRepo.findOne(condition);
+      if (usuario) {
+        return usuario;
+      } else {
+        throw new Error('No existe el username ingresado.');
+      }
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'Error en la búsqueda: ' + error,
+      }, HttpStatus.NOT_FOUND);
     }
+  }
 }

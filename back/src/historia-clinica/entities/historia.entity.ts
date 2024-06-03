@@ -1,4 +1,4 @@
-import { Paciente } from 'src/paciente';
+import { Paciente } from 'src/paciente/entities/paciente.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'historias_clinicas' })

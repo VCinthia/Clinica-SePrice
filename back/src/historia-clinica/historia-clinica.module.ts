@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { HistoriaClinicaService } from './historia-clinica.service';
 import { HistoriaClinicaController } from './historia-clinica.controller';
 import { HistoriaClinica } from './entities/historia.entity';
-import { Paciente } from 'src/paciente';
+import { Paciente } from 'src/paciente/entities/paciente.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([HistoriaClinica, Paciente /*, Usuario*/])],

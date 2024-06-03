@@ -4,7 +4,7 @@ export class HistoriaClinicaDTO {
     //@IsNotEmpty()    
     historia_clinica_id?: number;
     @IsNotEmpty()
-    dni : number;
+    dni_paciente: number;
     @IsNotEmpty()
     detalle : string;
     @IsNotEmpty()
