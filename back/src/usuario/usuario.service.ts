@@ -17,25 +17,19 @@ export class UsuarioService {
     private readonly personaRepo: Repository<Persona>,
   ) {}
 
-  public async createUsuario(usuarioDTO: UsuarioDTO
-    //, personaDTO: PersonaDTO
-  ) {
+  public async createUsuario(usuarioDTO: UsuarioDTO ) {
     try {
-      //TODO:verifica existencia de usuario OK
+      //TODO:verifica existencia de usuario y de persona OK
       const condition: FindOneOptions<Usuario> = { where: { username: usuarioDTO.username } };
-      console.log("usuarioDTO: ",usuarioDTO);
-      
+      //console.log("usuarioDTO: ",usuarioDTO);      
       const usuarioExistente: Usuario = await this.usuarioRepo.findOne(condition);
 
       if (!usuarioExistente) {
         let savedPersona: Persona;
         if (usuarioDTO.persona) {
-          const personaCondition: FindOneOptions<Persona> = { where: { dni: usuarioDTO.persona.dni } };
-          console.log('personaCondition: ', personaCondition);
-          
+          const personaCondition: FindOneOptions<Persona> = { where: { dni: usuarioDTO.persona.dni } };          
           const personaExistente = await this.personaRepo.findOne(personaCondition);
-          console.log('personaExistente: ',personaExistente);
-          
+
           if (!personaExistente) {
             const newPersona = this.personaRepo.create(usuarioDTO.persona);
             console.log('newPersona: ', newPersona);
@@ -52,9 +46,7 @@ export class UsuarioService {
             throw new Error('La persona ya existe.');
           }     
           
-        }
-        //console.log('savedPersona2: ', savedPersona);
-        
+        }        
       } else {
         throw new Error('El usuario ya existe.');
       }
