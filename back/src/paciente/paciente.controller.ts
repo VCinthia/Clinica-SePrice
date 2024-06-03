@@ -3,17 +3,17 @@ import { PacienteService } from './paciente.service';
 import { Paciente } from './entities/paciente.entity';
 import { PacienteDTO } from './dto/paciente.dto';
 
-@Controller('paciente')
+@Controller('pacientes')
 export class PacienteController {
   constructor(private readonly pacienteService: PacienteService) {}
 
   @Post()
-  createPaciente(@Body() pacienteDTO: PacienteDTO): Promise<Paciente> {
+  public async createPaciente(@Body() pacienteDTO: PacienteDTO) {
     return this.pacienteService.createPaciente(pacienteDTO);
   }
 
   @Get('/:dni')
-  getPacienteByDni(@Param('dni') dni: number): Promise<Paciente> {
+  public async getPacienteByDni(@Param('dni') dni: number){
     return this.pacienteService.getPacienteByDNI(dni);
   }
 }

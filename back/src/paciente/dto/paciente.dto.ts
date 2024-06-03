@@ -12,9 +12,5 @@ export class PacienteDTO //extends PersonaDTO
   @IsNotEmpty()
   modalidadPago: string;
 
-  // @OneToOne(() => HistoriaClinica, historiaClinica => historiaClinica.paciente)
-  // @JoinColumn()
-  // historiaClinica: HistoriaClinica;
-
   persona?: Persona;
 }
