@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HistoriaClinica } from './entities/historia.entity';
-import { Paciente } from 'src/paciente';
 import { HistoriaClinicaDTO } from './dto/historia.dto';
+import { Paciente } from 'src/paciente/entities/paciente.entity';
 
 @Injectable()
 export class HistoriaClinicaService {
@@ -17,7 +17,7 @@ export class HistoriaClinicaService {
   ) {}
 
   public async createHistoriaClinica(historiaClinicaDTO: HistoriaClinicaDTO) {
-    const paciente = await this.pacienteRepo.findOne({ where: { dni: historiaClinicaDTO.dni } });
+    const paciente = await this.pacienteRepo.findOne({ where: { dni_paciente: historiaClinicaDTO.dni_paciente } });
     if (!paciente) {
       throw new Error('El paciente no existe.');
     }
@@ -32,8 +32,8 @@ export class HistoriaClinicaService {
     return this.historiaClinicaRepo.save(nuevaHistoriaClinica);
   }
 
-  public async updateHistoriaClinica(dni: number, detalles: string/*, usuarioDni: number*/) {
-    const historiaClinica = await this.historiaClinicaRepo.findOne({ where: { paciente: { dni } } });
+  public async updateHistoriaClinica(dni_paciente: number, detalles: string/*, usuarioDni: number*/) {
+    const historiaClinica = await this.historiaClinicaRepo.findOne({ where: { paciente: { dni_paciente } } });
     if (!historiaClinica) {
       throw new Error('La historia clínica no existe.');
     }
@@ -50,8 +50,8 @@ export class HistoriaClinicaService {
     return this.historiaClinicaRepo.save(historiaClinica);
   }
 
-  public async getHistoriaClinica(dni: number): Promise<HistoriaClinica> {
-    const historiaClinica = await this.historiaClinicaRepo.findOne({ where: { paciente: { dni } }, relations: ['paciente'/*, 'usuarioUltimaAct'*/] });
+  public async getHistoriaClinica(dni_paciente: number): Promise<HistoriaClinica> {
+    const historiaClinica = await this.historiaClinicaRepo.findOne({ where: { paciente: { dni_paciente } }, relations: ['paciente'/*, 'usuarioUltimaAct'*/] });
     if (!historiaClinica) {
       throw new NotFoundException('La historia clínica no existe.');
     }

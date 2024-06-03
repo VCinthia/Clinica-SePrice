@@ -1,19 +1,19 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
-import { Usuario } from './entities/usuario.entity';
 import { UsuarioDTO } from './dto/usuario.dto';
+import { PersonaDTO } from 'src/persona/dto/persona.dto';
 
-@Controller('usuario')
+@Controller('usuarios')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post()
-  createUsuario(@Body() usuarioDTO: UsuarioDTO): Promise<Usuario> {
+  public async createUsuario(@Body() usuarioDTO: UsuarioDTO) {
     return this.usuarioService.createUsuario(usuarioDTO);
   }
 
-  @Get('/:dni')
-  getUsuarioByDni(@Param('dni') dni: number): Promise<Usuario> {
-    return this.usuarioService.getUsuarioByDNI(dni);
+  @Get(':username')
+  public async getUsuarioByUsername(@Param('username') username: string) {
+    return this.usuarioService.getUsuarioByUsername(username);
   }
 }

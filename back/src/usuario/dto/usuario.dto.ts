@@ -1,7 +1,8 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
-import { PersonaDTO } from 'src/persona';
+import { Persona } from 'src/persona/entities/persona.entity';
 
-export class UsuarioDTO extends PersonaDTO {
+export class UsuarioDTO //extends PersonaDTO 
+{
   @IsNotEmpty()
   username: string;
   
@@ -9,5 +10,12 @@ export class UsuarioDTO extends PersonaDTO {
   password: string;
   
   @IsNotEmpty()
+  //@IsIn(['ADMIN', 'PROFESIONAL'])
   tipo: string; //ADMIN - PROFESIONAL
+
+  @IsNotEmpty()
+  //@IsIn(['LABORATORIO', 'EXTERNOS', 'AMBOS'])
+  grupo: string; //LABORATORIO - EXTERNOS - AMBOS
+
+  persona?: Persona;
 }

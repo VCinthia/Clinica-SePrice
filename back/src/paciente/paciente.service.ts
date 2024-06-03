@@ -11,34 +11,34 @@ export class PacienteService {
     constructor(
         @InjectRepository(Paciente)
         private readonly pacienteRepo: Repository<Paciente>,
-        @InjectRepository(HistoriaClinica)
-        private readonly historiaClinicaRepo: Repository<HistoriaClinica>,
+        // @InjectRepository(HistoriaClinica)
+        // private readonly historiaClinicaRepo: Repository<HistoriaClinica>,
     ) { }
 
     public async createPaciente(pacienteDTO: PacienteDTO) {
         try {
             //TODO: agregar verificacion de dni para crear
-            const condition: FindOneOptions = { where: { dni: pacienteDTO.dni } };
+            const condition: FindOneOptions = { where: { dni: pacienteDTO.dni_paciente } };
             const pacienteExistente: Paciente = await this.pacienteRepo.findOne(condition);
             console.log('Entre a la funcion');
-            console.log('Paciente.dni: ', pacienteDTO.dni);
+            console.log('Paciente.dni: ', pacienteDTO.dni_paciente);
             console.log('pacienteExistente: ', pacienteExistente);
 
             if (!pacienteExistente) {
                 const newPaciente = this.pacienteRepo.create(pacienteDTO);
-                console.log('newPaciente.dni: ', newPaciente.dni);
+                console.log('newPaciente.dni: ', newPaciente.dni_paciente);
                 //return this.pacienteRepo.save(newPaciente);
                 const savedPaciente = await this.pacienteRepo.save(newPaciente);
 
-                // Crear la historia clínica asociada
-                const historiaClinica = new HistoriaClinica();
-                historiaClinica.paciente = savedPaciente;
-                historiaClinica.detalles = '';
-                historiaClinica.fecha_creacion = new Date();
-                historiaClinica.ultima_modificacion = new Date();
-                //historiaClinica.usuarioUltimaAct = null; // Inicialmente no hay usuario que haya actualizado
+                // // Crear la historia clínica asociada
+                // const historiaClinica = new HistoriaClinica();
+                // historiaClinica.paciente = savedPaciente;
+                // historiaClinica.detalles = '';
+                // historiaClinica.fecha_creacion = new Date();
+                // historiaClinica.ultima_modificacion = new Date();
+                // //historiaClinica.usuarioUltimaAct = null; // Inicialmente no hay usuario que haya actualizado
 
-                await this.historiaClinicaRepo.save(historiaClinica);
+                // await this.historiaClinicaRepo.save(historiaClinica);
                 return savedPaciente;
             } else
                 throw new Error('La persona ya existe.');
@@ -51,9 +51,9 @@ export class PacienteService {
         }
     }
 
-    public async getPacienteByDNI(dni: number) {
+    public async getPacienteByDNI(dni_paciente: number) {
         try {
-            const condition: FindOneOptions = { where: { dni: dni } };
+            const condition: FindOneOptions = { where: { dni_paciente: dni_paciente } };
             const paciente: Paciente = await this.pacienteRepo.findOne(condition);
             if (paciente) {
                 return paciente;
