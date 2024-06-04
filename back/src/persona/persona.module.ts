@@ -11,8 +11,6 @@ import { Usuario } from 'src/usuario/entities/usuario.entity';
       Persona,
       Usuario
     ]),
-    // PersonaModule,
-    // UsuarioModule
   ],
   controllers: [PersonaController],
   providers: [PersonaService],

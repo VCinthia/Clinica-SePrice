@@ -1,8 +1,9 @@
 import { IsNotEmpty } from "class-validator";
+import { UsuarioDTO } from "src/usuario/dto/usuario.dto";
 
 export class InsumoDTO {
     @IsNotEmpty()
-    insumoID : number;
+    insumoId : number;
     @IsNotEmpty()
     descripcion : string;
     @IsNotEmpty()
@@ -11,7 +12,7 @@ export class InsumoDTO {
     fechaUltimaModificacion : Date;
     // Tambien deberia ser FK de la tabla Usuario
     @IsNotEmpty()
-    usuarioUltimaModificacion : string;
+    usuarioUltimaModificacion : UsuarioDTO;
   
 }
 

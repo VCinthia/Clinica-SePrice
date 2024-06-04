@@ -1,8 +1,6 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
-import { HistoriaClinica } from 'src/historia-clinica/entities/historia.entity';
-import { PersonaDTO } from 'src/persona/dto/persona.dto';
+import { eModalidadDePago } from 'src/enums/modalidad-de-pago.enum';
 import { Persona } from 'src/persona/entities/persona.entity';
-import { JoinColumn, OneToOne } from 'typeorm';
 
 export class PacienteDTO //extends PersonaDTO 
 {
@@ -10,7 +8,8 @@ export class PacienteDTO //extends PersonaDTO
   dni_paciente: number;
 
   @IsNotEmpty()
-  modalidadPago: string;
+  modalidadPago: eModalidadDePago;
 
-  persona?: Persona;
+  @IsNotEmpty()
+  persona: Persona;
 }

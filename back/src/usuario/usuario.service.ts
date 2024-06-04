@@ -1,10 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOneOptions } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { UsuarioDTO } from './dto/usuario.dto';
 import { Persona } from '../persona/entities/persona.entity';
-import { PersonaDTO } from '../persona/dto/persona.dto';
+import { UsuarioMapper } from './usuario.mapper';
+import { Profesional } from 'src/profesional/entities/profesional.entity';
+import { log } from 'console';
 
 @Injectable()
 export class UsuarioService {
@@ -15,63 +17,57 @@ export class UsuarioService {
     private readonly usuarioRepo: Repository<Usuario>,
     @InjectRepository(Persona)
     private readonly personaRepo: Repository<Persona>,
+    @InjectRepository(Profesional)
+    private readonly profesionalRepo: Repository<Profesional>,
   ) {}
 
-  public async createUsuario(usuarioDTO: UsuarioDTO ) {
-    try {
-      //TODO:verifica existencia de usuario y de persona OK
-      const condition: FindOneOptions<Usuario> = { where: { username: usuarioDTO.username } };
-      //console.log("usuarioDTO: ",usuarioDTO);      
-      const usuarioExistente: Usuario = await this.usuarioRepo.findOne(condition);
 
-      if (!usuarioExistente) {
-        let savedPersona: Persona;
-        if (usuarioDTO.persona) {
-          const personaCondition: FindOneOptions<Persona> = { where: { dni: usuarioDTO.persona.dni } };          
-          const personaExistente = await this.personaRepo.findOne(personaCondition);
 
-          if (!personaExistente) {
-            const newPersona = this.personaRepo.create(usuarioDTO.persona);
-            console.log('newPersona: ', newPersona);
-            
-            savedPersona = await this.personaRepo.save(newPersona);
-            console.log('savedPersona: ', savedPersona);
-
-            const newUsuario = this.usuarioRepo.create({
-              ...usuarioDTO,
-              persona: savedPersona,
-            });
-            return this.usuarioRepo.save(newUsuario);
-          }     else {
-            throw new Error('La persona ya existe.');
-          }     
-          
-        }        
-      } else {
-        throw new Error('El usuario ya existe.');
+  public  async createUsuario(usuarioDTO: UsuarioDTO): Promise<Usuario> {
+    try{
+      
+      //reviso que no exista la persona en la DDBB 
+      const personaExiste = await this.personaRepo.findOne({where:{dni:usuarioDTO.persona.dni}});
+      if(personaExiste){
+        throw new Error('La persona ya está registrada.');
       }
+
+      //reviso que no exista el nombre de usuario en la DDBB
+      const usuarioExiste: Usuario = await this.usuarioRepo.findOne({where:{username:usuarioDTO.username}});
+      if(usuarioExiste){
+        throw new Error('El nombre de usuario no está disponible.');
+      }
+
+      //PersonaDTO to Entity
+      const newUsuario: Usuario = UsuarioMapper.toEntity(usuarioDTO);
+      console.log("nuevo usuario *** ", newUsuario);
+
+
+
+      //PERSISTENCIA
+      return this.usuarioRepo.save(newUsuario);
     } catch (error) {
       throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'Falló la creación - ' + error,
-      }, HttpStatus.NOT_FOUND);
+        error: error
+      }, HttpStatus.BAD_REQUEST);
     }
+
   }
+
+
+
+
+
 
   public async getUsuarioByUsername(username: string) {
-    try {
       const condition: FindOneOptions<Usuario> = { relations :['persona'] ,where: { username: username } };
       const usuario: Usuario = await this.usuarioRepo.findOne(condition);
-      if (usuario) {
-        return usuario;
-      } else {
-        throw new Error('No existe el username ingresado.');
+      if(!usuario){
+        throw new NotFoundException("El usuario no está registrado");
       }
-    } catch (error) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'Error en la búsqueda: ' + error,
-      }, HttpStatus.NOT_FOUND);
+
+      return usuario;
     }
-  }
+
+  
 }

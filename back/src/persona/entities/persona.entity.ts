@@ -1,4 +1,6 @@
+import { eSexo } from "src/enums/sexo.enum";
 import { Paciente } from "src/paciente/entities/paciente.entity";
+import { Profesional } from "src/profesional/entities/profesional.entity";
 import { Usuario } from "src/usuario/entities/usuario.entity";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
@@ -10,10 +12,13 @@ export class Persona {
   nombre: string;
   @Column()
   apellido: string;
-  @Column()
+  @Column({nullable:true})
   fechaNac: Date;
-  @Column()
-  genero: string;
+  @Column({
+    type: 'enum',
+    enum: eSexo,
+    nullable:true})
+  sexo: eSexo;
   @Column()
   domicilio: string;
   @Column()
@@ -21,13 +26,15 @@ export class Persona {
   @Column()
   email: string;
 
-  //para crear usuario si es requerido
-  @OneToOne(() => Usuario, usuario => usuario.persona)//, { cascade: true, nullable: true }
-  @JoinColumn({ name: 'username' })
-  username?: Usuario;
 
-  @OneToOne(() => Paciente, paciente => paciente.persona)//, { cascade: true, nullable: true }
-  //@JoinColumn({ name: 'dni_paciente' })
-  paciente : Paciente;
+ @OneToOne(() => Usuario, (usuario) => usuario.persona, { nullable: true }) // Hacemos la relación opcional para el perfil
+ usuario: Usuario;
+
+ @OneToOne(() => Paciente, (paciente) => paciente.persona, { nullable: true, cascade: true })
+ paciente: Paciente;
+
+ //cascae:true cuando una persona se inserta, tambien se aplica al profesional
+ @OneToOne(() => Profesional, profesional => profesional.persona, { nullable: true, cascade: true })
+ profesional: Profesional;
 
 }

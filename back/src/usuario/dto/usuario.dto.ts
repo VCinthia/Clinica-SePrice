@@ -1,21 +1,23 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
-import { Persona } from 'src/persona/entities/persona.entity';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
+import { eGrupo } from 'src/enums/grupo.enum';
+import { eTipoUsuario } from 'src/enums/tipo-usuario.enum';
+import { PersonaDTO } from 'src/persona/dto/persona.dto';
 
-export class UsuarioDTO //extends PersonaDTO 
+export class UsuarioDTO 
 {
   @IsNotEmpty()
   username: string;
   
-  @IsNotEmpty()
+
   password: string;
   
-  @IsNotEmpty()
-  //@IsIn(['ADMIN', 'PROFESIONAL'])
-  tipo: string; //ADMIN - PROFESIONAL
 
-  @IsNotEmpty()
-  //@IsIn(['LABORATORIO', 'EXTERNOS', 'AMBOS'])
-  grupo: string; //LABORATORIO - EXTERNOS - AMBOS
+  tipo: eTipoUsuario; 
 
-  persona?: Persona;
+  grupo: eGrupo;
+
+  @ValidateNested()
+  @Type(() => PersonaDTO)
+  persona: PersonaDTO;
 }

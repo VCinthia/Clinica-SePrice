@@ -25,7 +25,7 @@ export class PersonaService {
       if (!personaExistente) {
         const newPersona = this.personaRepo.create({
             ...personaDTO,
-            username: null,  // Inicialmente sin el username
+            usuario: null,  // Inicialmente sin el username
           });
 
         // if (usuarioDTO) {

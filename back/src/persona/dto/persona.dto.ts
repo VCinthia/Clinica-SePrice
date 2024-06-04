@@ -1,4 +1,9 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
+import { eSexo } from 'src/enums/sexo.enum';
+import { PacienteDTO } from 'src/paciente/dto/paciente.dto';
+import { ProfesionalDTO } from 'src/profesional/dto/profesional.dto';
+import { Profesional } from 'src/profesional/entities/profesional.entity';
 
 export class PersonaDTO {
   @IsNotEmpty()
@@ -10,11 +15,11 @@ export class PersonaDTO {
   @IsNotEmpty()
   apellido: string;
 
+  @Type(() => Date)
   @IsNotEmpty()
   fechaNac: Date;
 
-  @IsNotEmpty()
-  genero: string;
+  sexo: eSexo;
 
   @IsNotEmpty()
   domicilio: string;
@@ -26,5 +31,13 @@ export class PersonaDTO {
   email: string;
 
   @IsOptional()
-  username?: string;
+  username: string;
+
+  @IsOptional()
+  pacienteDto: PacienteDTO;
+
+  @ValidateNested()
+  @Type(() => ProfesionalDTO)
+  @IsOptional()
+  profesionalDto?: ProfesionalDTO;
 }
