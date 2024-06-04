@@ -3,6 +3,7 @@ import { Persona } from 'src/persona/entities/persona.entity';
 import { eTipoUsuario } from 'src/enums/tipo-usuario.enum';
 import { eGrupo } from 'src/enums/grupo.enum';
 import { Insumo } from 'src/insumo/entities/insumo.entity';
+import { eEstadoUsuario } from 'src/enums/estado-usuario.enum';
 
 @Entity({ name: 'usuarios' })
 export class Usuario {
@@ -17,6 +18,12 @@ export class Usuario {
     enum: eTipoUsuario
   })
   tipo: eTipoUsuario;
+
+  @Column({
+    type:'enum',
+    enum: eEstadoUsuario
+  })
+  estado: eEstadoUsuario;
 
   @Column({
     type:'enum',

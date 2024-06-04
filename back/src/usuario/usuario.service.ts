@@ -47,6 +47,7 @@ export class UsuarioService {
       //PERSISTENCIA
       return this.usuarioRepo.save(newUsuario);
     } catch (error) {
+      console.error("error: ", error);
       throw new HttpException({
         error: error
       }, HttpStatus.BAD_REQUEST);
