@@ -1,14 +1,13 @@
 import { IsNotEmpty } from "class-validator";
+import { eEstadoTurno } from "src/enums/estado-turno.enum";
+import { eTipoTurno } from "src/enums/tipo-turno.enum";
+import { PacienteDTO } from "src/paciente/dto/paciente.dto";
+import { ProfesionalDTO } from "src/profesional/dto/profesional.dto";
 
 export class TurnoDTO {
-    @IsNotEmpty()
     turnoID : number;
     @IsNotEmpty()
-    dniPaciente : number;
-    @IsNotEmpty()
-    dniProfesional: number;
-    @IsNotEmpty()
-    tipo: string;
+    tipo: eTipoTurno;
     @IsNotEmpty()
     inicioFechaHora: Date;
     @IsNotEmpty()
@@ -16,6 +15,12 @@ export class TurnoDTO {
     @IsNotEmpty()
     esSobreturno: boolean;
     @IsNotEmpty()
-    estado: string;
+    estado: eEstadoTurno;
+
+    @IsNotEmpty()
+    pacienteDto: PacienteDTO;
+
+    @IsNotEmpty()
+    profesionalDto : ProfesionalDTO;
   
 }

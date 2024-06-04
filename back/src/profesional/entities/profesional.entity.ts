@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { Persona } from 'src/persona/entities/persona.entity';
 import { eEspecialidad } from 'src/enums/especialidad.enum';
+import { Turno } from 'src/turno/entities/turno.entity';
 
 @Entity({ name: 'profesionales' })
 export class Profesional {
@@ -18,4 +19,7 @@ export class Profesional {
 @OneToOne(() => Persona, persona => persona.profesional, { cascade: false, eager: true }) 
 @JoinColumn({ name: 'dni_profesional' })
   persona: Persona;
+
+  @OneToMany(() => Turno, (turno) => turno.profesional, { nullable: true }) // Hacemos la relación opcional para el perfil
+  turnos: Turno[];
 }

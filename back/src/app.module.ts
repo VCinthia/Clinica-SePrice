@@ -9,6 +9,7 @@ import { PacienteModule } from './paciente/paciente.module';
 import { HistoriaClinicaModule } from './historia-clinica/historia-clinica.module';
 import { InsumoModule } from './insumo/insumo.module';
 import { TurnoModule } from './turno/turno.module';
+import { ProfesionalModule } from './profesional/profesional.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TurnoModule } from './turno/turno.module';
     HistoriaClinicaModule,
     InsumoModule,
     TurnoModule,
+    ProfesionalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

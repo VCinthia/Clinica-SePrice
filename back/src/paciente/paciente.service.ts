@@ -1,10 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
 import { Paciente } from './entities/paciente.entity';
 import { PacienteDTO } from './dto/paciente.dto';
-import { HistoriaClinica } from 'src/historia-clinica/entities/historia.entity';
 import { Persona } from 'src/persona/entities/persona.entity';
+import { log } from 'console';
 
 @Injectable()
 export class PacienteService {
@@ -14,8 +14,7 @@ export class PacienteService {
         private readonly pacienteRepo: Repository<Paciente>,
         @InjectRepository(Persona)
         private readonly personaRepo: Repository<Persona>,
-        // @InjectRepository(HistoriaClinica)
-        // private readonly historiaClinicaRepo: Repository<HistoriaClinica>,
+
     ) { }
 
 
@@ -28,12 +27,12 @@ export class PacienteService {
     
           if (!pacienteExistente) {
             let savedPersona: Persona;
-            if (pacienteDTO.persona) {
-              const personaCondition: FindOneOptions<Persona> = { where: { dni: pacienteDTO.persona.dni } };          
+            if (pacienteDTO.personaDto) {
+              const personaCondition: FindOneOptions<Persona> = { where: { dni: pacienteDTO.personaDto.dni } };          
               const personaExistente = await this.personaRepo.findOne(personaCondition);
     
               if (!personaExistente) {
-                const newPersona = this.personaRepo.create(pacienteDTO.persona);
+                const newPersona = this.personaRepo.create(pacienteDTO.personaDto);
                 console.log('newPersona: ', newPersona);
                 
                 savedPersona = await this.personaRepo.save(newPersona);
@@ -60,21 +59,16 @@ export class PacienteService {
         }
       }
 
-    public async getPacienteByDNI(dni_paciente: number) {
-        try {
-            const condition: FindOneOptions = {relations :['persona'], where: { dni_paciente: dni_paciente } };
-            const paciente: Paciente = await this.pacienteRepo.findOne(condition);
-            if (paciente) {
-                return paciente;
-            } else {
-                throw new Error('No existe el DNI ingresado.');
-            }
-        } catch (error) {
-            throw new HttpException({
-                status: HttpStatus.NOT_FOUND,
-                error: 'Error en la busqueda: ' + error
-            },
-                HttpStatus.NOT_FOUND);
+
+
+      public async getPacienteByDni(dni: number) {
+        const condition: FindOneOptions<Paciente> = { relations :['persona'] ,where: { dni_paciente: dni } };
+        const paciente: Paciente = await this.pacienteRepo.findOne(condition);
+        if(!paciente){
+          throw new NotFoundException("El paciente no existe");
         }
-    }
+        return paciente;
+      }
+
+
 }

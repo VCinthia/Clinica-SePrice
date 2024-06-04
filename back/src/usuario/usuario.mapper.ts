@@ -6,7 +6,7 @@ import { PersonaMapper } from 'src/persona/persona.mapper';
 export class UsuarioMapper {
   static toEntity(usuarioDto: UsuarioDTO): Usuario {
     const usuario = plainToClass(Usuario, usuarioDto);
-    usuario.persona = PersonaMapper.toEntity(usuarioDto.persona);
+    usuario.persona = PersonaMapper.toEntity(usuarioDto.personaDto);
     return usuario;
   }
 

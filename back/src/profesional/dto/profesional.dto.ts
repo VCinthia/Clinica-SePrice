@@ -2,7 +2,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 import { eEspecialidad } from 'src/enums/especialidad.enum';
 import { Persona } from 'src/persona/entities/persona.entity';
 
-export class ProfesionalDTO //extends PersonaDTO 
+export class ProfesionalDTO 
 {
   @IsNotEmpty()
   dni_profesional: number;
@@ -10,6 +10,4 @@ export class ProfesionalDTO //extends PersonaDTO
   @IsNotEmpty()
   especialidad: eEspecialidad;
 
-//   @IsNotEmpty()
-//   persona: Persona;
 }

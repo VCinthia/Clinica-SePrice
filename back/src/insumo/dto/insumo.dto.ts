@@ -10,7 +10,7 @@ export class InsumoDTO {
     cantidadDisponible : number;
     @IsNotEmpty()
     fechaUltimaModificacion : Date;
-    // Tambien deberia ser FK de la tabla Usuario
+ 
     @IsNotEmpty()
     usuarioUltimaModificacion : UsuarioDTO;
   

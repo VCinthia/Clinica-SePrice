@@ -14,6 +14,6 @@ export class PacienteController {
 
   @Get('/:dni')
   public async getPacienteByDni(@Param('dni') dni: number){
-    return this.pacienteService.getPacienteByDNI(dni);
+    return this.pacienteService.getPacienteByDni(dni);
   }
 }

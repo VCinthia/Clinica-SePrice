@@ -1,84 +1,101 @@
-import { Column, Entity, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { eEstadoTurno } from "src/enums/estado-turno.enum";
+import { eTipoTurno } from "src/enums/tipo-turno.enum";
+import { Paciente } from "src/paciente/entities/paciente.entity";
+import { Profesional } from "src/profesional/entities/profesional.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'turno' })
 export class Turno {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     turnoID: number;
-    //FK de tabla paciente
-    @Column()
-    dniPaciente: number;
-    //FK tabla Profesional
-    @Column()
-    dniProfesional: number;
-    @Column()
-    tipo: string;
+    
+    @Column({
+        type:'enum',
+        enum:eTipoTurno
+    })
+    tipo: eTipoTurno;
+
     @Column()
     inicioFechaHora: Date;
     @Column()
     duracionMinutos: number;
     @Column()
     esSobreturno: boolean;
-    @Column()
-    estado: string;
+    
+    @Column({
+        type:'enum',
+        enum:eEstadoTurno
+    })
+    estado: eEstadoTurno;
+
+    @ManyToOne(()=> Paciente, paciente => paciente.dni_paciente, {cascade: true, eager:true, nullable:false})
+    @JoinColumn({name:'dni_paciente'})
+    paciente: Paciente;
+
+    @ManyToOne(()=> Profesional, profesional => profesional.dni_profesional, {cascade: true, eager:true, nullable:false})
+    @JoinColumn({name:'dni_profesional'})
+    profesional: Profesional;
 
 
-    constructor(turnoID: number, dniPaciente: number, dniProfesional: number, tipo: string, inicioFechaHora: Date,duracionMinutos: number ,esSobreturno: boolean, estado: string) {
-        this.turnoID = turnoID;
-        this.dniPaciente = dniPaciente;
-        this.dniProfesional = dniProfesional;
-        this.tipo = tipo   
-        this.inicioFechaHora = inicioFechaHora;
-        this.duracionMinutos = duracionMinutos;  
-        this.esSobreturno = esSobreturno;  
-        this.estado = estado;      
-    }
 
-    public getTurnoID(): number {
-        return this.turnoID;
-    }
-    public setTurnoID(turnoID: number): void {
-        this.turnoID = turnoID;
-    }
-    public getDniPaciente(): number {
-        return this.dniPaciente;
-    }
-    public setDniPaciente(dniPaciente: number): void {
-        this.dniPaciente = dniPaciente;
-    }
-    public getDniProfesional(): number {
-        return this.dniProfesional;
-    }
-    public setDniProfesional(dniProfesional: number): void {
-        this.dniProfesional = dniProfesional;
-    }
-    public getTipo(): string {
-        return this.tipo 
-    }
-    public setTipo(tipo: string): void {
-        this.tipo = tipo
-    }
-    public getInicioFechaHora(): Date {
-        return this.inicioFechaHora;
-    }
-    public setInicioFechaHora(inicioFechaHora: Date): void {
-        this.inicioFechaHora = inicioFechaHora;
-    }
-    public getDuracionMinutos(): number {
-        return this.duracionMinutos;
-    }
-    public setDuracionMinutos(duracionMinutos: number): void {
-        this.duracionMinutos = duracionMinutos;
-    }
-    public getEsSobreturno(): boolean {
-        return this.esSobreturno;
-    }
-    public setEsSobreturno(esSobreturno: boolean): void {
-        this.esSobreturno = esSobreturno;
-    }
-    public getEstado(): string {
-        return this.estado;
-    }
-    public setEstado(estado: string): void {
-        this.estado = estado;
-    }
+     //lo comenté porque no se usa
+    // constructor(turnoID: number, dniPaciente: number, dniProfesional: number, tipo: string, inicioFechaHora: Date,duracionMinutos: number ,esSobreturno: boolean, estado: string) {
+    //     this.turnoID = turnoID;
+    //     this.dniPaciente = dniPaciente;
+    //     this.dniProfesional = dniProfesional;
+    //     this.tipo = tipo   
+    //     this.inicioFechaHora = inicioFechaHora;
+    //     this.duracionMinutos = duracionMinutos;  
+    //     this.esSobreturno = esSobreturno;  
+    //     this.estado = estado;      
+    // }
+
+    // public getTurnoID(): number {
+    //     return this.turnoID;
+    // }
+    // public setTurnoID(turnoID: number): void {
+    //     this.turnoID = turnoID;
+    // }
+    // public getDniPaciente(): number {
+    //     return this.dniPaciente;
+    // }
+    // public setDniPaciente(dniPaciente: number): void {
+    //     this.dniPaciente = dniPaciente;
+    // }
+    // public getDniProfesional(): number {
+    //     return this.dniProfesional;
+    // }
+    // public setDniProfesional(dniProfesional: number): void {
+    //     this.dniProfesional = dniProfesional;
+    // }
+    // public getTipo(): string {
+    //     return this.tipo 
+    // }
+    // public setTipo(tipo: string): void {
+    //     this.tipo = tipo
+    // }
+    // public getInicioFechaHora(): Date {
+    //     return this.inicioFechaHora;
+    // }
+    // public setInicioFechaHora(inicioFechaHora: Date): void {
+    //     this.inicioFechaHora = inicioFechaHora;
+    // }
+    // public getDuracionMinutos(): number {
+    //     return this.duracionMinutos;
+    // }
+    // public setDuracionMinutos(duracionMinutos: number): void {
+    //     this.duracionMinutos = duracionMinutos;
+    // }
+    // public getEsSobreturno(): boolean {
+    //     return this.esSobreturno;
+    // }
+    // public setEsSobreturno(esSobreturno: boolean): void {
+    //     this.esSobreturno = esSobreturno;
+    // }
+    // public getEstado(): string {
+    //     return this.estado;
+    // }
+    // public setEstado(estado: string): void {
+    //     this.estado = estado;
+    // }
 }

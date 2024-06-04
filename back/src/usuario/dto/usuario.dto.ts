@@ -19,5 +19,5 @@ export class UsuarioDTO
 
   @ValidateNested()
   @Type(() => PersonaDTO)
-  persona: PersonaDTO;
+  personaDto: PersonaDTO;
 }
