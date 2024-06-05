@@ -7,4 +7,12 @@ export class ProfesionalDTO {
     especialidad?: eEspecialidad;
     persona?: PersonaDTO;
     turnos?: TurnoDTO[];
+
+    constructor(dniProfesional: number, especialidad: eEspecialidad, persona: PersonaDTO, turnos: TurnoDTO[] = []) {
+        this.dniProfesional = dniProfesional;
+        this.especialidad = especialidad;
+        this.persona = persona;
+        this.turnos = turnos;
+    }
+    
 }

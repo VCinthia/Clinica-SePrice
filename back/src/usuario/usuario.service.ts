@@ -61,6 +61,7 @@ export class UsuarioService {
   public async getUsuarioByUsername(username: string) {
       const condition: FindOneOptions<Usuario> = { relations :['persona'] ,where: { username: username } };
       const usuario: Usuario = await this.usuarioRepo.findOne(condition);
+      console.log("usuarioDB: ", usuario)
       if(!usuario){
         throw new NotFoundException("El usuario no está registrado");
       }

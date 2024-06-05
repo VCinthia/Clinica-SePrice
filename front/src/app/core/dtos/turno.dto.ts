@@ -4,7 +4,7 @@ import { PacienteDTO } from "./paciente.dto";
 import { ProfesionalDTO } from "./profesional.dto";
 
 export class TurnoDTO {
-    turnoId? : number;
+    turnoId? : number  | undefined;
     tipo?: eTipoTurno;
     inicioFechaHora?: Date;
     duracionMinutos?: number;
@@ -12,4 +12,24 @@ export class TurnoDTO {
     estado?: eEstadoTurno;
     paciente?: PacienteDTO;
     profesional?: ProfesionalDTO;
+
+
+    constructor(
+        tipo?: eTipoTurno,
+        inicioFechaHora?: Date,
+        duracionMinutos?: number,
+        esSobreturno?: boolean,
+        estado?: eEstadoTurno,
+        paciente?: PacienteDTO,
+        profesional?: ProfesionalDTO
+    ) {
+        this.tipo = tipo;
+        this.inicioFechaHora = inicioFechaHora;
+        this.duracionMinutos = duracionMinutos;
+        this.esSobreturno = esSobreturno;
+        this.estado = estado;
+        this.paciente = paciente;
+        this.profesional = profesional;
+    }
+
 }

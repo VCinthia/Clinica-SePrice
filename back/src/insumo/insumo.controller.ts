@@ -14,7 +14,7 @@ export class InsumoController {
     }
 
 
-    @Get("all")
+    @Get("/all")
     public async getAllInsumos() {
       return this.insumoService.getAllInsumos();
     }
