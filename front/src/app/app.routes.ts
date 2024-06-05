@@ -15,6 +15,7 @@ import { CardDatosTurnoComponent } from './shared/components/card-datos-turno/ca
 import { GestionarPagoComponent } from './shared/components/gestionar-pago/gestionar-pago.component';
 import { GenerarFacturaComponent } from './shared/components/generar-factura/generar-factura.component';
 import { ListaEsperaComponent } from './shared/components/lista-espera/lista-espera.component';
+import { ControlarInsumosComponent } from './features/estudios-clinicos/components/controlar-insumos/controlar-insumos.component';
 
 export const routes: Routes = [
     {
@@ -32,7 +33,13 @@ export const routes: Routes = [
             {path: 'nuevoTurno', component: SeleccionarEstudioComponent},
             {path: 'seleccionarTurno', component: SeleccionarTurnoComponent},
             {path: 'ingresarPaciente', component: IngresarDniPacienteComponent},
-            {path: 'acreditarTurno', component: BuscarTurnoComponent},
+            {path: 'acreditarTurno', component: BuscarTurnoComponent,
+            children: [
+                {path: 'confirmarTurno', component: CardDatosTurnoComponent},
+                {path: 'turnoNoEncontrado', component: CardDatosTurnoComponent}
+            ]
+            },
+            {path: 'controlarInsumos', component: ControlarInsumosComponent },
             {path: 'gestionarPago', component: GestionarPagoComponent},
             {path: 'generarFactura', component:GenerarFacturaComponent},
             {path: 'listaEspera', component: ListaEsperaComponent}

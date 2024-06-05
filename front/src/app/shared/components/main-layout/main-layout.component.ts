@@ -125,7 +125,7 @@ export class MainLayoutComponent implements OnInit {
     {name: 'Gestionar Turnos', route:'gestionarTurnos'},
     {name: 'Acreditar Turnos',route:'acreditarTurno'},
     {name: 'Ver Lista de Espera', route:'listaEspera'},
-    {name: 'Controlar Insumos', route:'gestionarTurnos'},
+    {name: 'Controlar Insumos', route:'controlarInsumos'},
     {name: 'Volver al Menu Principal', route:'/inicio'},
     {name: 'Cerrar Sesión', route:'gestionarTurnos'}
   ];

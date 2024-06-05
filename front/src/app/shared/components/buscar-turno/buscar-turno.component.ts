@@ -23,15 +23,12 @@ export class BuscarTurnoComponent {
   dniFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]);
 
   navegarAConfirmarPaciente(value : any){
-    if (this.router.url === '/estudiosClinicos/acreditarTurno' && value !== '1') {
+    console.log(this.router.url)
+    if (this.router.url === '/estudiosClinicos/acreditarTurno') {
       this.router.navigate(['estudiosClinicos/acreditarTurno/confirmarTurno']);
-    } else {
-      this.router.navigate(['estudiosClinicos/acreditarTurno/turnoNoEncontrado']);
-    };
-    if (this.router.url === '/consultoriosExternos/acreditarTurno' && value !== '1') {
+    } 
+    if (this.router.url === '/consultoriosExternos/acreditarTurno') {
       this.router.navigate(['consultoriosExternos/acreditarTurno/confirmarTurno']);
-    } else {
-      this.router.navigate(['consultoriosExternos/acreditarTurno/turnoNoEncontrado']);
     }
   }
 
