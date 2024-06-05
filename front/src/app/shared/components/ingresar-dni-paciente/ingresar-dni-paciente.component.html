@@ -25,8 +25,10 @@
         <app-btn-inactive buttonText="Buscar paciente"></app-btn-inactive>
     } @else {
 
-        <!-- Para probar que el paciente no existe, si se ingresa 1 como DNI se pasa a ese recorrido -->
-        <app-btn-primary (click)="navegarAConfirmarPaciente(dniFormControl.value)" buttonText="Buscar paciente"></app-btn-primary>
+        @if (dniFormControl.value) {
+            <!-- Para probar que el paciente no existe, si se ingresa 1 como DNI se pasa a ese recorrido -->
+            <app-btn-primary (click)="getPersonByDni(dniFormControl.value)" buttonText="Buscar paciente"></app-btn-primary>
+        }
     }
 </div>
 <router-outlet></router-outlet>

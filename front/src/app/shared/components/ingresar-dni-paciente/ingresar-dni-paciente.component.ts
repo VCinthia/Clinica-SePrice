@@ -6,6 +6,7 @@ import { BtnInactiveComponent } from '../btn-inactive/btn-inactive.component';
 import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component';
 import { Router, RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-ingresar-dni-paciente',
@@ -16,9 +17,11 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class IngresarDniPacienteComponent {
 
-  constructor(private router: Router){
+  constructor(private router: Router, private apiService: ApiService){
 
   }
+
+  datos: any;
 
   dniFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]);
 
@@ -42,5 +45,18 @@ export class IngresarDniPacienteComponent {
     if (this.router.url === '/consultoriosExternos/ingresarPaciente') {
       this.router.navigate(['consultoriosExternos/seleccionarTurno']);
     }
+  }
+
+  getPersonByDni(dni : string): void {
+    let dniParseado = parseInt(dni);
+    this.apiService.getPersona(dniParseado).subscribe(
+      (response) => {
+        this.datos = response;
+        console.log(this.datos);
+      },
+      (error) => {
+        console.error('Error al obtener datos', error);
+      }
+    );
   }
 }
