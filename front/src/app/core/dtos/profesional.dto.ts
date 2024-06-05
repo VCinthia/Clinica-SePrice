@@ -1,6 +1,10 @@
 import { eEspecialidad } from "../enums/especialidad.enum";
+import { PersonaDTO } from "./persona.dto";
+import { TurnoDTO } from "./turno.dto";
 
 export class ProfesionalDTO {
-    dni_profesional?: number;
+    dniProfesional?: number;
     especialidad?: eEspecialidad;
+    persona?: PersonaDTO;
+    turnos?: TurnoDTO[];
 }

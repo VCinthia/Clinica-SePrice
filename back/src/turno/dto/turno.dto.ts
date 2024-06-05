@@ -5,7 +5,7 @@ import { PacienteDTO } from "src/paciente/dto/paciente.dto";
 import { ProfesionalDTO } from "src/profesional/dto/profesional.dto";
 
 export class TurnoDTO {
-    turnoId : number;
+    turnoId : number; //id autogenerada
     tipo: eTipoTurno;
     inicioFechaHora: Date;
     duracionMinutos: number;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../enviroments/enviroment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TurnoDTO } from '../core/dtos/turno.dto';
 import { UsuarioDTO } from '../core/dtos/usuario.dto';
@@ -22,9 +22,12 @@ export class ApiService {
     return this.httpClient.get<TurnoDTO[]>('/turno/all');
   }
 
-  //postTurno():Observable<TurnoDTO>{}
-  //para postea  nuevo turno, no pasar el id, se genera automaticamente en la base
 
+  //para postea  nuevo turno, no pasar el id, se genera automaticamente en la base
+  postNewTurno(turnoDTO: TurnoDTO): Observable<TurnoDTO> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.httpClient.post(this.BASE_URL, turnoDTO, { headers: headers });
+  }
 
 
   

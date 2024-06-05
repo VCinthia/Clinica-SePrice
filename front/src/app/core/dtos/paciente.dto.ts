@@ -1,8 +1,12 @@
 import { eModalidadDePago } from "../enums/modalidad-de-pago.enum";
+import { HistoriaClinicaDTO } from "./historia-clinica.dto";
 import { PersonaDTO } from "./persona.dto";
+import { TurnoDTO } from "./turno.dto";
 
 export class PacienteDTO {
-    dni_paciente?: number;
+    dniPaciente?: number;
     modalidadPago?: eModalidadDePago;
-    personaDto?: PersonaDTO;
+    persona?: PersonaDTO;
+    historiaClinica?: HistoriaClinicaDTO;
+    turnos?: TurnoDTO[];
 }

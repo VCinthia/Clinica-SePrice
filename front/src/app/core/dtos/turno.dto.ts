@@ -1,13 +1,15 @@
 import { eEstadoTurno } from "../enums/estado-turno.enum";
 import { eTipoTurno } from "../enums/tipo-turno.enum";
+import { PacienteDTO } from "./paciente.dto";
+import { ProfesionalDTO } from "./profesional.dto";
 
 export class TurnoDTO {
-    turno_id?:number;
-    dni_paciente?:number;
-    dni_profesional?:number;
-    tipo?:eTipoTurno;
-    inicio_fecha_hora?:Date;
-    duracion_minutos?:number;
-    es_sobreturno?:boolean;
-    estado?:eEstadoTurno;
+    turnoId? : number;
+    tipo?: eTipoTurno;
+    inicioFechaHora?: Date;
+    duracionMinutos?: number;
+    esSobreturno?: boolean;
+    estado?: eEstadoTurno;
+    paciente?: PacienteDTO;
+    profesional?: ProfesionalDTO;
 }
