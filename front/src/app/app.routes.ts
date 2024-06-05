@@ -10,6 +10,11 @@ import { IngresarDniPacienteComponent } from './shared/components/ingresar-dni-p
 import { CardNuevoPacienteComponent } from './shared/components/card-nuevo-paciente/card-nuevo-paciente.component';
 import { CardDatosPacienteComponent } from './shared/components/card-datos-paciente/card-datos-paciente.component';
 import { ConfirmarTurnoComponent } from './shared/components/confirmar-turno/confirmar-turno.component';
+import { BuscarTurnoComponent } from './shared/components/buscar-turno/buscar-turno.component';
+import { CardDatosTurnoComponent } from './shared/components/card-datos-turno/card-datos-turno.component';
+import { GestionarPagoComponent } from './shared/components/gestionar-pago/gestionar-pago.component';
+import { GenerarFacturaComponent } from './shared/components/generar-factura/generar-factura.component';
+import { ListaEsperaComponent } from './shared/components/lista-espera/lista-espera.component';
 
 export const routes: Routes = [
     {
@@ -26,7 +31,12 @@ export const routes: Routes = [
             {path: 'gestionarTurnos', component: MenuTurnosComponent},
             {path: 'nuevoTurno', component: SeleccionarEstudioComponent},
             {path: 'seleccionarTurno', component: SeleccionarTurnoComponent},
-            {path: 'ingresarPaciente', component: IngresarDniPacienteComponent}
+            {path: 'ingresarPaciente', component: IngresarDniPacienteComponent},
+            {path: 'acreditarTurno', component: BuscarTurnoComponent},
+            {path: 'gestionarPago', component: GestionarPagoComponent},
+            {path: 'generarFactura', component:GenerarFacturaComponent},
+            {path: 'listaEspera', component: ListaEsperaComponent}
+
         ]
     },
     {
@@ -41,7 +51,16 @@ export const routes: Routes = [
                     {path: 'pacienteNoEncontrado', component: CardNuevoPacienteComponent}
                 ]
             },
-            {path: 'confirmarTurno', component: ConfirmarTurnoComponent}
+            {path: 'confirmarTurno', component: ConfirmarTurnoComponent},
+            {path: 'acreditarTurno', component: BuscarTurnoComponent,
+            children: [
+                {path: 'confirmarTurno', component: CardDatosTurnoComponent},
+                {path: 'turnoNoEncontrado', component: CardDatosTurnoComponent}
+            ]
+            },
+            {path: 'gestionarPago', component: GestionarPagoComponent},
+            {path: 'generarFactura', component:GenerarFacturaComponent},
+            {path: 'listaEspera', component: ListaEsperaComponent}
 
         ]
     }

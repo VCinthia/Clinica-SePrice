@@ -1,0 +1,32 @@
+<div class="mainContainer">
+    <h2> Acreditar Turno</h2>
+
+    <p>Ingrese DNI del paciente:</p>
+<div class="inputContainer">
+    <mat-form-field appearance="outline">
+        <mat-label>DNI</mat-label>
+        <input matInput [formControl]="dniFormControl">
+        @if (dniFormControl.hasError('pattern') && !dniFormControl.hasError('required')) {
+            <mat-error>Por favor, ingrese un DNI válido (sin puntos)</mat-error>
+        }
+    
+        @if (dniFormControl.hasError('required')) {
+            <mat-error>Por favor, ingrese un DNI</mat-error>
+        }
+        
+    </mat-form-field>
+</div>
+
+<div class="btnContainer">
+    <app-btn-secondary (click)="volver()" buttonText="Volver"></app-btn-secondary>
+    @if (dniFormControl.hasError('pattern') || dniFormControl.hasError('required')) {
+        <app-btn-inactive buttonText="Buscar turno"></app-btn-inactive>
+    } @else {
+
+        <!-- Para probar que el paciente no existe, si se ingresa 1 como DNI se pasa a ese recorrido -->
+        <app-btn-primary (click)="navegarAConfirmarPaciente(dniFormControl.value)" buttonText="Buscar turno"></app-btn-primary>
+    }
+</div>
+<router-outlet></router-outlet>
+</div>
+

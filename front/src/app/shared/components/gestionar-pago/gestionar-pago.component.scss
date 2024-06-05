@@ -1,0 +1,38 @@
+.card{
+    width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--terciary);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    margin: 20px;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+h2{
+    text-align: center;
+}
+
+.btnContainer{
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+}
+
+app-btn-primary, app-btn-secondary, app-btn-inactive{
+    width: 150px;
+    height: 40px;
+}
+
+.pagoContainer, .dataContainer{
+    padding: 10px;
+}
+
+mat-radio-group{
+    display: flex;
+    width: 80%;
+    justify-content: space-around;
+    gap: 20px;
+}
