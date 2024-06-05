@@ -7,8 +7,8 @@ import { ProfesionalMapper } from "src/profesional/profesional.mapper";
 export class TurnoMapper {
     static toEntity(turnoDto: TurnoDTO): Turno {
       const turno = plainToClass(Turno, turnoDto);
-      turno.paciente = PacienteMapper.toEntity(turnoDto.pacienteDto);
-      turno.profesional = ProfesionalMapper.toEntity(turnoDto.profesionalDto);
+      turno.paciente = PacienteMapper.toEntity(turnoDto.paciente);
+      turno.profesional = ProfesionalMapper.toEntity(turnoDto.profesional);
       return turno;
     }
   

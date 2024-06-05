@@ -27,7 +27,7 @@ export class UsuarioService {
     try{
       
       //reviso que no exista la persona en la DDBB 
-      const personaExiste = await this.personaRepo.findOne({where:{dni:usuarioDTO.personaDto.dni}});
+      const personaExiste = await this.personaRepo.findOne({where:{dni:usuarioDTO.persona.dni}});
       if(personaExiste){
         throw new Error('La persona ya está registrada.');
       }

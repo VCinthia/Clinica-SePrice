@@ -1,16 +1,13 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
 import { eModalidadDePago } from 'src/enums/modalidad-de-pago.enum';
+import { HistoriaClinicaDTO } from 'src/historia-clinica/dto/historia-clinica.dto';
 import { PersonaDTO } from 'src/persona/dto/persona.dto';
-import { Persona } from 'src/persona/entities/persona.entity';
+import { Turno } from 'src/turno/entities/turno.entity';
 
-export class PacienteDTO //extends PersonaDTO 
+export class PacienteDTO 
 {
-  @IsNotEmpty()
-  dni_paciente: number;
-
-  @IsNotEmpty()
+  dniPaciente: number;
   modalidadPago: eModalidadDePago;
-
-  @IsNotEmpty()
-  personaDto: PersonaDTO;
+  persona: PersonaDTO;
+  historiaClinica: HistoriaClinicaDTO;
+  turnos?: Turno[];
 }

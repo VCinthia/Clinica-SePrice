@@ -1,9 +1,9 @@
 import { Usuario } from "src/usuario/entities/usuario.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'insumos' })
 export class Insumo {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     insumoId: number;
 
     @Column()
@@ -15,7 +15,7 @@ export class Insumo {
     @Column()
     fechaUltimaModificacion: Date;
 
-    @OneToOne(()=> Usuario, usuario => usuario.username, {cascade: true, eager:true, nullable:false})
+    @ManyToOne(()=> Usuario, usuario => usuario.username, {cascade: true, eager:true, nullable:false})
     @JoinColumn({name:'usuarioUltimaModificacion'})
     usuario: Usuario;
 

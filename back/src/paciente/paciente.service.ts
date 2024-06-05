@@ -18,51 +18,51 @@ export class PacienteService {
     ) { }
 
 
-    public async createPaciente(pacienteDTO: PacienteDTO ) {
-        try {
-          //TODO:verifica existencia de paciente y de persona PENDIENTE
-          const condition: FindOneOptions<Paciente> = { where: { dni_paciente: pacienteDTO.dni_paciente } };
-          //console.log("pacienteDTO: ",pacienteDTO);      
-          const pacienteExistente: Paciente = await this.pacienteRepo.findOne(condition);
+    // public async createPaciente(pacienteDTO: PacienteDTO ) {
+    //     try {
+    //       //TODO:verifica existencia de paciente y de persona PENDIENTE
+    //       const condition: FindOneOptions<Paciente> = { where: { dniPaciente: pacienteDTO.dniPaciente } };
+    //       //console.log("pacienteDTO: ",pacienteDTO);      
+    //       const pacienteExistente: Paciente = await this.pacienteRepo.findOne(condition);
     
-          if (!pacienteExistente) {
-            let savedPersona: Persona;
-            if (pacienteDTO.personaDto) {
-              const personaCondition: FindOneOptions<Persona> = { where: { dni: pacienteDTO.personaDto.dni } };          
-              const personaExistente = await this.personaRepo.findOne(personaCondition);
+    //       if (!pacienteExistente) {
+    //         let savedPersona: Persona;
+    //         if (pacienteDTO.persona) {
+    //           const personaCondition: FindOneOptions<Persona> = { where: { dni: pacienteDTO.persona.dni } };          
+    //           const personaExistente = await this.personaRepo.findOne(personaCondition);
     
-              if (!personaExistente) {
-                const newPersona = this.personaRepo.create(pacienteDTO.personaDto);
-                console.log('newPersona: ', newPersona);
+    //           if (!personaExistente) {
+    //             const newPersona = this.personaRepo.create(pacienteDTO.persona);
+    //             console.log('newPersona: ', newPersona);
                 
-                savedPersona = await this.personaRepo.save(newPersona);
-                console.log('savedPersona: ', savedPersona);
+    //             savedPersona = await this.personaRepo.save(newPersona);
+    //             console.log('savedPersona: ', savedPersona);
     
-                const newPaciente = this.pacienteRepo.create({
-                  ...pacienteDTO,
-                  persona: savedPersona,
-                });
-                return this.pacienteRepo.save(newPaciente);
-              }     else {
-                throw new Error('La persona ya existe.');
-              }     
+    //             const newPaciente = this.pacienteRepo.create({
+    //               ...pacienteDTO,
+    //               persona: savedPersona,
+    //             });
+    //             return this.pacienteRepo.save(newPaciente);
+    //           }     else {
+    //             throw new Error('La persona ya existe.');
+    //           }     
               
-            }        
-          } else {
-            throw new Error('El paciente ya existe.');
-          }
-        } catch (error) {
-          throw new HttpException({
-            status: HttpStatus.NOT_FOUND,
-            error: 'Falló la creación - ' + error,
-          }, HttpStatus.NOT_FOUND);
-        }
-      }
+    //         }        
+    //       } else {
+    //         throw new Error('El paciente ya existe.');
+    //       }
+    //     } catch (error) {
+    //       throw new HttpException({
+    //         status: HttpStatus.NOT_FOUND,
+    //         error: 'Falló la creación - ' + error,
+    //       }, HttpStatus.NOT_FOUND);
+    //     }
+    //   }
 
 
 
       public async getPacienteByDni(dni: number) {
-        const condition: FindOneOptions<Paciente> = { relations :['persona'] ,where: { dni_paciente: dni } };
+        const condition: FindOneOptions<Paciente> = { relations :['persona'] ,where: { dniPaciente: dni } };
         const paciente: Paciente = await this.pacienteRepo.findOne(condition);
         if(!paciente){
           throw new NotFoundException("El paciente no existe");

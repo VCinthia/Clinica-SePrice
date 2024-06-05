@@ -1,18 +1,10 @@
-import { IsNotEmpty } from "class-validator";
 import { UsuarioDTO } from "src/usuario/dto/usuario.dto";
 
 export class InsumoDTO {
-    @IsNotEmpty()
-    insumoId : number;
-    @IsNotEmpty()
+    insumoId? : number; //id autogenerada
     descripcion : string;
-    @IsNotEmpty()
     cantidadDisponible : number;
-    @IsNotEmpty()
     fechaUltimaModificacion : Date;
- 
-    @IsNotEmpty()
-    usuarioUltimaModificacion : UsuarioDTO;
-  
+    usuario : UsuarioDTO;
 }
 

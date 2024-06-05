@@ -1,16 +1,16 @@
 import { Controller, Post, Put, Body, Param, Get } from '@nestjs/common';
 import { HistoriaClinicaService } from './historia-clinica.service';
-import { HistoriaClinicaDTO } from './dto/historia.dto';
-import { HistoriaClinica } from './entities/historia.entity';
+import { HistoriaClinicaDTO } from './dto/historia-clinica.dto';
+import { HistoriaClinica } from './entities/historia-clinica.entity';
 
 @Controller('historiaclinica')
 export class HistoriaClinicaController {
   constructor(private readonly historiaClinicaService: HistoriaClinicaService) {}
 
-  @Post()
-  createHistoriaClinica(@Body() historiaClinicaDTO: HistoriaClinicaDTO): Promise<HistoriaClinica> {
-    return this.historiaClinicaService.createHistoriaClinica(historiaClinicaDTO);
-  }
+  // @Post()
+  // createHistoriaClinica(@Body() historiaClinicaDTO: HistoriaClinicaDTO): Promise<HistoriaClinica> {
+  //   return this.historiaClinicaService.createHistoriaClinica(historiaClinicaDTO);
+  // }
 
   @Put('/:dni')
   updateHistoriaClinica(

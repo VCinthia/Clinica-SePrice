@@ -25,13 +25,13 @@ export class TurnoService {
 
     
             //busco el paciente en la DDBB
-            const pacienteDB = await this.pacienteService.getPacienteByDni(turnoDto.pacienteDto.dni_paciente);
+            const pacienteDB = await this.pacienteService.getPacienteByDni(turnoDto.paciente.dniPaciente);
             if(!pacienteDB){
                 throw new Error('No existe el paciente');
             }
 
             //busco el profesional en la DDBB
-            const profesionalDB = await this.profesionalService.getProfesionalByDni(turnoDto.profesionalDto.dni_profesional);
+            const profesionalDB = await this.profesionalService.getProfesionalByDni(turnoDto.profesional.dniProfesional);
             if(!profesionalDB){
                 throw new Error('No existe el paciente');
             }

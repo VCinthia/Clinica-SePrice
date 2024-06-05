@@ -15,7 +15,7 @@ export class ProfesionalService {
 
     
   public async getProfesionalByDni(dni: number) {
-    const condition: FindOneOptions<Profesional> = { relations :['persona'] ,where: { dni_profesional: dni } };
+    const condition: FindOneOptions<Profesional> = { relations :['persona'] ,where: { dniProfesional: dni } };
     const profesional: Profesional = await this.profesionalRepo.findOne(condition);
     if(!profesional){
       throw new NotFoundException("El profesional no está registrado");

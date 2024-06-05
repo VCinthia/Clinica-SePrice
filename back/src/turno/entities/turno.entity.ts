@@ -4,10 +4,10 @@ import { Paciente } from "src/paciente/entities/paciente.entity";
 import { Profesional } from "src/profesional/entities/profesional.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'turno' })
+@Entity({ name: 'turnos' })
 export class Turno {
     @PrimaryGeneratedColumn()
-    turnoID: number;
+    turnoId: number;
     
     @Column({
         type:'enum',
@@ -28,12 +28,12 @@ export class Turno {
     })
     estado: eEstadoTurno;
 
-    @ManyToOne(()=> Paciente, paciente => paciente.dni_paciente, {cascade: true, eager:true, nullable:false})
-    @JoinColumn({name:'dni_paciente'})
+    @ManyToOne(()=> Paciente, paciente => paciente.dniPaciente, {cascade: true, eager:true, nullable:false})
+    @JoinColumn({name:'dniPaciente'})
     paciente: Paciente;
 
-    @ManyToOne(()=> Profesional, profesional => profesional.dni_profesional, {cascade: true, eager:true, nullable:false})
-    @JoinColumn({name:'dni_profesional'})
+    @ManyToOne(()=> Profesional, profesional => profesional.dniProfesional, {cascade: true, eager:true, nullable:false})
+    @JoinColumn({name:'dniProfesional'})
     profesional: Profesional;
 
 

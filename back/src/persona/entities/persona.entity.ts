@@ -26,15 +26,14 @@ export class Persona {
   @Column()
   email: string;
 
+  @OneToOne(() => Usuario, (usuario) => usuario.persona, { nullable: true }) // Hacemos la relación opcional para el perfil
+  usuario: Usuario;
 
- @OneToOne(() => Usuario, (usuario) => usuario.persona, { nullable: true }) // Hacemos la relación opcional para el perfil
- usuario: Usuario;
+  @OneToOne(() => Paciente, (paciente) => paciente.persona, { nullable: true, cascade: true })
+  paciente: Paciente;
 
- @OneToOne(() => Paciente, (paciente) => paciente.persona, { nullable: true, cascade: true })
- paciente: Paciente;
-
- //cascae:true cuando una persona se inserta, tambien se aplica al profesional
- @OneToOne(() => Profesional, profesional => profesional.persona, { nullable: true, cascade: true })
- profesional: Profesional;
+  //cascae:true cuando una persona se inserta, tambien se aplica al profesional
+  @OneToOne(() => Profesional, profesional => profesional.persona, { nullable: true, cascade: true })
+  profesional: Profesional;
 
 }

@@ -29,7 +29,7 @@ export class InsumoService {
             }
 
             //busco el usuario en la DDBB
-            let usuarioDB = await this.usuarioService.getUsuarioByUsername(insumoDto.usuarioUltimaModificacion.username);
+            let usuarioDB = await this.usuarioService.getUsuarioByUsername(insumoDto.usuario.username);
             if(!usuarioDB){
                 throw new Error('No existe el usuario');
             }

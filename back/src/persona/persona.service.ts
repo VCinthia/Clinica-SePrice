@@ -17,34 +17,34 @@ export class PersonaService {
     private readonly usuarioRepo: Repository<Usuario>,
   ) { }
 
-  public async createPersona(personaDTO: PersonaDTO, usuarioDTO?: UsuarioDTO) {
-    try {
-      const condition: FindOneOptions<Persona> = { where: { dni: personaDTO.dni } };
-      const personaExistente: Persona = await this.personaRepo.findOne(condition);
+  // public async createPersona(personaDTO: PersonaDTO, usuarioDTO?: UsuarioDTO) {
+  //   try {
+  //     const condition: FindOneOptions<Persona> = { where: { dni: personaDTO.dni } };
+  //     const personaExistente: Persona = await this.personaRepo.findOne(condition);
 
-      if (!personaExistente) {
-        const newPersona = this.personaRepo.create({
-            ...personaDTO,
-            usuario: null,  // Inicialmente sin el username
-          });
+  //     if (!personaExistente) {
+  //       const newPersona = this.personaRepo.create({
+  //           ...personaDTO,
+  //           usuario: null,  // Inicialmente sin el username
+  //         });
 
-        // if (usuarioDTO) {
-        //   const newUsuario = this.usuarioRepo.create(usuarioDTO);
-        //   const savedUsuario = await this.usuarioRepo.save(newUsuario);
-        //   newPersona.username = savedUsuario;
-        // }
+  //       // if (usuarioDTO) {
+  //       //   const newUsuario = this.usuarioRepo.create(usuarioDTO);
+  //       //   const savedUsuario = await this.usuarioRepo.save(newUsuario);
+  //       //   newPersona.username = savedUsuario;
+  //       // }
 
-        return this.personaRepo.save(newPersona);
-      } else {
-        throw new Error('La persona ya existe.');
-      }
-    } catch (error) {
-      throw new HttpException({
-        status: HttpStatus.NOT_FOUND,
-        error: 'Falló la creación - ' + error,
-      }, HttpStatus.NOT_FOUND);
-    }
-  }
+  //       return this.personaRepo.save(newPersona);
+  //     } else {
+  //       throw new Error('La persona ya existe.');
+  //     }
+  //   } catch (error) {
+  //     throw new HttpException({
+  //       status: HttpStatus.NOT_FOUND,
+  //       error: 'Falló la creación - ' + error,
+  //     }, HttpStatus.NOT_FOUND);
+  //   }
+  // }
 
   public async getPersonaByDNI(dni: number) {
     try {

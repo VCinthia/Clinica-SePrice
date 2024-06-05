@@ -18,7 +18,7 @@ export class ApiService {
   ) { }
 
   //TURNOS
-  getAlTurnos(): Observable<TurnoDTO[]> {
+  getAllTurnos(): Observable<TurnoDTO[]> {
     return this.httpClient.get<TurnoDTO[]>('/turno/all');
   }
 

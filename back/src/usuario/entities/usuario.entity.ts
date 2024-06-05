@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { Persona } from 'src/persona/entities/persona.entity';
 import { eTipoUsuario } from 'src/enums/tipo-usuario.enum';
 import { eGrupo } from 'src/enums/grupo.enum';
 import { Insumo } from 'src/insumo/entities/insumo.entity';
 import { eEstadoUsuario } from 'src/enums/estado-usuario.enum';
+import { HistoriaClinica } from 'src/historia-clinica/entities/historia-clinica.entity';
 
 @Entity({ name: 'usuarios' })
 export class Usuario {
@@ -38,6 +39,9 @@ export class Usuario {
   @JoinColumn()
   persona: Persona;
 
-  @OneToOne(() => Insumo, (insumo) => insumo.usuario, { nullable: true }) // Hacemos la relación opcional para el perfil
+  @OneToMany(() => Insumo, (insumo) => insumo.usuario, { nullable: true }) // Hacemos la relación opcional para el perfil
   usuario: Usuario;
+
+  @OneToMany(() => HistoriaClinica, (historiaClinica) => historiaClinica.usuario, { nullable: true }) // Hacemos la relación opcional para el perfil
+  historiasClinicas: HistoriaClinica[];
 }

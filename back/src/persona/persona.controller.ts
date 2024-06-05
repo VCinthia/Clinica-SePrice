@@ -7,13 +7,13 @@ import { UsuarioDTO } from '../usuario/dto/usuario.dto';
 export class PersonaController {
   constructor(private readonly personaService: PersonaService) {}
 
-  @Post()
-  public async createPersona(
-    @Body() personaDTO: PersonaDTO,
-    @Body() usuarioDTO?: UsuarioDTO,
-  ) {
-    return this.personaService.createPersona(personaDTO, usuarioDTO);
-  }
+  // @Post()
+  // public async createPersona(
+  //   @Body() personaDTO: PersonaDTO,
+  //   @Body() usuarioDTO?: UsuarioDTO,
+  // ) {
+  //   return this.personaService.createPersona(personaDTO, usuarioDTO);
+  // }
 
   @Get(':dni')
   public async getPersonaByDNI(@Param('dni') dni: number) {

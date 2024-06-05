@@ -6,7 +6,7 @@ import { Turno } from 'src/turno/entities/turno.entity';
 @Entity({ name: 'profesionales' })
 export class Profesional {
   @PrimaryColumn()
-  dni_profesional: number;
+  dniProfesional: number;
 
   @Column({
     type:'enum',
@@ -16,8 +16,8 @@ export class Profesional {
 
   //cascade:true, sirve para  insertar,eliminar,actualizar las entidades relacionadas 
   //eager:true indica que se debe cargar automáticamente la entidad relacionada junto con la entidad principal cuando se recupera esta última de la base de datos.
-@OneToOne(() => Persona, persona => persona.profesional, { cascade: false, eager: true }) 
-@JoinColumn({ name: 'dni_profesional' })
+  @OneToOne(() => Persona, persona => persona.profesional, { cascade: false, eager: true }) 
+  @JoinColumn({ name: 'dniProfesional' })
   persona: Persona;
 
   @OneToMany(() => Turno, (turno) => turno.profesional, { nullable: true }) // Hacemos la relación opcional para el perfil

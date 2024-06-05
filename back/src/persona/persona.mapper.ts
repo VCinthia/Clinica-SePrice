@@ -8,11 +8,11 @@ import { ProfesionalMapper } from 'src/profesional/profesional.mapper';
 export class PersonaMapper {
   static toEntity(personaDto: PersonaDTO): Persona {
     const persona = plainToClass(Persona, personaDto);
-    if(personaDto?.pacienteDto){
-        persona.paciente = PacienteMapper.toEntity(personaDto.pacienteDto);
+    if(personaDto?.paciente){
+        persona.paciente = PacienteMapper.toEntity(personaDto.paciente);
     }
-    if(personaDto?.profesionalDto){
-        persona.profesional = ProfesionalMapper.toEntity(personaDto.profesionalDto);
+    if(personaDto?.profesional){
+        persona.profesional = ProfesionalMapper.toEntity(personaDto.profesional);
     }
     return persona;
   }

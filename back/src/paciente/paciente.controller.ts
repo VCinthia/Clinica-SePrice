@@ -7,10 +7,10 @@ import { PacienteDTO } from './dto/paciente.dto';
 export class PacienteController {
   constructor(private readonly pacienteService: PacienteService) {}
 
-  @Post()
-  public async createPaciente(@Body() pacienteDTO: PacienteDTO) {
-    return this.pacienteService.createPaciente(pacienteDTO);
-  }
+  // @Post()
+  // public async createPaciente(@Body() pacienteDTO: PacienteDTO) {
+  //   return this.pacienteService.createPaciente(pacienteDTO);
+  // }
 
   @Get('/:dni')
   public async getPacienteByDni(@Param('dni') dni: number){
