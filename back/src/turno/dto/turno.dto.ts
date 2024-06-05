@@ -11,7 +11,11 @@ export class TurnoDTO {
     duracionMinutos: number;
     esSobreturno: boolean;
     estado: eEstadoTurno;
+
+    @IsNotEmpty()
     paciente: PacienteDTO;
+    
+    @IsNotEmpty()
     profesional : ProfesionalDTO;
   
 }

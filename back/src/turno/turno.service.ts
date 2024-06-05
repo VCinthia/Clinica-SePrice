@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable , NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable , InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { TurnoDTO } from './dto/turno.dto';
 import { Turno } from './entities/turno.entity';
 import { TurnoMapper } from './turno.mapper';
@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PacienteService } from 'src/paciente/paciente.service';
 import { ProfesionalService } from 'src/profesional/profesional.service';
+import { eEspecialidad } from 'src/enums/especialidad.enum';
 
 @Injectable()
 export class TurnoService {
@@ -21,6 +22,15 @@ export class TurnoService {
 
     public async createTurno(turnoDto: TurnoDTO) {
         try{
+            //Validacion de datos requeridos:
+        if (!turnoDto.paciente || !turnoDto.paciente.dniPaciente) {
+            throw new BadRequestException('El dni del paciente no puede ser nulo');
+        }
+        if (!turnoDto.profesional || !turnoDto.profesional.dniProfesional) {
+            throw new BadRequestException('El dni del profesional no puede ser nulo');
+        }
+
+
             //todo: reviso disponibilidad de turnos en la DDBB
 
     
@@ -38,8 +48,7 @@ export class TurnoService {
 
 
             //insumoDTO to Entity
-            //agregar logica para que reciba solo el id de las fk y luego buscarlo en la DB para profesional
-
+            //El DTO recibe solo el Id del profesional y  paciente , luego se busca en la DB 
             const newTurno: Turno = TurnoMapper.toEntity(turnoDto);
             newTurno.paciente = pacienteDB;
             newTurno.profesional = profesionalDB;
@@ -49,11 +58,15 @@ export class TurnoService {
             return this.turnoRepo.save(newTurno);
 
         } catch (error) {
-            console.error(error)
-            throw new HttpException({
-              error: error
-            }, HttpStatus.BAD_REQUEST);
-          }
+        console.error(error)
+            if (error instanceof BadRequestException) {
+                throw new BadRequestException('Datos enviados no válidos');
+            }else{
+                throw new InternalServerErrorException ('Error creando el turno');
+              }
+      
+        }   
+        
     }
 
 
@@ -66,7 +79,19 @@ export class TurnoService {
         return turnos;
     }
 
-
+    /*
+    public async getTurnosByEspecialidad(especialidad: eEspecialidad, profesionalId: number) : Promise<Turno[]> {
+        const turnosEncontrados =  this.turnoRepo.find({
+            especialidad: { id: especialidad },
+            profesional: { id: profesionalId },
+          });
+        console.log("turnosEncontrados: ", turnosEncontrados)
+        if(turnosEncontrados == null){
+          throw new NotFoundException("El usuario no está registrado");
+        }
+        return turnosEncontrados;
+      }
+*/
 
 }
 
