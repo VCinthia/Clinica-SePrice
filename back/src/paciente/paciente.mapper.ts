@@ -11,7 +11,7 @@ export class PacienteMapper {
   }
 
 
-//   static toDto(persona: Persona): PersonaDTO{
-//     return plainToClass(PersonaDTO, persona);
-//   }
+  static toDto(paciente: Paciente): PacienteDTO{
+    return plainToClass(PacienteDTO, paciente);
+  }
 }

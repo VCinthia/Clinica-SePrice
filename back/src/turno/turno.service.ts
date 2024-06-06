@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { PacienteService } from 'src/paciente/paciente.service';
 import { ProfesionalService } from 'src/profesional/profesional.service';
 import { eEspecialidad } from 'src/enums/especialidad.enum';
+import { eTipoTurno } from 'src/enums/tipo-turno.enum';
 
 @Injectable()
 export class TurnoService {
@@ -61,9 +62,14 @@ export class TurnoService {
         console.error(error)
             if (error instanceof BadRequestException) {
                 throw new BadRequestException('Datos enviados no válidos');
-            }else{
-                throw new InternalServerErrorException ('Error creando el turno');
-              }
+            }
+
+            if (error instanceof NotFoundException) {
+                throw new NotFoundException(error);
+            }
+           
+            throw new InternalServerErrorException ('Error creando el turno');
+          
       
         }   
         
@@ -79,19 +85,21 @@ export class TurnoService {
         return turnos;
     }
 
-    /*
-    public async getTurnosByEspecialidad(especialidad: eEspecialidad, profesionalId: number) : Promise<Turno[]> {
-        const turnosEncontrados =  this.turnoRepo.find({
-            especialidad: { id: especialidad },
-            profesional: { id: profesionalId },
-          });
+    
+    public async getTurnosByTipoAndEspecialidadAndProfesionalDni(tipo: eTipoTurno, especialidadBuscada: eEspecialidad, profesionalDni: number) : Promise<Turno[]> {
+        const turnosEncontrados =  await this.turnoRepo.find({
+            where: {
+                tipo: tipo,
+                especialidad: especialidadBuscada,
+                profesional: { dniProfesional: profesionalDni },
+        }
+        });
         console.log("turnosEncontrados: ", turnosEncontrados)
-        if(turnosEncontrados == null){
-          throw new NotFoundException("El usuario no está registrado");
+        if(turnosEncontrados.length <= 0){
+          throw new NotFoundException("No se han encontrado turnos");
         }
         return turnosEncontrados;
       }
-*/
 
 }
 

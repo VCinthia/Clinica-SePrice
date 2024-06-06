@@ -18,7 +18,15 @@ export class PersonaMapper {
   }
 
 
-//   static toDto(persona: Persona): PersonaDTO{
-//     return plainToClass(PersonaDTO, persona);
-//   }
+  static toDto(persona: Persona): PersonaDTO{
+    const personaDTO = plainToClass(PersonaDTO, persona);
+    if(persona?.paciente){
+        personaDTO.paciente = PacienteMapper.toDto(persona.paciente);
+    }
+    if(persona?.profesional){
+        personaDTO.profesional = ProfesionalMapper.toDto(persona.profesional);
+    }
+    return personaDTO;
+
+  }
 }

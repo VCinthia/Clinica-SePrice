@@ -1,3 +1,4 @@
+import { eEspecialidad } from "../enums/especialidad.enum";
 import { eEstadoTurno } from "../enums/estado-turno.enum";
 import { eTipoTurno } from "../enums/tipo-turno.enum";
 import { PacienteDTO } from "./paciente.dto";
@@ -9,6 +10,7 @@ export class TurnoDTO {
     inicioFechaHora?: Date;
     duracionMinutos?: number;
     esSobreturno?: boolean;
+    especialidad?: eEspecialidad;
     estado?: eEstadoTurno;
     paciente?: PacienteDTO;
     profesional?: ProfesionalDTO;
@@ -19,6 +21,7 @@ export class TurnoDTO {
         inicioFechaHora?: Date,
         duracionMinutos?: number,
         esSobreturno?: boolean,
+        especialidad?: eEspecialidad,
         estado?: eEstadoTurno,
         paciente?: PacienteDTO,
         profesional?: ProfesionalDTO
@@ -27,6 +30,7 @@ export class TurnoDTO {
         this.inicioFechaHora = inicioFechaHora;
         this.duracionMinutos = duracionMinutos;
         this.esSobreturno = esSobreturno;
+        this.especialidad = especialidad;
         this.estado = estado;
         this.paciente = paciente;
         this.profesional = profesional;

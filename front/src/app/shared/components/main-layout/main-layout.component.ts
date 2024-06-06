@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { eTipoTurno } from '../../../core/enums/tipo-turno.enum';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
+import { eEspecialidad } from '../../../core/enums/especialidad.enum';
 
 interface Sidenav {
   name: string;
@@ -42,6 +43,11 @@ export class MainLayoutComponent implements OnInit {
     this.getProfesionalByDni(1);
     this.getAllInsumos();
     this.getAllTurnos();
+    this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
+    
+
+
+   
 
   }
 
@@ -119,7 +125,23 @@ export class MainLayoutComponent implements OnInit {
     });
    }
 
-
+   getTurnosByEspecialidadAndProfesionalId(tipo: eTipoTurno, especialidad: eEspecialidad, profesionalDni: number): void {   
+    this.apiService.getTurnosByEspecialidadAndProfesional(tipo, especialidad, profesionalDni).subscribe({
+      next: (response) =>{
+        if(!response){
+          this.toastr.error('No se han encontrado turnos ','Error' );
+        }
+        this.toastr.success('Turnos por especialidad Encontrados','')
+        console.log('Turnos filtrados data:', response);
+      },
+      error:(error) => {
+        this.toastr.error(error?.message, 'Error' );
+        console.error('Error fetching turnos data:', error);
+      },
+      complete: () => {
+      }
+    });
+  }
 
   sidenavEstudiosClinicos: Sidenav[] = [
     {name: 'Gestionar Turnos', route:'gestionarTurnos'},

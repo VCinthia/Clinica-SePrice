@@ -7,6 +7,7 @@ import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component'
 import { Router, RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
+import { PersonaDTO } from '../../../core/dtos/persona.dto';
 
 @Component({
   selector: 'app-ingresar-dni-paciente',
@@ -16,6 +17,7 @@ import { ApiService } from '../../../services/api.service';
   styleUrl: './ingresar-dni-paciente.component.scss'
 })
 export class IngresarDniPacienteComponent {
+  persona: PersonaDTO = new PersonaDTO();
 
   constructor(private router: Router, private apiService: ApiService){
 
@@ -52,7 +54,10 @@ export class IngresarDniPacienteComponent {
     this.apiService.getPersona(dniParseado).subscribe(
       (response) => {
         this.datos = response;
+        this.persona = response;
         console.log(this.datos);
+        
+
       },
       (error) => {
         console.error('Error al obtener datos', error);
@@ -60,3 +65,4 @@ export class IngresarDniPacienteComponent {
     );
   }
 }
+

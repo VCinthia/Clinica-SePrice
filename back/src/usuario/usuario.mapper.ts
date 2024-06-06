@@ -10,8 +10,9 @@ export class UsuarioMapper {
     return usuario;
   }
 
-  // static toDto(usuario: Usuario): UsuarioDTO{
-  //   //todo: revisar que agrege persona
-  //   return plainToClass(UsuarioDTO, usuario);
-  // }
+  static toDto(usuario: Usuario): UsuarioDTO{
+    const usuarioDTO = plainToClass(UsuarioDTO, usuario);
+    usuarioDTO.persona = PersonaMapper.toDto(usuario.persona)
+    return usuarioDTO;
+  }
 }

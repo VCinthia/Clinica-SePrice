@@ -70,4 +70,22 @@ export class UsuarioService {
     }
 
   
+
+
+    public async getUsuarioByUsernameAndPass(username: string, pass:string): Promise<UsuarioDTO>{
+
+      const usuarioDB = await this.usuarioRepo.findOne({
+        where: {
+          username: username,
+          password: pass,
+        },
+      });
+        console.log("usuarioDB: ", usuarioDB)
+        if(!usuarioDB){
+          throw new NotFoundException("Claves de identificación inválidas");
+        }
+        const usuarioDTO: UsuarioDTO = UsuarioMapper.toDto(usuarioDB);
+        return usuarioDTO;
+      }
+
 }

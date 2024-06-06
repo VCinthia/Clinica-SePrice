@@ -7,6 +7,8 @@ import { UsuarioDTO } from '../core/dtos/usuario.dto';
 import { PersonaDTO } from '../core/dtos/persona.dto';
 import { ProfesionalDTO } from '../core/dtos/profesional.dto';
 import { InsumoDTO } from '../core/dtos/insumo.dto';
+import { eEspecialidad } from '../core/enums/especialidad.enum';
+import { eTipoTurno } from '../core/enums/tipo-turno.enum';
 
 @Injectable({
    //habilita la injeccion de dependencia del servicio
@@ -23,6 +25,17 @@ export class ApiService {
   getAllTurnos(): Observable<TurnoDTO[]> {
     const url = `${this.BASE_URL}/turno/all`;
     return this.httpClient.get<TurnoDTO[]>(url);
+  }
+
+  getTurnosByEspecialidadAndProfesional(tipo: eTipoTurno, especialidad: eEspecialidad, profesionalId: number): Observable<TurnoDTO[]> {
+    const url = `${this.BASE_URL}/turno/especialidad-profesional`;
+    return this.httpClient.get<TurnoDTO[]>(url, {
+      params: {
+        tipo,
+        especialidad,
+        profesionalId
+      }
+    });
   }
 
   //para postea  nuevo turno, no pasar el id, se genera automaticamente en la base

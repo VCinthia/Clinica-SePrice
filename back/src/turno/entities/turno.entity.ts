@@ -1,3 +1,4 @@
+import { eEspecialidad } from "src/enums/especialidad.enum";
 import { eEstadoTurno } from "src/enums/estado-turno.enum";
 import { eTipoTurno } from "src/enums/tipo-turno.enum";
 import { Paciente } from "src/paciente/entities/paciente.entity";
@@ -21,6 +22,8 @@ export class Turno {
     duracionMinutos: number;
     @Column()
     esSobreturno: boolean;
+    @Column()
+    especialidad: eEspecialidad;
     
     @Column({
         type:'enum',

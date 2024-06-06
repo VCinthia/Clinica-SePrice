@@ -11,7 +11,7 @@ export class ProfesionalMapper {
   }
 
 
-//   static toDto(persona: Persona): PersonaDTO{
-//     return plainToClass(PersonaDTO, persona);
-//   }
+  static toDto(profesional: Profesional): ProfesionalDTO{
+    return plainToClass(ProfesionalDTO, profesional);
+  }
 }

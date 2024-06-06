@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, HttpRedirectResponse, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, HttpRedirectResponse, HttpStatus, Query } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { UsuarioDTO } from './dto/usuario.dto';
 
@@ -11,8 +11,16 @@ export class UsuarioController {
     return this.usuarioService.createUsuario(usuarioDTO);
   }
 
-  @Get(':username')
-  public async getUsuarioByUsername(@Param('username') username: string) {
-    return this.usuarioService.getUsuarioByUsername(username);
+  @Get('username')
+  public async getUsuarioByUsernameAndPass(
+    @Query('username') username: string,
+    @Query('pass') pass: string,
+  ): Promise<UsuarioDTO> {
+    return this.usuarioService.getUsuarioByUsernameAndPass(username, pass);
   }
+
+
+
+
+
 }
