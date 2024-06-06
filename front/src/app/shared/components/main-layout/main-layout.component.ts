@@ -7,6 +7,8 @@ import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { eTipoTurno } from '../../../core/enums/tipo-turno.enum';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { eEspecialidad } from '../../../core/enums/especialidad.enum';
+import { UsuarioService } from '../../services/usuario.service';
+import { UsuarioDTO } from '../../../core/dtos/usuario.dto';
 
 interface Sidenav {
   name: string;
@@ -29,6 +31,7 @@ export class MainLayoutComponent implements OnInit {
     private apiService: ApiService,
     private toastr: ToastrService,
     private router: Router, 
+    private usuarioService: UsuarioService,
     private route: ActivatedRoute) {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
@@ -149,7 +152,7 @@ export class MainLayoutComponent implements OnInit {
     {name: 'Ver Lista de Espera', route:'listaEspera'},
     {name: 'Controlar Insumos', route:'controlarInsumos'},
     {name: 'Volver al Menu Principal', route:'/inicio'},
-    {name: 'Cerrar Sesión', route:'gestionarTurnos'}
+    {name: 'Cerrar Sesión', route:''}
   ];
 
   sidenavConsultoriosExternos: Sidenav[] = [
@@ -157,7 +160,7 @@ export class MainLayoutComponent implements OnInit {
     {name: 'Acreditar Turnos',route:'acreditarTurno'},
     {name: 'Ver Lista de Espera', route:'listaEspera'},
     {name: 'Volver al Menu Principal', route:'/inicio'},
-    {name: 'Cerrar Sesión', route:'gestionarTurnos'}
+    {name: 'Cerrar Sesión', route:''}
   ];
 
 }

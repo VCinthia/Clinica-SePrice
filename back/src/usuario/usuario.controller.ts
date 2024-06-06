@@ -12,6 +12,12 @@ export class UsuarioController {
   }
 
   @Get('username')
+  public async getUsuarioByUsername(@Query('username') username: string){
+    return this.usuarioService.getUsuarioByUsername(username);
+  }
+
+
+  @Get('userpass')
   public async getUsuarioByUsernameAndPass(
     @Query('username') username: string,
     @Query('pass') pass: string,

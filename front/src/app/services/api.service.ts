@@ -48,10 +48,24 @@ export class ApiService {
 
   //USUARIOS
   getUsuarioByUser(username: string): Observable<UsuarioDTO[]> {
-    const url = `${this.BASE_URL}/usuario/${username}`;
-    return this.httpClient.get<UsuarioDTO[]>(url);
+    const url = `${this.BASE_URL}/usuario/username`;
+    return this.httpClient.get<UsuarioDTO[]>(url, {
+      params: {
+        username
+      }
+    });
   }
 
+  
+  getUsuarioByPass(username: string, pass: string): Observable<UsuarioDTO> {
+    const url = `${this.BASE_URL}/usuario/userpass`;
+    return this.httpClient.get<UsuarioDTO>(url, {
+      params: {
+        username,
+        pass,
+      }
+    });
+  }
 
 
   //PERSONA

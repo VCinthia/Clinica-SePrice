@@ -61,7 +61,7 @@ export class UsuarioService {
   public async getUsuarioByUsername(username: string) {
       const condition: FindOneOptions<Usuario> = { relations :['persona'] ,where: { username: username } };
       const usuario: Usuario = await this.usuarioRepo.findOne(condition);
-      console.log("usuarioDB: ", usuario)
+      console.log("usuarioDBUsername: ", usuario)
       if(!usuario){
         throw new NotFoundException("El usuario no está registrado");
       }
@@ -73,17 +73,24 @@ export class UsuarioService {
 
 
     public async getUsuarioByUsernameAndPass(username: string, pass:string): Promise<UsuarioDTO>{
-
       const usuarioDB = await this.usuarioRepo.findOne({
         where: {
           username: username,
           password: pass,
         },
       });
-        console.log("usuarioDB: ", usuarioDB)
+        console.log("usuarioPassDB: ", usuarioDB)
         if(!usuarioDB){
           throw new NotFoundException("Claves de identificación inválidas");
         }
+
+        if (username !== usuarioDB.username) {
+          throw new NotFoundException("Usuario incorrecto");
+        }
+        if (pass !== usuarioDB.password) {
+          throw new NotFoundException("Contraseña incorrecta");
+        }
+
         const usuarioDTO: UsuarioDTO = UsuarioMapper.toDto(usuarioDB);
         return usuarioDTO;
       }
