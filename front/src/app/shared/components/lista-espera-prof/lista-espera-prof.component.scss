@@ -1,0 +1,28 @@
+table{
+    width: 60vw;
+    box-shadow: none;
+    background-color: var(--terciary);
+    height: 40vh;
+    margin-bottom: 40px;
+    align-self: center;
+}
+
+.numAtencionColumn{
+    padding-left: 40px;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: end;
+    padding-bottom: 30px;
+}
+
+app-btn-primary{
+    height: 40px;
+    width: 250px;
+}

@@ -3,13 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'app-lista-espera',
+  selector: 'app-lista-espera-admin',
   standalone: true,
   imports: [MatTableModule, FormsModule],
-  templateUrl: './lista-espera.component.html',
-  styleUrl: './lista-espera.component.scss'
+  templateUrl: './lista-espera-admin.component.html',
+  styleUrl: './lista-espera-admin.component.scss'
 })
-export class ListaEsperaComponent {
+export class ListaEsperaAdminComponent {
 
   ElementData = [
     {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},

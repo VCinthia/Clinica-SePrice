@@ -23,7 +23,6 @@ export class BuscarTurnoComponent {
   dniFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]);
 
   navegarAConfirmarPaciente(value : any){
-    console.log(this.router.url)
     if (this.router.url === '/estudiosClinicos/acreditarTurno') {
       this.router.navigate(['estudiosClinicos/acreditarTurno/confirmarTurno']);
     } 

@@ -14,8 +14,12 @@ import { BuscarTurnoComponent } from './shared/components/buscar-turno/buscar-tu
 import { CardDatosTurnoComponent } from './shared/components/card-datos-turno/card-datos-turno.component';
 import { GestionarPagoComponent } from './shared/components/gestionar-pago/gestionar-pago.component';
 import { GenerarFacturaComponent } from './shared/components/generar-factura/generar-factura.component';
-import { ListaEsperaComponent } from './shared/components/lista-espera/lista-espera.component';
+import { ListaEsperaAdminComponent } from './shared/components/lista-espera-admin/lista-espera-admin.component';
 import { ControlarInsumosComponent } from './features/estudios-clinicos/components/controlar-insumos/controlar-insumos.component';
+import { ListaEsperaProfComponent } from './shared/components/lista-espera-prof/lista-espera-prof.component';
+import { LlamadoPaciente1Component } from './shared/components/llamado-paciente-1/llamado-paciente-1.component';
+import { LlamadoPaciente2Component } from './shared/components/llamado-paciente-2/llamado-paciente-2.component';
+import { HistoriaClinicaComponent } from './shared/components/historia-clinica/historia-clinica.component';
 
 export const routes: Routes = [
     {
@@ -42,8 +46,14 @@ export const routes: Routes = [
             {path: 'controlarInsumos', component: ControlarInsumosComponent },
             {path: 'gestionarPago', component: GestionarPagoComponent},
             {path: 'generarFactura', component:GenerarFacturaComponent},
-            {path: 'listaEspera', component: ListaEsperaComponent}
-
+            {path: 'listaEspera', component: ListaEsperaAdminComponent},
+            {path: 'listaEsperaProf', component: ListaEsperaProfComponent,
+                children: [
+                    {path: 'llamarPaciente', component: LlamadoPaciente1Component},
+                    {path: 'llamarPaciente2', component:LlamadoPaciente2Component}
+                ]
+            },
+            {path: 'historiaClinica', component: HistoriaClinicaComponent}
         ]
     },
     {
@@ -67,7 +77,14 @@ export const routes: Routes = [
             },
             {path: 'gestionarPago', component: GestionarPagoComponent},
             {path: 'generarFactura', component:GenerarFacturaComponent},
-            {path: 'listaEspera', component: ListaEsperaComponent}
+            {path: 'listaEspera', component: ListaEsperaAdminComponent},
+            {path: 'listaEsperaProf', component: ListaEsperaProfComponent,
+                children: [
+                    {path: 'llamarPaciente', component: LlamadoPaciente1Component},
+                    {path: 'llamarPaciente2', component:LlamadoPaciente2Component}
+                ]
+            },
+            {path: 'historiaClinica', component: HistoriaClinicaComponent}
 
         ]
     }

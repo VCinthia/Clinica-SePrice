@@ -9,6 +9,7 @@ import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { eEspecialidad } from '../../../core/enums/especialidad.enum';
 import { UsuarioService } from '../../services/usuario.service';
 import { UsuarioDTO } from '../../../core/dtos/usuario.dto';
+import { eTipoUsuario } from '../../../core/enums/tipo-usuario.enum';
 
 interface Sidenav {
   name: string;
@@ -23,9 +24,14 @@ interface Sidenav {
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
-export class MainLayoutComponent implements OnInit {
+export class MainLayoutComponent{
   
   currentRoute: string | undefined;
+
+  usuarioLogueado : UsuarioDTO | null  = new UsuarioDTO;
+
+  sidenavConsultoriosExternos : Sidenav[] = [];
+  sidenavEstudiosClinicos : Sidenav[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -47,15 +53,20 @@ export class MainLayoutComponent implements OnInit {
     this.getAllInsumos();
     this.getAllTurnos();
     this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
-    
+    this.usuarioLogueado = this.usuarioService.getUsuarioLogeado();
 
+    if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {
+      this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
+      this.sidenavConsultoriosExternos  = this.sidenavConsultoriosExternosAdmin
+    } else {
+      this.sidenavEstudiosClinicos = this.sidenavProfesional;
+      this.sidenavConsultoriosExternos = this.sidenavProfesional;
 
-   
+    }
 
-  }
+    }
 
-
-  //metodo de prueba, eliminar
+     //metodo de prueba, eliminar
   getPersonaByDni(dni: number): void {
     this.apiService.getPersona(dni).subscribe({
       next: (response) =>{
@@ -72,6 +83,10 @@ export class MainLayoutComponent implements OnInit {
       complete: () => {
       }
     });
+  }
+
+  getUser(): UsuarioDTO | null {
+    return this.usuarioService.getUsuarioLogeado();
   }
 
   getProfesionalByDni(dni: number): void {
@@ -146,7 +161,8 @@ export class MainLayoutComponent implements OnInit {
     });
   }
 
-  sidenavEstudiosClinicos: Sidenav[] = [
+
+  sidenavEstudiosClinicosAdmin: Sidenav[] = [
     {name: 'Gestionar Turnos', route:'gestionarTurnos'},
     {name: 'Acreditar Turnos',route:'acreditarTurno'},
     {name: 'Ver Lista de Espera', route:'listaEspera'},
@@ -155,7 +171,14 @@ export class MainLayoutComponent implements OnInit {
     {name: 'Cerrar Sesión', route:''}
   ];
 
-  sidenavConsultoriosExternos: Sidenav[] = [
+  sidenavProfesional: Sidenav[] =[
+    {name: 'Ver Lista de Espera', route: 'listaEsperaProf'},
+    {name: 'Historias Clínicas', route: 'historiasClinicas'},
+    {name: 'Volver al Menu Principal', route: '/inicio'},
+    {name: 'Cerrar Sesión', route:''}
+  ]
+
+  sidenavConsultoriosExternosAdmin: Sidenav[] = [
     {name: 'Gestionar Turnos', route:'gestionarTurnos'},
     {name: 'Acreditar Turnos',route:'acreditarTurno'},
     {name: 'Ver Lista de Espera', route:'listaEspera'},
