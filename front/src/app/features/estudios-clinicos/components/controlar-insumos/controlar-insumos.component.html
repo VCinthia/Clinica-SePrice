@@ -1,4 +1,29 @@
 <h2>Controlar Insumos</h2>
+<table mat-table [dataSource]="listaInsumos" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="insumoId">
+      <th class="mat-cell" mat-header-cell *matHeaderCellDef> ID Insumo </th>
+      <td class="mat-cell" mat-cell *matCellDef="let element"> {{element.insumoId}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="descripcion">
+      <th class="mat-cell" mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td class="mat-cell" mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="cantidadDisponible">
+        <th class="mat-cell cell-cantidad" mat-header-cell *matHeaderCellDef> Cantidad Disponible </th>
+        <td class="mat-cell cell-cantidad" mat-cell *matCellDef="let element"> {{element.cantidadDisponible}} </td>
+      </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+    [class.redText]="isCantidadCero(row, 'cantidadDisponible')"></tr>
+  </table>
 <div class="btnContainer">
-    <app-btn-primary (click)="verificarInsumos()" buttonText="Verificar"></app-btn-primary>
+    @if (hayAlgunaCantidadCero(listaInsumos, 'cantidadDisponible')) {
+        <app-btn-primary (click)="solicitarInsumos()" buttonText="Solicitar Insumos"></app-btn-primary>
+    } @else {
+        <app-btn-inactive buttonText="Solicitar Insumos"></app-btn-inactive>
+    }
 </div>

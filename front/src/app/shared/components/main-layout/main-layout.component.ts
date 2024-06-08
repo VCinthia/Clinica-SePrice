@@ -48,11 +48,11 @@ export class MainLayoutComponent{
     this.currentRoute = this.router.url;
 
     //metodo de prueba,  eliminar
-    this.getPersonaByDni(1); 
-    this.getProfesionalByDni(1);
+    // this.getPersonaByDni(1); 
+    // this.getProfesionalByDni(1);
     this.getAllInsumos();
-    this.getAllTurnos();
-    this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
+    // this.getAllTurnos();
+    // this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
     this.usuarioLogueado = this.usuarioService.getUsuarioLogeado();
 
     if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {

@@ -31,13 +31,8 @@ export class DialogInformeInsumosComponent {
 
   emitirReporte(){
     this.dialogRef.close();
+    this.router.navigate(['estudiosClinicos']);
     this.toastr.success('Reporte emitido!');
-  }
 
-  volverAlInicio(){
-    if (this.router.url === '/estudiosClinicos/controlarInsumos') {
-      this.router.navigate(['estudiosClinicos']);
-      this.dialogRef.close()
-    }
   }
 }
