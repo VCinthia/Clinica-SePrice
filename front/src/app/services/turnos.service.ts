@@ -6,6 +6,42 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TurnosService {
 
+
+  turnosEstudios : any[] = [
+    {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '8:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '8:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '8:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '9:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '9:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '9:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '9:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '10:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '10:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '10:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '10:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '11:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '11:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '11:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '11:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '12:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '12:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '12:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '12:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '13:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '13:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '13:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '14:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '14:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '14:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '14:45', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '15:00', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '15:15', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: false},
+    {fecha: '22/06/2024', horaInicio: '15:45', profesional:'Dr. González', sobreturno: false},
+  ]
+
   turnos15 : any[] = [
     {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
     {fecha: '22/06/2024', horaInicio: '8:15', profesional:'Dr. González', sobreturno: false},
@@ -110,15 +146,26 @@ export class TurnosService {
   practicaSeleccionada$ = this.practicaSeleccionadaSource.asObservable();
 
   actualizarPracticaSeleccionada(practica: any): void {
-    this.practicaSeleccionadaSource.next(practica);
+    this.practicaSeleccionadaSource.next(practica);}
+
+  
+  private estudioSeleccionadoSource = new BehaviorSubject<any>(null);
+  estudioSeleccionado$ = this.estudioSeleccionadoSource.asObservable();
+  
+  actualizarEstudioSeleccionado(practica: any): void {
+  this.estudioSeleccionadoSource.next(practica);
   }
 
 
-  getListaTurnos (tiempo: number){
+  getListaTurnosConsultorio (tiempo: number){
     if (tiempo === 15) {
       return this.turnos15;
     } else if (tiempo === 25) {
       return this.turnos25;
     } else return this.turnos30;
+  }
+
+  getListaTurnosEstudio (){
+    return this.turnosEstudios
   }
 }

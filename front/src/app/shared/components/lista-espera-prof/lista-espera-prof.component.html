@@ -28,9 +28,11 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   @if (currentRoute === '/estudiosClinicos/listaEsperaProf'  || currentRoute === '/consultoriosExternos/listaEsperaProf'){
+    @if (!btnInvisible) {
       <div class="btnContainer">
         <app-btn-primary buttonText="Comenzar llamados" (click)='comenzarLlamados()'></app-btn-primary>
       </div>
+    }
   }
 
   <router-outlet></router-outlet>

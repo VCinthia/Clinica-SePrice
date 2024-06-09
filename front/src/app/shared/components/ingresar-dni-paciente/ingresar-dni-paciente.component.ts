@@ -8,6 +8,7 @@ import { Router, RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
 import { PersonaDTO } from '../../../core/dtos/persona.dto';
+import { TurnosService } from '../../../services/turnos.service';
 
 @Component({
   selector: 'app-ingresar-dni-paciente',
@@ -18,8 +19,9 @@ import { PersonaDTO } from '../../../core/dtos/persona.dto';
 })
 export class IngresarDniPacienteComponent {
   persona: PersonaDTO = new PersonaDTO();
+  estudioSeleccionado : string | undefined = '';
 
-  constructor(private router: Router, private apiService: ApiService){
+  constructor(private router: Router, private apiService: ApiService, private turnosService: TurnosService){
 
   }
 
@@ -27,22 +29,29 @@ export class IngresarDniPacienteComponent {
 
   dniFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]);
 
+
+  ngOnInit(): void {
+    if (this.router.url === '/estudiosClinicos/ingresarPaciente') {
+      this.turnosService.estudioSeleccionado$.subscribe(estudio => {
+        this.estudioSeleccionado = estudio.name;
+      });
+    }
+  }
+
   navegarAConfirmarPaciente(value : any){
-    if (this.router.url === '/estudiosClinicos/ingresarPaciente' && value !== '1') {
+    if (this.router.url === '/estudiosClinicos/ingresarPaciente') {
       this.router.navigate(['estudiosClinicos/ingresarPaciente/confirmarPaciente']);
-    } else {
-      this.router.navigate(['estudiosClinicos/ingresarPaciente/pacienteNoEncontrado']);
-    };
-    if (this.router.url === '/consultoriosExternos/ingresarPaciente' && value !== '1') {
+    } 
+    if (this.router.url === '/consultoriosExternos/ingresarPaciente') {
       this.router.navigate(['consultoriosExternos/ingresarPaciente/confirmarPaciente']);
-    } else {
-      this.router.navigate(['consultoriosExternos/ingresarPaciente/pacienteNoEncontrado']);
     }
   }
 
   volver(){
-    if (this.router.url === '/estudiosClinicos/ingresarPaciente') {
-      this.router.navigate(['estudiosClinicos/seleccionarTurno']);
+    if (this.router.url === '/estudiosClinicos/ingresarPaciente' && (this.estudioSeleccionado === 'Laboratorio' || this.estudioSeleccionado === 'Guardia')) {
+      this.router.navigate(['estudiosClinicos/nuevoTurno']);
+    } else if (this.router.url === '/estudiosClinicos/ingresarPaciente'){
+      this.router.navigate(['estudiosClinicos/seleccionarTurno']);  
     }
     if (this.router.url === '/consultoriosExternos/ingresarPaciente') {
       this.router.navigate(['consultoriosExternos/seleccionarTurno']);

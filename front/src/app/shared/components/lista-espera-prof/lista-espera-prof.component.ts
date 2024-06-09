@@ -22,6 +22,13 @@ export class ListaEsperaProfComponent {
   ){
   }
 
+  ngOnInit(): void {
+    this.currentRoute = this.router.url;
+    if (this.currentRoute === '/consultoriosExternos/listaEsperaProf' || this.currentRoute === '/estudiosClinicos/listaEsperaProf') {
+      this.btnInvisible = false;
+    }
+  }
+
   ElementData = [
     {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
     {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
@@ -38,12 +45,12 @@ export class ListaEsperaProfComponent {
   dataSource = this.ElementData;
 
   comenzarLlamados(){
+    this.btnInvisible = true;
     if (this.router.url === '/estudiosClinicos/listaEsperaProf') {
       this.router.navigate(['estudiosClinicos/listaEsperaProf/llamarPaciente']);
     } 
     if (this.router.url === '/consultoriosExternos/listaEsperaProf') {
       this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
     }
-    this.btnInvisible = true;
   }
 }

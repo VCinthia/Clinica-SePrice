@@ -49,18 +49,12 @@ export class SeleccionarPracticaComponent {
   }
 
   navegarASeleccionarTurno() {
-    if (this.router.url === '/estudiosClinicos/nuevoTurno') {
-      this.router.navigate(['estudiosClinicos/seleccionarTurno']);
-    }
     if (this.router.url === '/consultoriosExternos/nuevoTurno') {
       this.router.navigate(['consultoriosExternos/seleccionarTurno']);
     }
   }
   
   volver(){
-    if (this.router.url === '/estudiosClinicos/nuevoTurno') {
-      this.router.navigate(['estudiosClinicos/gestionarTurnos']);
-    }
     if (this.router.url === '/consultoriosExternos/nuevoTurno') {
       this.router.navigate(['consultoriosExternos/gestionarTurnos']);
     }

@@ -25,6 +25,7 @@ export class SeleccionarTurnoComponent {
   selectedOption: string;
   practicaSeleccionada : string = '';
   tiempoTurno : number  = 0;
+  estudioSeleccionado : string = '';
   listaTurnos: any[] = [];
   turnosTomados: any[] = [];
 
@@ -44,7 +45,15 @@ export class SeleccionarTurnoComponent {
         this.practicaSeleccionada = practica.name;
         this.tiempoTurno = practica.tiempoTurno;
       });
-       this.listaTurnos = this.turnosService.getListaTurnos(this.tiempoTurno)
+       this.listaTurnos = this.turnosService.getListaTurnosConsultorio(this.tiempoTurno)
+       this.getAllTurnos();
+    }
+
+    if (this.router.url === '/estudiosClinicos/seleccionarTurno') {
+      this.turnosService.estudioSeleccionado$.subscribe(estudio => {
+        this.estudioSeleccionado = estudio.name;
+      });
+       this.listaTurnos = this.turnosService.getListaTurnosEstudio()
        this.getAllTurnos();
     }
   }

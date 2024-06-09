@@ -16,7 +16,7 @@
       @if (estudioControl.hasError('required')) {
         <app-btn-inactive [buttonText]="'Ver turnos disponibles'"></app-btn-inactive>
       } @else {
-        <app-btn-primary  [buttonText]="'Ver turnos disponibles'"></app-btn-primary>
+        <app-btn-primary (click)="navegarAOpcionSeleccionada()" [buttonText]="'Ver turnos disponibles'"></app-btn-primary>
       }
     <app-btn-secondary [buttonText]="'Volver'"></app-btn-secondary>
 </mat-card>

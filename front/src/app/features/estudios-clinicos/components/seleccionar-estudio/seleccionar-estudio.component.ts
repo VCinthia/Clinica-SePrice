@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BtnInactiveComponent } from '../../../../shared/components/btn-inactive/btn-inactive.component';
+import { TurnosService } from '../../../../services/turnos.service';
+import { Router } from '@angular/router';
 
 interface Estudio {
   name: string;
@@ -24,9 +26,33 @@ export class SeleccionarEstudioComponent {
   estudioControl = new FormControl<Estudio | null>(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
   estudios: Estudio[] = [
+    {name: 'Resonancia Magnética'},
     {name: 'Rayos X - Tórax'},
     {name: 'Laboratorio'},
     {name: 'Guardia'},
-    {name: 'Resonancia Magnética'},
   ];
+  estudioSeleccionado : string | undefined = '';
+
+
+  constructor(private router: Router, 
+    private turnosService: TurnosService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.estudioControl.valueChanges.subscribe(value => {
+      this.turnosService.actualizarEstudioSeleccionado(value);
+      this.estudioSeleccionado = value?.name;
+    });
+    
+  }
+
+  navegarAOpcionSeleccionada(){
+    if (this.estudioSeleccionado === 'Guardia' || this.estudioSeleccionado === 'Laboratorio') {
+      this.router.navigate(['estudiosClinicos/ingresarPaciente'])
+    } else {
+      this.router.navigate(['estudiosClinicos/seleccionarTurno'])
+    }
+  }
+
 }
