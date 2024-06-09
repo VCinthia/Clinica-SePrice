@@ -51,7 +51,7 @@ export class MainLayoutComponent{
     // this.getPersonaByDni(1); 
     // this.getProfesionalByDni(1);
     this.getAllInsumos();
-    // this.getAllTurnos();
+    this.getAllTurnos();
     // this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
     this.usuarioLogueado = this.usuarioService.getUsuarioLogeado();
 

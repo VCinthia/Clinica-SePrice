@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCard } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,9 +8,11 @@ import { BtnPrimaryComponent } from '../../../../shared/components/btn-primary/b
 import { BtnSecondaryComponent } from '../../../../shared/components/btn-secondary/btn-secondary.component';
 import { BtnInactiveComponent } from '../../../../shared/components/btn-inactive/btn-inactive.component';
 import { Router } from '@angular/router';
+import { TurnosService } from '../../../../services/turnos.service';
 
 interface Practica {
   name: string;
+  tiempoTurno: number
 }
 
 @Component({
@@ -24,15 +26,27 @@ export class SeleccionarPracticaComponent {
 
   practicaControl = new FormControl<Practica | null>(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
+
+
+
   practicas: Practica[] = [
-    {name: 'Traumatología'},
-    {name: 'Clínica Médica'},
-    {name: 'Oftalmología'},
-    {name: 'Odontología'},
+    {name: 'Traumatología', tiempoTurno: 15},
+    {name: 'Clínica Médica', tiempoTurno: 15},
+    {name: 'Kinesiología', tiempoTurno: 25},
+    {name: 'Odontología', tiempoTurno: 15},
+    {name: 'Salud Mental', tiempoTurno: 30},
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, 
+    private turnosService: TurnosService
+  ) {
+  }
 
+  ngOnInit(): void {
+    this.practicaControl.valueChanges.subscribe(value => {
+      this.turnosService.actualizarPracticaSeleccionada(value);
+    });
+  }
 
   navegarASeleccionarTurno() {
     if (this.router.url === '/estudiosClinicos/nuevoTurno') {
