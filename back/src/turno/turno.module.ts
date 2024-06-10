@@ -8,6 +8,8 @@ import { Profesional } from 'src/profesional/entities/profesional.entity';
 import { PacienteService } from 'src/paciente/paciente.service';
 import { Persona } from 'src/persona/entities/persona.entity';
 import { ProfesionalService } from 'src/profesional/profesional.service';
+import { HistoriaClinicaService } from 'src/historia-clinica/historia-clinica.service';
+import { HistoriaClinica } from 'src/historia-clinica/entities/historia-clinica.entity';
 
 @Module({
   imports:[
@@ -15,13 +17,15 @@ import { ProfesionalService } from 'src/profesional/profesional.service';
       Turno,
       Paciente,
       Profesional,
-      Persona
+      Persona,
+      HistoriaClinica,
     ])
   ],
   providers: [
     TurnoService,
     PacienteService,
-    ProfesionalService
+    ProfesionalService,
+    HistoriaClinicaService,
   
   ],
   controllers: [TurnoController],

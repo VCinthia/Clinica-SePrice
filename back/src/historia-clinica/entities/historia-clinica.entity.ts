@@ -21,7 +21,7 @@ export class HistoriaClinica {
   @JoinColumn({name:'dniPaciente'})
   paciente: Paciente;
 
-  @ManyToOne(()=> Usuario, usuario => usuario.username, {cascade: true, eager:true, nullable:false})
+  @ManyToOne(()=> Usuario, usuario => usuario.username, {cascade: true, eager:true, nullable:true})
   @JoinColumn({name:'usuarioUltimaActualizacion'})
   usuario: Usuario;
 

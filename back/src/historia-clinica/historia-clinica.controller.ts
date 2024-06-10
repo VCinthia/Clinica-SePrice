@@ -12,17 +12,17 @@ export class HistoriaClinicaController {
   //   return this.historiaClinicaService.createHistoriaClinica(historiaClinicaDTO);
   // }
 
-  @Put('/:dni')
-  updateHistoriaClinica(
-    @Param('dni') dni: number,
-    @Body('detalles') detalles: string,
-    //@Body('usuarioDni') usuarioDni: number
-  ): Promise<HistoriaClinica> {
-    return this.historiaClinicaService.updateHistoriaClinica(dni, detalles, /*usuarioDni*/);
-  }
+  // @Put('/:dni')
+  // updateHistoriaClinica(
+  //   @Param('dni') dni: number,
+  //   @Body('detalles') detalles: string,
+  //   //@Body('usuarioDni') usuarioDni: number
+  // ): Promise<HistoriaClinica> {
+  //   return this.historiaClinicaService.updateHistoriaClinica(dni, detalles, /*usuarioDni*/);
+  // }
 
-  @Get('/:dni')
-  getHistoriaClinica(@Param('dni') dni: number): Promise<HistoriaClinica> {
-    return this.historiaClinicaService.getHistoriaClinica(dni);
-  }
+  // @Get('/:dni')
+  // getHistoriaClinica(@Param('dni') dni: number): Promise<HistoriaClinica> {
+  //   return this.historiaClinicaService.getHistoriaClinica(dni);
+  // }
 }

@@ -15,7 +15,7 @@ export class PersonaDTO {
   telefono: string;
   email: string;
   usuario: string;
-  paciente: PacienteDTO;
+  paciente?: PacienteDTO;
   @ValidateNested()
   @Type(() => ProfesionalDTO)
   @IsOptional()

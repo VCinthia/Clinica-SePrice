@@ -40,7 +40,7 @@ export class Usuario {
   persona: Persona;
 
   @OneToMany(() => Insumo, (insumo) => insumo.usuario, { nullable: true }) // Hacemos la relación opcional para el perfil
-  usuario: Usuario;
+  insumo: Insumo;
 
   @OneToMany(() => HistoriaClinica, (historiaClinica) => historiaClinica.usuario, { nullable: true }) // Hacemos la relación opcional para el perfil
   historiasClinicas: HistoriaClinica[];

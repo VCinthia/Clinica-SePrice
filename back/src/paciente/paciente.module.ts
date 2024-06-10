@@ -9,6 +9,7 @@ import { TurnoService } from 'src/turno/turno.service';
 import { Turno } from 'src/turno/entities/turno.entity';
 import { Profesional } from 'src/profesional/entities/profesional.entity';
 import { ProfesionalService } from 'src/profesional/profesional.service';
+import { HistoriaClinicaService } from 'src/historia-clinica/historia-clinica.service';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProfesionalService } from 'src/profesional/profesional.service';
     PacienteService,
     ProfesionalService,
     TurnoService,
+    HistoriaClinicaService,
   ],
   controllers: [PacienteController],
   exports : [PacienteService],

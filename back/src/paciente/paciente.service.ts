@@ -5,6 +5,14 @@ import { Paciente } from './entities/paciente.entity';
 import { PacienteDTO } from './dto/paciente.dto';
 import { Persona } from 'src/persona/entities/persona.entity';
 import { log } from 'console';
+import { ResponseDTO } from 'src/Utils/responseDTO.dto';
+import { PersonaDTO } from 'src/persona/dto/persona.dto';
+import { PersonaMapper } from 'src/persona/persona.mapper';
+import { HistoriaClinica } from 'src/historia-clinica/entities/historia-clinica.entity';
+import { HistoriaClinicaService } from 'src/historia-clinica/historia-clinica.service';
+import { PacienteResponse } from 'src/Utils/types';
+
+
 
 @Injectable()
 export class PacienteService {
@@ -14,50 +22,64 @@ export class PacienteService {
         private readonly pacienteRepo: Repository<Paciente>,
         @InjectRepository(Persona)
         private readonly personaRepo: Repository<Persona>,
+        private readonly historiaClinicaService: HistoriaClinicaService,
 
     ) { }
 
 
-    // public async createPaciente(pacienteDTO: PacienteDTO ) {
-    //     try {
-    //       //TODO:verifica existencia de paciente y de persona PENDIENTE
-    //       const condition: FindOneOptions<Paciente> = { where: { dniPaciente: pacienteDTO.dniPaciente } };
-    //       //console.log("pacienteDTO: ",pacienteDTO);      
-    //       const pacienteExistente: Paciente = await this.pacienteRepo.findOne(condition);
-    
-    //       if (!pacienteExistente) {
-    //         let savedPersona: Persona;
-    //         if (pacienteDTO.persona) {
-    //           const personaCondition: FindOneOptions<Persona> = { where: { dni: pacienteDTO.persona.dni } };          
-    //           const personaExistente = await this.personaRepo.findOne(personaCondition);
-    
-    //           if (!personaExistente) {
-    //             const newPersona = this.personaRepo.create(pacienteDTO.persona);
-    //             console.log('newPersona: ', newPersona);
-                
-    //             savedPersona = await this.personaRepo.save(newPersona);
-    //             console.log('savedPersona: ', savedPersona);
-    
-    //             const newPaciente = this.pacienteRepo.create({
-    //               ...pacienteDTO,
-    //               persona: savedPersona,
-    //             });
-    //             return this.pacienteRepo.save(newPaciente);
-    //           }     else {
-    //             throw new Error('La persona ya existe.');
-    //           }     
-              
-    //         }        
-    //       } else {
-    //         throw new Error('El paciente ya existe.');
-    //       }
-    //     } catch (error) {
-    //       throw new HttpException({
-    //         status: HttpStatus.NOT_FOUND,
-    //         error: 'Falló la creación - ' + error,
-    //       }, HttpStatus.NOT_FOUND);
-    //     }
-    //   }
+    public async createPaciente(personaDTO: PersonaDTO): Promise<ResponseDTO<PacienteResponse>> {
+      try {
+              // Validación:  la persona no debe tener un profesional
+      if (personaDTO.profesional) {
+        throw new HttpException('No es posible registrar al paciente, con un profesional', HttpStatus.BAD_REQUEST);
+      }
+        
+        //TypeORM: asegurarse que los parametros del "where" no sean  null, si esto pasa TypeORM busca por defecto con el valor "1"
+      if (personaDTO.dni) {
+        // Validación: reviso que no exista la persona en la DDBB 
+        const personaExiste = await this.personaRepo.findOne({ where: { dni: personaDTO.dni } });
+        if (personaExiste) {
+          throw new HttpException('La persona ya está registrada.', HttpStatus.BAD_REQUEST);
+        }
+
+        // Validación: reviso que no exista un paciente con el mismo DNI en la DDBB
+        const pacienteExiste = await this.pacienteRepo.findOne({ where: { dniPaciente: personaDTO.dni } });
+        if (pacienteExiste) {
+          console.log("paciente: ", pacienteExiste);
+          throw new HttpException(`Existe un paciente registrado con el DNI: ${personaDTO.dni}.`, HttpStatus.BAD_REQUEST);
+        }
+      } else {
+        throw new HttpException('El DNI es obligatorio para registrar un paciente.', HttpStatus.BAD_REQUEST);
+      }
+
+        // PacienteDTO to Entity
+        const newPersona: Persona = PersonaMapper.toEntity(personaDTO);
+        console.log("nuevo persona:", newPersona);
+  
+        // PERSISTENCIA
+        const savedPersona = await this.personaRepo.save(newPersona);
+        if(!savedPersona){
+          throw new HttpException('Error al guardar la persona.', HttpStatus.BAD_REQUEST);
+        }
+  
+        //Crear la Historia Clínica
+        const historiaClinicaSaved: HistoriaClinica = (await this.historiaClinicaService.createHistoriaClinica(savedPersona.paciente)).data;
+        if(!historiaClinicaSaved){
+           throw new HttpException('Error a crear la historia clínica', HttpStatus.BAD_REQUEST);
+        }
+
+      // Retorno mensaje de éxito con datos del usuario guardado y la historia clínica
+      const response: ResponseDTO<PacienteResponse> = new ResponseDTO<PacienteResponse>(true, "Paciente creado con éxito", {
+        persona: savedPersona,
+        historiaClinica: historiaClinicaSaved
+      });
+        return response;
+        
+      } catch (error) {
+        console.error("error: ", error);
+        throw new HttpException(error.message || "Error al registrar paciente", HttpStatus.BAD_REQUEST);
+      }
+    }
 
 
 

@@ -1,16 +1,18 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { PacienteService } from './paciente.service';
-import { Paciente } from './entities/paciente.entity';
-import { PacienteDTO } from './dto/paciente.dto';
+import { PersonaDTO } from 'src/persona/dto/persona.dto';
+import { ResponseDTO } from 'src/Utils/responseDTO.dto';
+import { Persona } from 'src/persona/entities/persona.entity';
+import { PacienteResponse } from 'src/Utils/types';
 
-@Controller('pacientes')
+@Controller('paciente')
 export class PacienteController {
   constructor(private readonly pacienteService: PacienteService) {}
 
-  // @Post()
-  // public async createPaciente(@Body() pacienteDTO: PacienteDTO) {
-  //   return this.pacienteService.createPaciente(pacienteDTO);
-  // }
+  @Post()
+  public async createPaciente(@Body() personaDTO: PersonaDTO) : Promise<ResponseDTO<PacienteResponse>> {
+    return this.pacienteService.createPaciente(personaDTO);
+  }
 
   @Get('/:dni')
   public async getPacienteByDni(@Param('dni') dni: number){

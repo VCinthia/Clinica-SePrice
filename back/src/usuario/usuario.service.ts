@@ -7,6 +7,8 @@ import { Persona } from '../persona/entities/persona.entity';
 import { UsuarioMapper } from './usuario.mapper';
 import { Profesional } from 'src/profesional/entities/profesional.entity';
 import { log } from 'console';
+import { ResponseDTO } from 'src/Utils/responseDTO.dto';
+import { response } from 'express';
 
 @Injectable()
 export class UsuarioService {
@@ -23,38 +25,46 @@ export class UsuarioService {
 
 
 
-  public  async createUsuario(usuarioDTO: UsuarioDTO): Promise<Usuario> {
-    try{
+  public async createUsuario(usuarioDTO: UsuarioDTO): Promise<ResponseDTO<Usuario>> {
+    try {
+      // Validación: un paciente no puede tener un usuario
+      if (usuarioDTO.persona.paciente) {
+        throw new HttpException('No es posible registrar al usuario con un paciente', HttpStatus.BAD_REQUEST);
+      }
       
-      //reviso que no exista la persona en la DDBB 
-      const personaExiste = await this.personaRepo.findOne({where:{dni:usuarioDTO.persona.dni}});
-      if(personaExiste){
-        throw new Error('La persona ya está registrada.');
+      //TypeORM: asegurarse que los parametros del "where" no sean  null, si esto pasa TypeORM busca por defecto con el valor "1"
+      if (usuarioDTO.persona.dni && usuarioDTO.username ) {
+          // Validación: reviso que no exista la persona en la DDBB 
+          const personaExiste = await this.personaRepo.findOne({ where: { dni: usuarioDTO.persona.dni } });
+          if (personaExiste) {
+            throw new HttpException('La persona ya está registrada.', HttpStatus.BAD_REQUEST);
+          }
+
+          // Validación: reviso que no exista el nombre de usuario en la DDBB
+          const usuarioExiste: Usuario = await this.usuarioRepo.findOne({ where: { username: usuarioDTO.username } });
+          if (usuarioExiste) {
+            throw new HttpException('El nombre de usuario no está disponible.', HttpStatus.BAD_REQUEST);
+          }
+      } else {
+        throw new HttpException('El DNI y el username son obligatorios para registrar un usuario.', HttpStatus.BAD_REQUEST);
       }
 
-      //reviso que no exista el nombre de usuario en la DDBB
-      const usuarioExiste: Usuario = await this.usuarioRepo.findOne({where:{username:usuarioDTO.username}});
-      if(usuarioExiste){
-        throw new Error('El nombre de usuario no está disponible.');
-      }
-
-      //PersonaDTO to Entity
+      // PersonaDTO to Entity
       const newUsuario: Usuario = UsuarioMapper.toEntity(usuarioDTO);
-      console.log("nuevo usuario *** ", newUsuario);
+      console.log("nuevo usuario:", newUsuario);
 
+      // PERSISTENCIA
+      const savedUsuario = await this.usuarioRepo.save(newUsuario);
 
-
-      //PERSISTENCIA
-      return this.usuarioRepo.save(newUsuario);
+      // Retorno mensaje de éxito con datos del usuario guardado
+      const response: ResponseDTO<Usuario> = new ResponseDTO(true, "Usuario creado con éxito", savedUsuario);
+      return response;
+      
     } catch (error) {
       console.error("error: ", error);
-      throw new HttpException({
-        error: error
-      }, HttpStatus.BAD_REQUEST);
+      throw new HttpException(error.message || "Error al registrar usuario", HttpStatus.BAD_REQUEST);
     }
-
   }
-
 
 
 
