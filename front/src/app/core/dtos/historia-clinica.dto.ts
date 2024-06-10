@@ -4,8 +4,8 @@ import { UsuarioDTO } from "./usuario.dto";
 export class HistoriaClinicaDTO {   
     historiaClinicaId?: number;  //id autogenerada
     detalle? : string;
-    fechaCreacion? : Date;
-    ultimaActualizacion? : Date;
+    fechaCreacion? : Date; 
+    ultimaModificacion? : Date;
     paciente?: PacienteDTO;
     usuario?: UsuarioDTO
  

@@ -5,7 +5,7 @@ export class HistoriaClinicaDTO {
     historiaClinicaId?: number;  //id autogenerada
     detalle : string;
     fechaCreacion : Date;
-    ultimaActualizacion : Date;
+    ultimaModificacion : Date;
     paciente: PacienteDTO;
     usuario: UsuarioDTO
  
