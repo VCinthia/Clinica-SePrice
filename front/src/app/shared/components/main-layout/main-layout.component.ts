@@ -48,8 +48,6 @@ export class MainLayoutComponent{
     this.currentRoute = this.router.url;
 
     //metodo de prueba,  eliminar
-    // this.getPersonaByDni(1); 
-    // this.getProfesionalByDni(1);
     this.getAllInsumos();
     this.getAllTurnos();
     // this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
@@ -58,54 +56,19 @@ export class MainLayoutComponent{
     if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {
       this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
       this.sidenavConsultoriosExternos  = this.sidenavConsultoriosExternosAdmin
-    } else {
+    } else if (this.usuarioLogueado?.tipo === eTipoUsuario.PROFESIONAL){
       this.sidenavEstudiosClinicos = this.sidenavProfesional;
       this.sidenavConsultoriosExternos = this.sidenavProfesional;
-
     }
 
     }
 
-     //metodo de prueba, eliminar
-  getPersonaByDni(dni: number): void {
-    this.apiService.getPersona(dni).subscribe({
-      next: (response) =>{
-        if(!response){
-          this.toastr.error('No se ha encontrado la persona','Error' );
-        }
-        this.toastr.success('persona encontrada','')
-        console.log('Persona data:', response);
-      },
-      error:(error) => {
-        this.toastr.error(error?.message, 'Error' );
-        console.error('Error fetching persona data:', error);
-      },
-      complete: () => {
-      }
-    });
-  }
+
 
   getUser(): UsuarioDTO | null {
     return this.usuarioService.getUsuarioLogeado();
   }
 
-  getProfesionalByDni(dni: number): void {
-    this.apiService.getProfesional(dni).subscribe({
-      next: (response) =>{
-        if(!response){
-          this.toastr.error('No se ha encontrado al profesional con el dni: '+ dni,'Error' );
-        }
-        this.toastr.success('profesional encontrado','')
-        console.log('Profesional data:', response);
-      },
-      error:(error) => {
-        this.toastr.error(error?.message, 'Error' );
-        console.error('Error fetching persona data:', error);
-      },
-      complete: () => {
-      }
-    });
-  }
 
    getAllInsumos():void{
     this.apiService.getAllInsumos().subscribe({
@@ -117,7 +80,7 @@ export class MainLayoutComponent{
         console.log('Insumos data:', response);
       },
       error:(error) => {
-        this.toastr.error(error?.message, 'Error' );
+        this.toastr.error(error.error?.message, 'Error' );
         console.error('Error fetching persona data:', error);
       },
       complete: () => {
@@ -135,7 +98,7 @@ export class MainLayoutComponent{
         console.log('Turnos data:', response);
       },
       error:(error) => {
-        this.toastr.error(error?.message, 'Error' );
+        this.toastr.error(error.error?.message, 'Error' );
         console.error('Error fetching persona data:', error);
       },
       complete: () => {
