@@ -23,12 +23,10 @@ export class HistoriaClinicaService {
     if (!paciente) {
       throw new HttpException('No se econtró el paciente para crear la Historia Clínica', HttpStatus.BAD_REQUEST);
     }
-
-
-    const newHistoriaClinica = new HistoriaClinica();
-    newHistoriaClinica.fechaCreacion = new Date();
-    newHistoriaClinica.ultimaModificacion = new Date();
-    newHistoriaClinica.paciente = paciente;
+      const newHistoriaClinica = new HistoriaClinica();
+      newHistoriaClinica.fechaCreacion = new Date();
+      newHistoriaClinica.ultimaModificacion = new Date();
+      newHistoriaClinica.paciente = paciente;
 
       // PERSISTENCIA
       const savedHistoriaClinica = await this.historiaClinicaRepo.save(newHistoriaClinica);

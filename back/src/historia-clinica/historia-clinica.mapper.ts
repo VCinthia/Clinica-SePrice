@@ -1,6 +1,6 @@
 import { plainToClass } from "class-transformer";
-import { HistoriaClinica } from "../entities/historia-clinica.entity";
-import { HistoriaClinicaDTO } from "./historia-clinica.dto";
+import { HistoriaClinica } from "./entities/historia-clinica.entity";
+import { HistoriaClinicaDTO } from "./dto/historia-clinica.dto";
 import { PacienteMapper } from "src/paciente/paciente.mapper";
 
 export class HistoriaClinicaMapper {
