@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCard } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { BtnSecondaryComponent } from '../../../../shared/components/btn-seconda
 import { BtnInactiveComponent } from '../../../../shared/components/btn-inactive/btn-inactive.component';
 import { Router } from '@angular/router';
 import { TurnosService } from '../../../../services/turnos.service';
+import { eEspecialidad } from '../../../../core/enums/especialidad.enum';
 
 interface Practica {
   name: string;
@@ -22,22 +23,21 @@ interface Practica {
   templateUrl: './seleccionar-practica.component.html',
   styleUrl: './seleccionar-practica.component.scss'
 })
-export class SeleccionarPracticaComponent {
+export class SeleccionarPracticaComponent implements OnInit {
 
   practicaControl = new FormControl<Practica | null>(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
+  turnos: any[] = [];
 
-
-
-  practicas: Practica[] = [
-    {name: 'Traumatología', tiempoTurno: 15},
-    {name: 'Clínica Médica', tiempoTurno: 15},
-    {name: 'Kinesiología', tiempoTurno: 25},
-    {name: 'Odontología', tiempoTurno: 15},
-    {name: 'Salud Mental', tiempoTurno: 30},
+  practicasEnum: Practica[] = [
+    { name: eEspecialidad.FISIO_KINESIOLOGIA, tiempoTurno: 25 },
+    { name: eEspecialidad.SALUD_MENTAL, tiempoTurno: 30 },
+    { name: eEspecialidad.MEDICINA_GENERAL, tiempoTurno: 15 },
+    { name: eEspecialidad.PEDIATRIA, tiempoTurno: 15 },
+    { name: eEspecialidad.ODONTOLOGIA, tiempoTurno: 15 },
   ];
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private turnosService: TurnosService
   ) {
   }
@@ -53,7 +53,7 @@ export class SeleccionarPracticaComponent {
       this.router.navigate(['consultoriosExternos/seleccionarTurno']);
     }
   }
-  
+
   volver(){
     if (this.router.url === '/consultoriosExternos/nuevoTurno') {
       this.router.navigate(['consultoriosExternos/gestionarTurnos']);
