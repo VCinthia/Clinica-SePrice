@@ -21,13 +21,19 @@ import { DatePipe } from '@angular/common';
 })
 export class SeleccionarTurnoComponent {
 
-  
+  //Todo: importo estructura dto
+  turnoDto : TurnoDTO  | null = null;
+  turnos : TurnoDTO [] = [];
+  turnoSeleccionado : number = 0;
+
+  //----- original:
   selectedOption: string;
   practicaSeleccionada : string = '';
   tiempoTurno : number  = 0;
   estudioSeleccionado : string = '';
   listaTurnos: any[] = [];
   turnosTomados: any[] = [];
+  //-----
 
   constructor(
   private router: Router,
@@ -45,7 +51,8 @@ export class SeleccionarTurnoComponent {
         this.practicaSeleccionada = practica.name;
         this.tiempoTurno = practica.tiempoTurno;
       });
-       this.listaTurnos = this.turnosService.getListaTurnosConsultorio(this.tiempoTurno)
+       //this.listaTurnos = this.turnosService.getListaTurnosConsultorio(this.tiempoTurno)
+       
        this.getAllTurnos();
     }
 
@@ -53,7 +60,7 @@ export class SeleccionarTurnoComponent {
       this.turnosService.estudioSeleccionado$.subscribe(estudio => {
         this.estudioSeleccionado = estudio.name;
       });
-       this.listaTurnos = this.turnosService.getListaTurnosEstudio()
+       //this.listaTurnos = this.turnosService.getListaTurnosEstudio()
        this.getAllTurnos();
     }
   }
