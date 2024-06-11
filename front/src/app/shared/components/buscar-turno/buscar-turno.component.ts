@@ -6,6 +6,9 @@ import { BtnInactiveComponent } from '../btn-inactive/btn-inactive.component';
 import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component';
 import { Router, RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TurnoDTO } from '../../../core/dtos/turno.dto';
+import { TurnoService } from '../../services/turno.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-buscar-turno',
@@ -15,20 +18,57 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './buscar-turno.component.scss'
 })
 export class BuscarTurnoComponent {
+  dniFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]);
+  currentRoute: string | undefined;
+  turnosList : TurnoDTO[]  = [];
 
-  constructor(private router: Router){
+
+
+
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private turnoService: TurnoService,
+  ){
 
   }
 
-  dniFormControl = new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]);
 
-  navegarAConfirmarPaciente(value : any){
-    if (this.router.url === '/estudiosClinicos/acreditarTurno') {
-      this.router.navigate(['estudiosClinicos/acreditarTurno/confirmarTurno']);
-    } 
-    if (this.router.url === '/consultoriosExternos/acreditarTurno') {
-      this.router.navigate(['consultoriosExternos/acreditarTurno/confirmarTurno']);
+
+
+
+
+  ngOnInit(): void {
+    this.currentRoute = this.router.url;
+
+    if(this.currentRoute?.includes('consultoriosExternos/acreditarTurno')){
+      //busqueda de turno:
+      this.turnosList= this.turnoService.getTurnos();
+      }
+
+  }
+
+  
+
+
+
+  navegarAConfirmarPaciente(value : any){   
+    console.log("value: ", value);
+    const turnosFiltradosEnCursoByDni =  this.turnosList.filter(turno => turno.paciente?.dniPaciente == value);
+    this.turnoService.setTurnosEncontradosByDNI(turnosFiltradosEnCursoByDni);
+    console.log("turnosListBuscarTurnoByDNI: ", turnosFiltradosEnCursoByDni);
+    if(turnosFiltradosEnCursoByDni.length > 0){
+      if (this.router.url === '/estudiosClinicos/acreditarTurno') {
+        this.router.navigate(['estudiosClinicos/acreditarTurno/confirmarTurno']);
+      } 
+      if (this.router.url === '/consultoriosExternos/acreditarTurno') {
+        this.router.navigate(['consultoriosExternos/acreditarTurno/confirmarTurno']);
+      }
+
+    }else{
+      this.toastr.error('No se han encontrado turnos ','Error' );
     }
+
   }
 
   volver(){

@@ -27,13 +27,16 @@ export class ApiService {
     return this.httpClient.get<TurnoDTO[]>(url);
   }
 
-  getTurnosByEspecialidadAndProfesional(tipo: eTipoTurno, especialidad: eEspecialidad, profesionalId: number): Observable<TurnoDTO[]> {
-    const url = `${this.BASE_URL}/turno/especialidad-profesional`;
+  getTurnosByTipoAndProfesionalAndDay(tipo: eTipoTurno,  profesionalId: number, diaTurno:Date): Observable<TurnoDTO[]> {
+    const url = `${this.BASE_URL}/turno/encurso`;
+    const fechaTurnoISO = diaTurno.toISOString();
+    console.log("fechaHoy", fechaTurnoISO);
+    
     return this.httpClient.get<TurnoDTO[]>(url, {
       params: {
         tipo,
-        especialidad,
-        profesionalId
+        profesionalId,
+        fechaTurnoISO,
       }
     });
   }

@@ -31,4 +31,28 @@ export class TurnoService {
   }
 
 
+
+  private turnosEncontradosByDNI = new BehaviorSubject<TurnoDTO[]>([]);
+  turnosEncontradosByDNI$ = this.turnosEncontradosByDNI.asObservable();
+
+  getTurnosEncontradosByDNI(): TurnoDTO[] {
+    return this.turnosEncontradosByDNI.value;
+  }
+
+  setTurnosEncontradosByDNI(turnos: TurnoDTO[]): void {
+    this.turnosEncontradosByDNI.next(turnos);
+  }
+
+
+  private turnosAFacturar = new BehaviorSubject<TurnoDTO>(new TurnoDTO);
+  turnosAFacturar$ = this.turnosAFacturar.asObservable();
+
+  getturnosAFacturar(): TurnoDTO {
+    return this.turnosAFacturar.value;
+  }
+
+  setturnosAFacturar(turno: TurnoDTO): void {
+    this.turnosAFacturar.next(turno);
+  }
+
 }

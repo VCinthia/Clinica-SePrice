@@ -1,24 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule, Router } from '@angular/router';
 import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
+import { UsuarioDTO } from '../../../core/dtos/usuario.dto';
+import { UsuarioService } from '../../services/usuario.service';
+import { CommonModule } from '@angular/common';
+import { TurnoDTO } from '../../../core/dtos/turno.dto';
+import { TurnoService } from '../../services/turno.service';
 
 @Component({
   selector: 'app-lista-espera-prof',
   standalone: true,
-  imports: [MatTableModule, FormsModule, RouterModule, BtnPrimaryComponent],
+  imports: [MatTableModule, FormsModule, RouterModule, BtnPrimaryComponent, CommonModule],
   templateUrl: './lista-espera-prof.component.html',
-  styleUrl: './lista-espera-prof.component.scss'
+  styleUrl: './lista-espera-prof.component.scss',
 })
 export class ListaEsperaProfComponent {
 
   btnInvisible: boolean = false;
   currentRoute: string | undefined;
+  usuarioLogueado : UsuarioDTO | null  = new UsuarioDTO;
+  hoy: Date = new Date();
+  turnosList : TurnoDTO[] = [];
+  turnosListData: any = [];
+  dataSource: any = [];
+  displayedColumns: string[] = ['paciente', 'horario', 'profesional', 'numAtencion'];
 
   constructor(
     private router : Router,
-    
+    private usuarioService: UsuarioService,
+    private turnoService: TurnoService,
+
   ){
   }
 
@@ -27,22 +40,46 @@ export class ListaEsperaProfComponent {
     if (this.currentRoute === '/consultoriosExternos/listaEsperaProf' || this.currentRoute === '/estudiosClinicos/listaEsperaProf') {
       this.btnInvisible = false;
     }
+
+    //busqueda de usuario:
+    this.usuarioLogueado = this.usuarioService.getUsuarioLogeado();
+    this.turnosList = this.turnoService.getTurnos();
+
+  console.log("turnosList:", this.turnosList);
+
+  this.turnosListData = this.turnosList.map(turno => {
+    const paciente = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
+    const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
+    const turnoIdCustom = `T-${turno.turnoId}`;
+    return {
+      'paciente': paciente,
+      'horario': turno.inicioFechaHora,
+      'profesional': profesional,
+      'numAtencion': turnoIdCustom
+    };
+  });
+  this.dataSource = this.turnosListData;
+  console.log("datasourseTURnos:",this.dataSource);
+  
+
+
+
   }
 
-  ElementData = [
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-    {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
-  ]
+  // ElementData = [
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  //   {paciente: 'María García', horario: '15:00hs', profesional: 'Dr. González', numAtencion: 'T-002'},
+  // ]
 
-  displayedColumns = ['paciente', 'horario', 'profesional','numAtencion'];
-  dataSource = this.ElementData;
+
+
 
   comenzarLlamados(){
     this.btnInvisible = true;

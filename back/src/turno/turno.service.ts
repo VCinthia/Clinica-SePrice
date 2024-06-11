@@ -3,11 +3,12 @@ import { TurnoDTO } from './dto/turno.dto';
 import { Turno } from './entities/turno.entity';
 import { TurnoMapper } from './turno.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { PacienteService } from 'src/paciente/paciente.service';
 import { ProfesionalService } from 'src/profesional/profesional.service';
 import { eEspecialidad } from 'src/enums/especialidad.enum';
 import { eTipoTurno } from 'src/enums/tipo-turno.enum';
+import { log } from 'console';
 
 @Injectable()
 export class TurnoService {
@@ -86,19 +87,37 @@ export class TurnoService {
     }
 
     
-    public async getTurnosByTipoAndEspecialidadAndProfesionalDni(tipo: eTipoTurno, especialidadBuscada: eEspecialidad, profesionalDni: number) : Promise<Turno[]> {
+    public async getTurnosEnCursoByTipoAndProfesionalAndDay(tipo: eTipoTurno, profesionalDni: number, fechaTurno: Date) : Promise<Turno[]> {
+       // Extraer año, mes y día
+       const year = fechaTurno.getUTCFullYear();
+       const month = fechaTurno.getUTCMonth(); 
+       const day = fechaTurno.getUTCDate();
+       
+       
+       // Obtener el inicio y el fin del día
+       const startOfDay = new Date(Date.UTC(year, month, day));
+       const endOfDay = new Date(Date.UTC(year, month, day + 1));
+       endOfDay.getTime() - 1;   //2024-xx-xxT23:59:59.999Z
+
+       log("***ini***", startOfDay);
+       log("***fin***", endOfDay);
+
         const turnosEncontrados =  await this.turnoRepo.find({
             where: {
                 tipo: tipo,
-                especialidad: especialidadBuscada,
                 profesional: { dniProfesional: profesionalDni },
+                inicioFechaHora: Between(startOfDay, endOfDay),
         }
         });
-        console.log("turnosEncontrados: ", turnosEncontrados)
+
         if(turnosEncontrados.length <= 0){
           throw new NotFoundException("No se han encontrado turnos");
         }
-        return turnosEncontrados;
+        // Filtro 'FINALIZADO' y especialidad 
+        const filteredTurnos = turnosEncontrados.filter(turno => turno.estado !== 'FINALIZADO' && turno.especialidad === turnosEncontrados[0].profesional.especialidad);
+
+        console.log("turnosFiltrados: ", filteredTurnos);
+        return filteredTurnos;
       }
 
 }

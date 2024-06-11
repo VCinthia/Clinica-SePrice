@@ -4,12 +4,12 @@
 <div class="card">
     <h2>Datos de facturación</h2>
     <div class="dataContainer">
-    <h4>Paciente: María Garcia</h4>
-    <p>DNI: 1111111</p>
-    <p>Dirección: Córdoba 1111</p>
-    <p>Turno: 27 de mayo 15:00hs</p>
-    <p>Práctica Médica: Traumatología</p>
-    <p>Profesional: Juan Carlos Pérez</p>
+    <h4>Paciente: {{turnoAFacturar.paciente?.persona?.nombre}} {{turnoAFacturar.paciente?.persona?.apellido}}</h4>
+    <p>DNI: {{turnoAFacturar.paciente?.persona?.dni}}</p>
+    <p>Dirección: {{turnoAFacturar.paciente?.persona?.domicilio}}</p>
+    <p>Turno: {{turnoAFacturar.inicioFechaHora | date:'short'}}</p>
+    <p>Práctica {{turnoAFacturar.especialidad}}</p>
+    <p>Profesional: {{turnoAFacturar.profesional?.persona?.nombre}} {{turnoAFacturar.profesional?.persona?.apellido}}</p>
     </div>
     <div class="pagoContainer">
         <h4>Seleccione modo de atención:</h4>

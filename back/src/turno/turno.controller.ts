@@ -22,13 +22,14 @@ export class TurnoController {
       return this.turnoService.getAllTurnos();
     }
 
-    @Get('especialidad-profesional')
-    findTurnosByEspecialidadAndProfesional(
+    @Get('encurso')
+    getTurnosEnCursoByTipoAndProfesionalAndDay(
       @Query('tipo') tipo: eTipoTurno,
-      @Query('especialidad') especialidad: eEspecialidad,
       @Query('profesionalId') profesionalId: number,
+      @Query('fechaTurnoISO') fechaTurno: String
     ): Promise<Turno[]> {
-      return this.turnoService.getTurnosByTipoAndEspecialidadAndProfesionalDni(tipo, especialidad, profesionalId);
+      const fechaTurnoDate = new Date(fechaTurno.toString());  // Asegurar que es un string primitivo
+      return this.turnoService.getTurnosEnCursoByTipoAndProfesionalAndDay(tipo, profesionalId, fechaTurnoDate);
     }
 
 }

@@ -5,11 +5,11 @@ import { ApiService } from '../../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { eTipoTurno } from '../../../core/enums/tipo-turno.enum';
-import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
-import { eEspecialidad } from '../../../core/enums/especialidad.enum';
 import { UsuarioService } from '../../services/usuario.service';
 import { UsuarioDTO } from '../../../core/dtos/usuario.dto';
 import { eTipoUsuario } from '../../../core/enums/tipo-usuario.enum';
+import { TurnoService } from '../../services/turno.service';
+import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 
 interface Sidenav {
   name: string;
@@ -27,8 +27,8 @@ interface Sidenav {
 export class MainLayoutComponent{
   
   currentRoute: string | undefined;
-
   usuarioLogueado : UsuarioDTO | null  = new UsuarioDTO;
+  turnosList : TurnoDTO[] = [];
 
   sidenavConsultoriosExternos : Sidenav[] = [];
   sidenavEstudiosClinicos : Sidenav[] = [];
@@ -38,6 +38,7 @@ export class MainLayoutComponent{
     private toastr: ToastrService,
     private router: Router, 
     private usuarioService: UsuarioService,
+    private turnoService: TurnoService,
     private route: ActivatedRoute) {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
@@ -49,18 +50,29 @@ export class MainLayoutComponent{
 
     //metodo de prueba,  eliminar
     this.getAllInsumos();
-    this.getAllTurnos();
-    // this.getTurnosByEspecialidadAndProfesionalId(eTipoTurno.CONSULTA,eEspecialidad.LABORATORIO,1);
-    this.usuarioLogueado = this.usuarioService.getUsuarioLogeado();
+   
 
+
+    //busqueda de usuario:
+    this.usuarioLogueado = this.usuarioService.getUsuarioLogeado();
     if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {
       this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
       this.sidenavConsultoriosExternos  = this.sidenavConsultoriosExternosAdmin
+        //busqueda de turnos:
+        this.getAllTurnos();
+
     } else if (this.usuarioLogueado?.tipo === eTipoUsuario.PROFESIONAL){
       this.sidenavEstudiosClinicos = this.sidenavProfesional;
       this.sidenavConsultoriosExternos = this.sidenavProfesional;
+       //busqueda de turnos:
+       if(this.currentRoute?.includes('estudiosClinicos')){
+        this.getTurnosByTipoAndProfesionalIdAndDay(eTipoTurno.ESTUDIO,this.usuarioLogueado?.persona?.dni!, new Date());
+      }else if(this.currentRoute?.includes('consultoriosExternos')){
+        this.getTurnosByTipoAndProfesionalIdAndDay(eTipoTurno.CONSULTA,this.usuarioLogueado?.persona?.dni!, new Date());
+      }
     }
 
+  
     }
 
 
@@ -95,7 +107,21 @@ export class MainLayoutComponent{
           this.toastr.error('No hay turnos registrados','Error' );
         }
         this.toastr.success('Turnos encontrados','')
-        console.log('Turnos data:', response);
+        this.turnosList = response;
+        const turnosFiltradosEnCurso = this.turnosList.filter(turno => turno.estado != eEstadoTurno.FINALIZADO);
+        if(this.currentRoute?.includes('estudiosClinicos')){
+          const turnosFiltradosByTipo =  turnosFiltradosEnCurso.filter(turno => turno.tipo === eTipoTurno.ESTUDIO);
+          //Actualizo el servicio con los turnos de la Base
+          this.turnoService.setTurnos(turnosFiltradosByTipo);
+          console.log("TurnosListECli: ", turnosFiltradosByTipo);
+        }else if(this.currentRoute?.includes('consultoriosExternos')){
+          const turnosFiltradosByTipo =  turnosFiltradosEnCurso.filter(turno => turno.tipo === eTipoTurno.CONSULTA);
+          //Actualizo el servicio con los turnos de la Base
+          this.turnoService.setTurnos(turnosFiltradosByTipo);
+          console.log("TurnosListCEx: ", turnosFiltradosByTipo);
+        }
+
+
       },
       error:(error) => {
         this.toastr.error(error.error?.message, 'Error' );
@@ -106,14 +132,27 @@ export class MainLayoutComponent{
     });
    }
 
-   getTurnosByEspecialidadAndProfesionalId(tipo: eTipoTurno, especialidad: eEspecialidad, profesionalDni: number): void {   
-    this.apiService.getTurnosByEspecialidadAndProfesional(tipo, especialidad, profesionalDni).subscribe({
+
+
+   getTurnosByTipoAndProfesionalIdAndDay(tipo: eTipoTurno, profesionalDni: number, diaTurno: Date): void {   
+    this.apiService.getTurnosByTipoAndProfesionalAndDay(tipo, profesionalDni, diaTurno).subscribe({
       next: (response) =>{
         if(!response){
           this.toastr.error('No se han encontrado turnos ','Error' );
         }
-        this.toastr.success('Turnos por especialidad Encontrados','')
+        if(response.length){
+          this.toastr.success('Tiene '+ response.length+' turnos asignados','')
+        }else{
+          this.toastr.warning('No tiene turnos asignados','')
+        }
+        
         console.log('Turnos filtrados data:', response);
+        this.turnosList= response;
+
+        //Actualizo el servicio con los turnos de la Base
+        this.turnoService.setTurnos(response)
+        this.turnosList = response;
+
       },
       error:(error) => {
         this.toastr.error(error?.message, 'Error' );
@@ -123,6 +162,8 @@ export class MainLayoutComponent{
       }
     });
   }
+
+
 
 
   sidenavEstudiosClinicosAdmin: Sidenav[] = [
