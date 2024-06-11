@@ -5,12 +5,13 @@
 </p>
 <table mat-table [dataSource]="listaTurnos" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="fecha">
-      <th mat-header-cell *matHeaderCellDef> Fecha </th>
-      <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="horaInicio">
+  <ng-container matColumnDef="fecha">
+    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+    <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+    <!-- <td mat-cell *matCellDef="let element"> {{element.inicioFechaHora | date: 'dd/MM/yyyy'}} </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="horaInicio">
       <th mat-header-cell *matHeaderCellDef> Horario </th>
       <td mat-cell *matCellDef="let element">
         @if (element.sobreturno){
@@ -20,39 +21,60 @@
         }
        </td>
     </ng-container>
-  
-    <ng-container matColumnDef="profesional">
-      <th mat-header-cell *matHeaderCellDef> Profesional </th>
-      <td mat-cell *matCellDef="let element"> {{element.profesional}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef> 
-        Seleccionar 
+
+  <!-- <ng-container matColumnDef="horaInicio">
+    <th mat-header-cell *matHeaderCellDef> Horario </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.inicioFechaHora | date: 'HH:mm' }}
+      <span @if(element.esSobreturno)>(sobreturno)</span>
+    </td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="profesional">
+    <th mat-header-cell *matHeaderCellDef> Profesional </th>
+    <td mat-cell *matCellDef="let element"> {{element.profesional}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      Seleccionar
     </th>
     <mat-radio-group [(ngModel)]="selectedOption">
-        <td mat-cell *matCellDef="let element" class="radioBtn">
-            <mat-radio-button class="custom-radio" [value]="element.fecha + element.horario">
+      <td mat-cell *matCellDef="let element" class="radioBtn">
+        <mat-radio-button class="custom-radio" [value]="element.fecha + element.horario">
 
-            </mat-radio-button> 
-        </td>
+        </mat-radio-button>
+      </td>
     </mat-radio-group>
-         
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table> 
+
+  <!-- <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef> Seleccionar </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-radio-button [value]="element.turnoId" [(ngModel)]="selectedOption"></mat-radio-button>
+    </td>
+  </ng-container> -->
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
 <div class="btnContainer">
-    <app-btn-secondary (click)="volver()" buttonText="Volver"></app-btn-secondary>
-    @if (!selectedOption) {
-        <app-btn-inactive buttonText="Continuar"></app-btn-inactive>
-    } @else {
-        <app-btn-primary (click)="navegarAIngresarPaciente()" buttonText="Continuar"></app-btn-primary>
-    }
+  <app-btn-secondary (click)="volver()" buttonText="Volver"></app-btn-secondary>
+  @if (!selectedOption) {
+  <app-btn-inactive buttonText="Continuar"></app-btn-inactive>
+  } @else {
+  <app-btn-primary (click)="navegarAIngresarPaciente()" buttonText="Continuar"></app-btn-primary>
+  }
 </div>
 
 @for (item of turnosTomados; track $index) {
-  {{item.inicioFechaHora | date : 'dd/MM/yyyy'}}
-  {{item.inicioFechaHora | date : 'hh:mm'}}
+{{item.inicioFechaHora | date : 'dd/MM/yyyy'}}
+{{item.inicioFechaHora | date : 'hh:mm'}}
 }
+
+
+<!-- <div *ngFor="let item of listaTurnos; trackBy: trackByFn">
+  {{ item.inicioFechaHora | date: 'dd/MM/yyyy' }} {{ item.inicioFechaHora | date: 'HH:mm' }}
+</div> -->
