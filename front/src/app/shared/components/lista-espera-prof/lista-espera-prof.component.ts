@@ -46,23 +46,36 @@ export class ListaEsperaProfComponent {
     this.turnosList = this.turnoService.getTurnos();
 
   console.log("turnosList:", this.turnosList);
+  this.setearYOrdenarListaTurnosPorFecha();
 
-  this.turnosListData = this.turnosList.map(turno => {
-    const paciente = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
-    const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
-    const turnoIdCustom = `T-${turno.turnoId}`;
-    return {
-      'paciente': paciente,
-      'horario': turno.inicioFechaHora,
-      'profesional': profesional,
-      'numAtencion': turnoIdCustom
-    };
-  });
-  this.dataSource = this.turnosListData;
-  console.log("datasourseTURnos:",this.dataSource);
-  
+  }
 
 
+  setearYOrdenarListaTurnosPorFecha(){
+
+    //Ordenar Turnos
+      this.turnosList.sort((a, b) => {
+        const fechaA = new Date(a.inicioFechaHora!).getTime();
+        const fechaB = new Date(b.inicioFechaHora!).getTime();
+        return fechaA - fechaB; // Orden ascendente
+      });
+      console.log("TurnosListOrdenada:",this.turnosList);
+
+      //CREO LISTA PERSONALIZADA
+      this.turnosListData = this.turnosList.map((turno, index) => {
+        const paciente = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
+        const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
+        const turnoIdCustom = `T-${index+1}`; // Usar el índice en lugar del id del turno
+        return {
+          'paciente': paciente,
+          'horario': turno.inicioFechaHora,
+          'profesional': profesional,
+          'numAtencion': turnoIdCustom
+        };
+      });
+
+      // Asignar la lista ordenada al dataSource
+      this.dataSource = this.turnosListData;
 
   }
 

@@ -30,9 +30,9 @@ export class CardDatosTurnoComponent {
   ngOnInit(): void {
     if(this.currentRoute?.includes('consultoriosExternos/acreditarTurno/confirmarTurno')){
       //busqueda de turno:
-      this.turnosEnCursoByDNI= this.turnoService.getTurnosEncontradosByDNI();
+      this.turnosEnCursoByDNI= this.turnoService.getTurnosEncontradosParaElUserLogueado();
       this.primerTurno = this.turnosEnCursoByDNI[0];
-      this.turnoService.setturnosAFacturar(this.primerTurno);
+      this.turnoService.setTurnosAFacturar(this.primerTurno);
       }
 
   }

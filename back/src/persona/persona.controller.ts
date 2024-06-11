@@ -15,7 +15,7 @@ export class PersonaController {
   //   return this.personaService.createPersona(personaDTO, usuarioDTO);
   // }
 
-  @Get(':dni')
+  @Get('dni/:dni')
   public async getPersonaByDNI(@Param('dni') dni: number) {
     return this.personaService.getPersonaByDNI(dni);
   }

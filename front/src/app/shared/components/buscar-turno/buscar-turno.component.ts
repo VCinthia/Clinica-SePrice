@@ -55,7 +55,7 @@ export class BuscarTurnoComponent {
   navegarAConfirmarPaciente(value : any){   
     console.log("value: ", value);
     const turnosFiltradosEnCursoByDni =  this.turnosList.filter(turno => turno.paciente?.dniPaciente == value);
-    this.turnoService.setTurnosEncontradosByDNI(turnosFiltradosEnCursoByDni);
+    this.turnoService.setTurnosEncontradosElUserLogueado(turnosFiltradosEnCursoByDni);
     console.log("turnosListBuscarTurnoByDNI: ", turnosFiltradosEnCursoByDni);
     if(turnosFiltradosEnCursoByDni.length > 0){
       if (this.router.url === '/estudiosClinicos/acreditarTurno') {

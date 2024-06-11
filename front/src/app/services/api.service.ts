@@ -73,16 +73,25 @@ export class ApiService {
 
   //PERSONA
   getPersona(dni: number): Observable<PersonaDTO> {
-    const url = `${this.BASE_URL}/persona/${dni}`;
+    const url = `${this.BASE_URL}/persona/dni/${dni}`;
     return this.httpClient.get<PersonaDTO>(url);
   }
 
 
 
    //PROFESIONAL
-   getProfesional(dni: number): Observable<ProfesionalDTO> {
-    const url = `${this.BASE_URL}/profesional/${dni}`;
+   getProfesionalByDni(dni: number): Observable<ProfesionalDTO> {
+    const url = `${this.BASE_URL}/profesional/dni/${dni}`;
     return this.httpClient.get<ProfesionalDTO>(url);
+   }
+
+  getProfesionalByEspecialidad(especialidad : eEspecialidad): Observable<ProfesionalDTO[]> {
+    const url = `${this.BASE_URL}/profesional/especialidad`;
+    return this.httpClient.get<ProfesionalDTO[]>(url, {
+      params: {
+        especialidad
+      }
+    });
   }
 
 

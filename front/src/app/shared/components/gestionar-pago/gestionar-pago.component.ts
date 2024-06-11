@@ -43,7 +43,7 @@ export class GestionarPagoComponent {
 
     if(this.currentRoute?.includes('/consultoriosExternos/gestionarPago')){
       //busqueda de turno:
-      this.turnoAFacturar= this.turnoService.getturnosAFacturar();
+      this.turnoAFacturar= this.turnoService.getTurnosAFacturar();
       }
 
   }

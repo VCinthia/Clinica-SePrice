@@ -31,28 +31,50 @@ export class TurnoService {
   }
 
 
+  //turnos filtrados segun PRofesional, tipoCircuito, enCurso, y fecha de hoy
+  private turnosEncontradosElUserLogueado = new BehaviorSubject<TurnoDTO[]>([]);
+  turnosEncontradosElUserLogueado$ = this.turnosEncontradosElUserLogueado.asObservable();
 
-  private turnosEncontradosByDNI = new BehaviorSubject<TurnoDTO[]>([]);
-  turnosEncontradosByDNI$ = this.turnosEncontradosByDNI.asObservable();
-
-  getTurnosEncontradosByDNI(): TurnoDTO[] {
-    return this.turnosEncontradosByDNI.value;
+  getTurnosEncontradosParaElUserLogueado(): TurnoDTO[] {
+    return this.turnosEncontradosElUserLogueado.value;
   }
 
-  setTurnosEncontradosByDNI(turnos: TurnoDTO[]): void {
-    this.turnosEncontradosByDNI.next(turnos);
+  setTurnosEncontradosElUserLogueado(turnos: TurnoDTO[]): void {
+    this.turnosEncontradosElUserLogueado.next(turnos);
   }
 
 
+
+
+
+
+  //Cuando  se presenta en la Clinica
   private turnosAFacturar = new BehaviorSubject<TurnoDTO>(new TurnoDTO);
   turnosAFacturar$ = this.turnosAFacturar.asObservable();
 
-  getturnosAFacturar(): TurnoDTO {
+  getTurnosAFacturar(): TurnoDTO {
     return this.turnosAFacturar.value;
   }
 
-  setturnosAFacturar(turno: TurnoDTO): void {
+  setTurnosAFacturar(turno: TurnoDTO): void {
     this.turnosAFacturar.next(turno);
   }
+
+
+
+  
+
+//Turnos que se ven en la lista de espera
+  private turnosEnListaDeEspera = new BehaviorSubject<TurnoDTO>(new TurnoDTO);
+  turnosEnListaDeEspera$ = this.turnosEnListaDeEspera.asObservable();
+
+  getTurnosEnListaDeEspera(): TurnoDTO {
+    return this.turnosEnListaDeEspera.value;
+  }
+
+  setTurnosEnListaDeEspera(turno: TurnoDTO): void {
+    this.turnosEnListaDeEspera.next(turno);
+  }
+
 
 }
