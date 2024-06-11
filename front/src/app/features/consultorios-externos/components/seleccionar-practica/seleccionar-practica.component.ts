@@ -10,10 +10,11 @@ import { BtnInactiveComponent } from '../../../../shared/components/btn-inactive
 import { Router } from '@angular/router';
 import { TurnosService } from '../../../../services/turnos.service';
 import { eEspecialidad } from '../../../../core/enums/especialidad.enum';
+import { ProfesionalDTO } from '../../../../core/dtos/profesional.dto';
 
 interface Practica {
-  name: string;
-  tiempoTurno: number
+  name: eEspecialidad;
+  tiempoTurno: number;
 }
 
 @Component({
@@ -23,6 +24,7 @@ interface Practica {
   templateUrl: './seleccionar-practica.component.html',
   styleUrl: './seleccionar-practica.component.scss'
 })
+
 export class SeleccionarPracticaComponent implements OnInit {
 
   practicaControl = new FormControl<Practica | null>(null, Validators.required);
@@ -37,14 +39,24 @@ export class SeleccionarPracticaComponent implements OnInit {
     { name: eEspecialidad.ODONTOLOGIA, tiempoTurno: 15 },
   ];
 
-  constructor(private router: Router,
+    
+  constructor(
+    private router: Router,
     private turnosService: TurnosService
   ) {
   }
 
   ngOnInit(): void {
     this.practicaControl.valueChanges.subscribe(value => {
-      this.turnosService.actualizarPracticaSeleccionada(value);
+      //this.turnosService.actualizarPracticaSeleccionada(value);
+      if (value) {
+        console.log(value, 'este es value');        
+        this.turnos = this.turnosService.getTurnosByEspecialidad(value.name);
+        console.log('value.name: ',value.name);
+        
+        console.log(this.turnos, 'este es turnos');
+        //crea turnos segun especialidad por duracion OK
+      }
     });
   }
 

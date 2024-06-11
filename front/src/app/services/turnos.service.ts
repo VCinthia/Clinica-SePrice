@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { eEspecialidad } from '../core/enums/especialidad.enum';
+import { TurnoDTO } from '../core/dtos/turno.dto';
+import { ProfesionalDTO } from '../core/dtos/profesional.dto';
+import { eTipoTurno } from '../core/enums/tipo-turno.enum';
+import { eEstadoTurno } from '../core/enums/estado-turno.enum';
+import { ApiService } from './api.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TurnosService {
 
+export class TurnosService {
+  
 
   // turnosEstudios : any[] = [
   //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
@@ -144,22 +151,25 @@ export class TurnosService {
   //   {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: false},
   // ]
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private apiService: ApiService)
+    { }
 
-  
+
   private practicaSeleccionadaSource = new BehaviorSubject<any>(null);
   practicaSeleccionada$ = this.practicaSeleccionadaSource.asObservable();
-  
+
 
   actualizarPracticaSeleccionada(practica: any): void {
     this.practicaSeleccionadaSource.next(practica);}
 
-  
+
   private estudioSeleccionadoSource = new BehaviorSubject<any>(null);
   estudioSeleccionado$ = this.estudioSeleccionadoSource.asObservable();
-  
+
   actualizarEstudioSeleccionado(practica: any): void {
-  this.estudioSeleccionadoSource.next(practica);
+    this.estudioSeleccionadoSource.next(practica);
   }
 
 
@@ -171,10 +181,13 @@ export class TurnosService {
   //   } else return this.turnos30;
   // }
 
-  //traer segun especialidad turnos disponibles:
+  //traer segun especialidad turnos disponibles MIO:
   getListaTurnosDisponiblesByEnum(name : eEspecialidad){
-    if (name){
-      
+    if (name) {
+      this.getTurnosByEspecialidad(name)
+    } else {
+      console.log('No se seleccionó una especialidad');
+
     }
   }
 
@@ -182,5 +195,54 @@ export class TurnosService {
   //   return this.turnosEstudios
   // }
 
-  
+  private generarTurnos(fecha: Date, tiempoTurno: number, especialidad: eEspecialidad): TurnoDTO[] { //, profesional: ProfesionalDTO
+    const turnos: TurnoDTO[] = [];
+    const inicioJornada = new Date(fecha.setHours(8, 0, 0)); // Inicio de la jornada a las 8:00
+    const finJornada = new Date(fecha.setHours(16, 0, 0)); // Fin de la jornada a las 16:00
+
+    let currentTurno = new Date(inicioJornada);
+
+    while (currentTurno < finJornada) {
+      const turno = new TurnoDTO(
+        eTipoTurno.CONSULTA,
+        new Date(currentTurno),
+        tiempoTurno,
+        false,
+        especialidad,
+        eEstadoTurno.PENDIENTE,
+        undefined,
+        //profesional
+      );
+      turnos.push(turno);
+      currentTurno.setMinutes(currentTurno.getMinutes() + tiempoTurno);
+    }
+    return turnos;
+  }
+
+  getTurnosByEspecialidad(especialidad: eEspecialidad): TurnoDTO[] {//, profesional: ProfesionalDTO
+    const fechaActual = new Date();
+    let tiempoTurno: number;
+
+    //!SEGUIR DESDE ACA CUANDO ESTE LA FUNCION DE BACK Y APISERVICE => const profesional: ProfesionalDTO = this.apiService.getProfesional(especialidad)
+
+    switch (especialidad) {
+      case eEspecialidad.FISIO_KINESIOLOGIA:
+        tiempoTurno = 25;
+        break;
+      case eEspecialidad.SALUD_MENTAL:
+        tiempoTurno = 30;
+        break;
+      case eEspecialidad.MEDICINA_GENERAL:
+      case eEspecialidad.PEDIATRIA:
+      case eEspecialidad.ODONTOLOGIA:
+        tiempoTurno = 15;
+        break;
+      default:
+        return [];
+    }
+
+    return this.generarTurnos(fechaActual, tiempoTurno, especialidad);//, profesional
+  }
+
+
 }
