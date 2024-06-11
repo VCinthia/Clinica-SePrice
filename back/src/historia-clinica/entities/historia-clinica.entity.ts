@@ -7,7 +7,7 @@ export class HistoriaClinica {
   @PrimaryGeneratedColumn()
   historiaClinicaId: number;
 
-  @Column('longtext')
+  @Column('longtext', {nullable:true})
   detalle: string;
 
   @Column()
