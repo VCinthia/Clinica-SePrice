@@ -61,7 +61,6 @@ export class MainLayoutComponent {
     private router: Router,
     private usuarioService: UsuarioService,
     private turnoService: TurnoService,
-    private route: ActivatedRoute
   ) {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
@@ -119,7 +118,7 @@ export class MainLayoutComponent {
     this.apiService.getTurnosByTipoAndDayAndEstado(tipo, eEstadoTurno.PENDIENTE, new Date()).subscribe({
       next: (response) => {
         if (!response) {
-          this.toastr.error('No hay turnos registrados', 'Error');
+          this.toastr.error('No se ha podido obtener turnos pendientes', 'Error');
           return;
         }
 
@@ -131,17 +130,17 @@ export class MainLayoutComponent {
             const fechaB = new Date(b.inicioFechaHora!).getTime();
             return fechaA - fechaB; // Orden ascendente
           });
-          this.toastr.success('Tiene ' + turnosPendientes.length + ' turnos asignados');
-          //Actualizo el servicio con los turnos de la Base
+          this.toastr.success('Hay ' + turnosPendientes.length + ' turnos para acreditar hoy');
+          //Actualizo el servicio "TURNOS" con los turnos pendientes de la Base 
           this.turnoService.setTurnos(turnosPendientes);
-          console.log('TurnosConfirmados: ', turnosPendientes);
+          console.log('TurnosPendientes: ', turnosPendientes);
         } else {
-          this.toastr.warning('No tiene turnos confirmados');
+          this.toastr.warning('No hay turnos para acreditar hoy');
         }
       },
       error: (error) => {
         this.toastr.warning(error.error?.message, 'Error');
-        console.error('Error al obtener turnos:', error);
+        console.error('Error al obtener turnos Pendientes para hoy', error);
       },
     });
   }

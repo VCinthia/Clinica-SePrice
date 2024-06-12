@@ -32,7 +32,7 @@ export class CardDatosTurnoComponent {
       //busqueda de turno:
       this.turnosEnCursoByDNI= this.turnoService.getTurnosEncontradosParaElUserLogueado();
       this.primerTurno = this.turnosEnCursoByDNI[0];
-      this.turnoService.setTurnosAFacturar(this.primerTurno);
+      this.turnoService.setTurnoAFacturar(this.primerTurno);
       }
 
   }

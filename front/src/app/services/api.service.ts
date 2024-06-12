@@ -46,10 +46,10 @@ export class ApiService {
   }
 
 
-  getTurnosByTipoAndDayAndEstado(tipo: eTipoTurno, estado:eEstadoTurno,diaTurno:Date,): Observable<TurnoDTO[]> {
+  getTurnosByTipoAndDayAndEstado(tipo: eTipoTurno, estado:eEstadoTurno,diaTurno:Date): Observable<TurnoDTO[]> {
     const url = `${this.BASE_URL}/turno/tipo`;
     const fechaTurnoISO = diaTurno.toDateString();  //solo envio el dia, no hora
-    console.log("fechaHoy", fechaTurnoISO);
+    console.log("fechaHoy***", fechaTurnoISO);
     return this.httpClient.get<TurnoDTO[]>(url, {
       params: {
         tipo,

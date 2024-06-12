@@ -31,7 +31,6 @@ export class ListaEsperaProfComponent {
 
   constructor(
     private router : Router,
-    private route: ActivatedRoute, 
     private toastr : ToastrService,
     private usuarioService: UsuarioService,
     private turnoService: TurnoService,
@@ -59,13 +58,13 @@ export class ListaEsperaProfComponent {
       this.btnInvisible = false;
     }
 
-  this.getAndSortListaTurnosConfirmados();
+  this.getAndSortListaTurnosDelsServiceTurnos();
 
   }
 
 
 
-  getAndSortListaTurnosConfirmados(){
+  getAndSortListaTurnosDelsServiceTurnos(){
     //Busco lista turnos para el usuario
     this.turnosList = this.turnoService.getTurnos();
       console.log("TurnosListOrdenada:",this.turnosList);
@@ -75,7 +74,7 @@ export class ListaEsperaProfComponent {
         const pacienteNombre = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
         const pacienteDNI = `${turno.paciente?.persona?.dni}`;
         const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
-        const turnoIdCustom = `T-${index+1}`; // Usar el índice en lugar del id del turno
+        const turnoIdCustom = `T-${turno.turnoId}`; // Usar el índice en lugar del id del turno index+1
         return {
           'pacienteNombre': pacienteNombre,
           'pacienteDNI': pacienteDNI,

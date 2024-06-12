@@ -10,6 +10,8 @@ export class TurnoService {
 
   constructor() { }
 
+
+  //Generic turnosList -> preferible los que vienen de la base
   private turnosDB = new BehaviorSubject<TurnoDTO[]>([]);
   turnos$ = this.turnosDB.asObservable();
 
@@ -32,6 +34,8 @@ export class TurnoService {
   }
 
 
+
+
   //turnos filtrados segun PRofesional, tipoCircuito, enCurso, y fecha de hoy
   private turnosEncontradosElUserLogueado = new BehaviorSubject<TurnoDTO[]>([]);
   turnosEncontradosElUserLogueado$ = this.turnosEncontradosElUserLogueado.asObservable();
@@ -50,15 +54,15 @@ export class TurnoService {
 
 
   //Cuando  se presenta en la Clinica
-  private turnosAFacturar = new BehaviorSubject<TurnoDTO>(new TurnoDTO);
-  turnosAFacturar$ = this.turnosAFacturar.asObservable();
+  private turnoAFacturar = new BehaviorSubject<TurnoDTO>(new TurnoDTO);
+  turnoAFacturar$ = this.turnoAFacturar.asObservable();
 
-  getTurnosAFacturar(): TurnoDTO {
-    return this.turnosAFacturar.value;
+  getTurnoAFacturar(): TurnoDTO {
+    return this.turnoAFacturar.value;
   }
 
-  setTurnosAFacturar(turno: TurnoDTO): void {
-    this.turnosAFacturar.next(turno);
+  setTurnoAFacturar(turno: TurnoDTO): void {
+    this.turnoAFacturar.next(turno);
   }
 
 
@@ -85,7 +89,7 @@ export class TurnoService {
 
 
 
-//Turnos que se ven en la lista de espera
+//booleano para mostrar u ocultar boton para llamar Pacientes
 private showBtnComenzarLLamadas = new BehaviorSubject<boolean>(true);
 showBtnComenzarLLamadas$ = this.showBtnComenzarLLamadas.asObservable();
 
