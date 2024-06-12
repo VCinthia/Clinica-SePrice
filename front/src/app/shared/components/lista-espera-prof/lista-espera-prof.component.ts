@@ -45,9 +45,6 @@ export class ListaEsperaProfComponent {
     this.dataSource = turnosEnListaDeEspera;
   });
 
-  this.turnoService.showBtnComenzarLLamadas$.subscribe((showBtnComenzarLLamadas) => {
-    this.btnInvisible = !showBtnComenzarLLamadas;});
-
   this.usuarioService.usuarioLogeado$.subscribe((usuarioLogueado) => {
     this.usuarioLogueado= usuarioLogueado;
   });  
