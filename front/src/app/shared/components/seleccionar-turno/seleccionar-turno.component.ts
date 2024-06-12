@@ -11,57 +11,69 @@ import { ApiService } from '../../../services/api.service';
 import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { eEspecialidad } from '../../../core/enums/especialidad.enum';
 
 @Component({
   selector: 'app-seleccionar-turno',
   standalone: true,
-  imports: [DatePipe, MatTableModule, BtnPrimaryComponent,BtnSecondaryComponent, BtnInactiveComponent, FormsModule, MatRadioModule],
+  imports: [DatePipe, MatTableModule, BtnPrimaryComponent, BtnSecondaryComponent, BtnInactiveComponent, FormsModule, MatRadioModule],
   templateUrl: './seleccionar-turno.component.html',
   styleUrl: './seleccionar-turno.component.scss'
 })
 export class SeleccionarTurnoComponent {
 
   //Todo: importo estructura dto
+  practicaSeleccionada: eEspecialidad | null = null;
+  estudioSeleccionado: string | null = null;
   turnoDto : TurnoDTO  | null = null;
   turnos : TurnoDTO [] = [];
   turnoSeleccionado : number = 0;
+  
+  selectedOption: string | null = null;
+
 
   //----- original:
-  selectedOption: string;
-  practicaSeleccionada : string = '';
+  // selectedOption: string;
+  // practicaSeleccionada : string = '';
   tiempoTurno : number  = 0;
-  estudioSeleccionado : string = '';
+  // estudioSeleccionado : string = '';
   listaTurnos: any[] = [];
   turnosTomados: any[] = [];
   //-----
 
   constructor(
-  private router: Router,
-  private turnosService: TurnosService,
-  private apiService: ApiService,
-  private toastr : ToastrService
-) {
-  this.selectedOption = ''
+    private router: Router,
+    private turnosService: TurnosService,
+    private apiService: ApiService,
+    private toastr: ToastrService
+  ) {
+    this.selectedOption = ''
   };
 
   ngOnInit(): void {
 
     if (this.router.url === '/consultoriosExternos/seleccionarTurno') {
       this.turnosService.practicaSeleccionada$.subscribe(practica => {
+        console.log('holis', this.practicaSeleccionada);
+
         this.practicaSeleccionada = practica.name;
+        console.log('holis2');
+
         this.tiempoTurno = practica.tiempoTurno;
+        console.log('holis3');
       });
-       //this.listaTurnos = this.turnosService.getListaTurnosConsultorio(this.tiempoTurno)
-       
-       this.getAllTurnos();
+      //this.listaTurnos = this.turnosService.getListaTurnosConsultorio(this.tiempoTurno)
+      //this.listaTurnos = this.turnosService.getListaTurnosDisponiblesByEnum(this.practicaSeleccionada,)
+
+      this.getAllTurnos();
     }
 
     if (this.router.url === '/estudiosClinicos/seleccionarTurno') {
       this.turnosService.estudioSeleccionado$.subscribe(estudio => {
         this.estudioSeleccionado = estudio.name;
       });
-       //this.listaTurnos = this.turnosService.getListaTurnosEstudio()
-       this.getAllTurnos();
+      //this.listaTurnos = this.turnosService.getListaTurnosEstudio()
+      this.getAllTurnos();
     }
   }
 
@@ -82,12 +94,12 @@ export class SeleccionarTurnoComponent {
       complete: () => {
       }
     });
-   }
+  }
 
 
   displayedColumns = ['fecha', 'horaInicio', 'profesional', 'select'];
 
-  
+
 
   navegarAIngresarPaciente(){
     if (this.router.url === '/estudiosClinicos/seleccionarTurno') {
@@ -97,7 +109,7 @@ export class SeleccionarTurnoComponent {
       this.router.navigate(['consultoriosExternos/ingresarPaciente']);
     }
   }
-  
+
   volver(){
     if (this.router.url === '/estudiosClinicos/seleccionarTurno') {
       this.router.navigate(['estudiosClinicos/nuevoTurno']);
