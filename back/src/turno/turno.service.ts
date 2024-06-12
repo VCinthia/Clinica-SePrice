@@ -129,7 +129,7 @@ export class TurnoService {
 
 
 
-      public async getTurnosByTipoAndEstadoAndDay(tipo: eTipoTurno, estado:eEstadoTurno, fechaTurno: Date) : Promise<Turno[]> {
+      public async getTurnosByTipoAndEstadoAndDay(tipo: eTipoTurno, fechaTurno: Date,  estado:eEstadoTurno,) : Promise<Turno[]> {
         log("FechaTurno", fechaTurno); //usar solo el dia, no la hora
        // Extraer año, mes y día
        const year = fechaTurno.getUTCFullYear();

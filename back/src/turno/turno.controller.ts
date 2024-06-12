@@ -46,7 +46,7 @@ export class TurnoController {
     ): Promise<Turno[]> {
       log("fechaController: ", fechaTurno)
       const fechaTurnoDate = new Date(fechaTurno);
-      return this.turnoService.getTurnosByTipoAndEstadoAndDay1(tipo, fechaTurnoDate, estado);
+      return this.turnoService.getTurnosByTipoAndEstadoAndDay(tipo, fechaTurnoDate, estado);
     }
 
 
