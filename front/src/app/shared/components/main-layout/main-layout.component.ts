@@ -155,8 +155,8 @@ export class MainLayoutComponent{
 
       },
       error:(error) => {
-        this.toastr.error(error?.message, 'Error' );
-        console.error('Error fetching turnos data:', error);
+        this.toastr.error(error.error?.message, 'Error' );
+        console.error('Error al obtener turnos:', error);
       },
       complete: () => {
       }

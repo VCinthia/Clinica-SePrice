@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TurnoDTO } from '../../core/dtos/turno.dto';
+import { TurnoListaDeEspera } from '../../core/dtos/turno-lista-espera.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -65,16 +66,40 @@ export class TurnoService {
   
 
 //Turnos que se ven en la lista de espera
-  private turnosEnListaDeEspera = new BehaviorSubject<TurnoDTO>(new TurnoDTO);
+  private turnosEnListaDeEspera = new BehaviorSubject<TurnoListaDeEspera[]>([]);
   turnosEnListaDeEspera$ = this.turnosEnListaDeEspera.asObservable();
 
-  getTurnosEnListaDeEspera(): TurnoDTO {
+  getTurnosEnListaDeEspera(): TurnoListaDeEspera[] {
     return this.turnosEnListaDeEspera.value;
   }
 
-  setTurnosEnListaDeEspera(turno: TurnoDTO): void {
-    this.turnosEnListaDeEspera.next(turno);
+  setTurnosEnListaDeEspera(turnoListaEsperaCustom: TurnoListaDeEspera[]): void {
+    this.turnosEnListaDeEspera.next(turnoListaEsperaCustom);
   }
+  removeTurnosEnListaDeEspera(idTurno: number): void {
+    const currentTurnos = this.getTurnosEnListaDeEspera();
+    this.turnosEnListaDeEspera.next(currentTurnos.filter(turno => turno.idTurno !== idTurno));
+  }
+
+
+
+//Turnos que se ven en la lista de espera
+private showBtnComenzarLLamadas = new BehaviorSubject<boolean>(true);
+showBtnComenzarLLamadas$ = this.showBtnComenzarLLamadas.asObservable();
+
+getShowBtnComenzarLLamadas(): boolean {
+  return this.showBtnComenzarLLamadas.value;
+}
+
+setShowBtnComenzarLLamadas(showBtnComenzarLLamadas: boolean): void {
+  this.showBtnComenzarLLamadas.next(showBtnComenzarLLamadas);
+}
+
+
+
+
+
+
 
 
 }

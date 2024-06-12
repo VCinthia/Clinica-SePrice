@@ -9,6 +9,9 @@ import { ProfesionalService } from 'src/profesional/profesional.service';
 import { eEspecialidad } from 'src/enums/especialidad.enum';
 import { eTipoTurno } from 'src/enums/tipo-turno.enum';
 import { log } from 'console';
+import { eEstadoTurno } from 'src/enums/estado-turno.enum';
+import { ResponseDTO } from 'src/Utils/responseDTO.dto';
+import { response } from 'express';
 
 @Injectable()
 export class TurnoService {
@@ -88,6 +91,8 @@ export class TurnoService {
 
     
     public async getTurnosEnCursoByTipoAndProfesionalAndDay(tipo: eTipoTurno, profesionalDni: number, fechaTurno: Date) : Promise<Turno[]> {
+        log("FechaTurno", fechaTurno); //usar solo el dia, no la hora
+
        // Extraer año, mes y día
        const year = fechaTurno.getUTCFullYear();
        const month = fechaTurno.getUTCMonth(); 
@@ -119,6 +124,34 @@ export class TurnoService {
         console.log("turnosFiltrados: ", filteredTurnos);
         return filteredTurnos;
       }
+
+   
+      async patchEstadoDelTurno(idTurno: number, nuevoEstado: eEstadoTurno): Promise<ResponseDTO<Turno>> {
+        // Buscar el turno en la base de datos
+        const turnoDB = await this.turnoRepo.findOne({
+            where: {
+              turnoId: idTurno
+            },
+          });
+
+        if (!turnoDB) {
+            throw new NotFoundException(`El turno con ID  no fue encontrado.`);
+        }
+    
+        // Actualizar el estado del turno
+        turnoDB.estado = nuevoEstado;
+    
+        // Guardar los cambios en la base de datos
+        const turnoActualizado = await this.turnoRepo.save(turnoDB);
+        const response = new ResponseDTO(true, "El estado del turno ha sido actualizado", turnoActualizado)
+        return response;
+      }
+
+
+
+
+
+    
 
 }
 

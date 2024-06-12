@@ -30,7 +30,9 @@
   @if (currentRoute === '/estudiosClinicos/listaEsperaProf'  || currentRoute === '/consultoriosExternos/listaEsperaProf'){
     @if (!btnInvisible) {
       <div class="btnContainer">
-        <app-btn-primary buttonText="Comenzar llamados" (click)='comenzarLlamados()'></app-btn-primary>
+        <app-btn-primary 
+        buttonText="Comenzar llamados" 
+        (click)='comenzarLlamados()'></app-btn-primary>
       </div>
     }
   }

@@ -9,6 +9,8 @@ import { ProfesionalDTO } from '../core/dtos/profesional.dto';
 import { InsumoDTO } from '../core/dtos/insumo.dto';
 import { eEspecialidad } from '../core/enums/especialidad.enum';
 import { eTipoTurno } from '../core/enums/tipo-turno.enum';
+import { eEstadoTurno } from '../core/enums/estado-turno.enum';
+import { ResponseDTO } from '../core/dtos/response.dto';
 
 @Injectable({
    //habilita la injeccion de dependencia del servicio
@@ -29,7 +31,7 @@ export class ApiService {
 
   getTurnosByTipoAndProfesionalAndDay(tipo: eTipoTurno,  profesionalId: number, diaTurno:Date): Observable<TurnoDTO[]> {
     const url = `${this.BASE_URL}/turno/encurso`;
-    const fechaTurnoISO = diaTurno.toISOString();
+    const fechaTurnoISO = diaTurno.toDateString();  //solo envio el dia, no hora
     console.log("fechaHoy", fechaTurnoISO);
     
     return this.httpClient.get<TurnoDTO[]>(url, {
@@ -46,6 +48,15 @@ export class ApiService {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.httpClient.post(this.BASE_URL, turnoDTO, { headers: headers });
   }
+
+
+  actualizarEstadoDelTurno(id: number, estado: eEstadoTurno): Observable<ResponseDTO<TurnoDTO>> {
+    const body = { id, estado };
+    const url = `${this.BASE_URL}/turno/estado`;
+    return this.httpClient.patch<ResponseDTO<TurnoDTO>>(url, body);
+  }
+
+
 
 
 
