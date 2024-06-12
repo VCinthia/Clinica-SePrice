@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../enviroments/enviroment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { TurnoDTO } from '../core/dtos/turno.dto';
 import { UsuarioDTO } from '../core/dtos/usuario.dto';
 import { PersonaDTO } from '../core/dtos/persona.dto';
@@ -96,18 +96,27 @@ export class ApiService {
     return this.httpClient.get<ProfesionalDTO>(url);
    }
 
-  getProfesionalByEspecialidad(especialidad : eEspecialidad): Observable<ProfesionalDTO[]> {
+  // getProfesionalByEspecialidad(especialidad : eEspecialidad): Observable<ProfesionalDTO[]> {
+  //   // const url = `${this.BASE_URL}/profesional/especialidad?especialidad=${especialidad}`;///profesional/especialidad?especialidad=SALUD_MENTAL
+  //   const url = `${this.BASE_URL}/profesional/especialidad`;
+  //   return this.httpClient.get<ProfesionalDTO[]>(url, {
+  //     params: {
+  //       especialidad
+  //     }
+  //   });
+  // }
+
+  getProfesionalByEspecialidad(especialidad: string): Observable<ProfesionalDTO[]> {
     const url = `${this.BASE_URL}/profesional/especialidad`;
-    return this.httpClient.get<ProfesionalDTO[]>(url, {
+    return this.httpClient.get<any>(url, {
       params: {
         especialidad
       }
-    });
+    }).pipe(
+      map(response => response.data), // Acceder a la propiedad data del objeto de respuesta
+    );
   }
 
-
-
-  
   //INSUMOS
   getAllInsumos(): Observable<InsumoDTO[]> {
     const url = `${this.BASE_URL}/insumo/all`;

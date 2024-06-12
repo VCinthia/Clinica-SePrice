@@ -37,7 +37,7 @@ export class SeleccionarTurnoComponent {
   // practicaSeleccionada : string = '';
   tiempoTurno : number  = 0;
   // estudioSeleccionado : string = '';
-  listaTurnos: any[] = [];
+  listaTurnos: TurnoDTO[] = [];
   turnosTomados: any[] = [];
   //-----
 
@@ -51,19 +51,22 @@ export class SeleccionarTurnoComponent {
   };
 
   ngOnInit(): void {
-
     if (this.router.url === '/consultoriosExternos/seleccionarTurno') {
-      this.turnosService.practicaSeleccionada$.subscribe(practica => {
-        console.log('holis', this.practicaSeleccionada);
-
+      this.turnosService.practicaSeleccionada$.subscribe(async practica => {
         this.practicaSeleccionada = practica.name;
-        console.log('holis2');
+        console.log('holis2', practica.name);
 
         this.tiempoTurno = practica.tiempoTurno;
-        console.log('holis3');
+        console.log('holis3', practica.tiempoTurno);
+
+        if (practica) {
+          console.log(practica, 'este es value');
+          this.turnos = await this.turnosService.getTurnosByEspecialidad(practica.name);
+          console.log('value.name: ', practica.name);
+
+          console.log(this.turnos, 'este es turnos');
+        }
       });
-      //this.listaTurnos = this.turnosService.getListaTurnosConsultorio(this.tiempoTurno)
-      //this.listaTurnos = this.turnosService.getListaTurnosDisponiblesByEnum(this.practicaSeleccionada,)
 
       this.getAllTurnos();
     }

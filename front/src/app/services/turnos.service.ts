@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 })
 
 export class TurnosService {
-  
+  profesional: ProfesionalDTO | undefined;
+
 
   // turnosEstudios : any[] = [
   //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
@@ -50,7 +51,7 @@ export class TurnosService {
   //   {fecha: '22/06/2024', horaInicio: '15:45', profesional:'Dr. González', sobreturno: false},
   // ]
 
-  // //MEDICINA_GENERAL, PEDIATRIA O ODONTOLOGIA
+  // // //MEDICINA_GENERAL, PEDIATRIA O ODONTOLOGIA
   // turnos15 : any[] = [
   //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
   //   {fecha: '22/06/2024', horaInicio: '8:15', profesional:'Dr. González', sobreturno: false},
@@ -153,8 +154,7 @@ export class TurnosService {
 
   constructor(
     private router: Router,
-    private apiService: ApiService)
-    { }
+    private apiService: ApiService) { }
 
 
   private practicaSeleccionadaSource = new BehaviorSubject<any>(null);
@@ -162,8 +162,10 @@ export class TurnosService {
 
 
   actualizarPracticaSeleccionada(practica: any): void {
-    this.practicaSeleccionadaSource.next(practica);}
-
+    this.practicaSeleccionadaSource.next(practica);
+    console.log('practica: ', practica);
+    
+  }
 
   private estudioSeleccionadoSource = new BehaviorSubject<any>(null);
   estudioSeleccionado$ = this.estudioSeleccionadoSource.asObservable();
@@ -172,17 +174,26 @@ export class TurnosService {
     this.estudioSeleccionadoSource.next(practica);
   }
 
-
-  // getListaTurnosConsultorio (tiempo: number){
-  //   if (tiempo === 15) {
-  //     return this.turnos15;
-  //   } else if (tiempo === 25) {
-  //     return this.turnos25;
-  //   } else return this.turnos30;
-  // }
+  async actualizarProfesionalSegunEspecialidad(practica: eEspecialidad): Promise<ProfesionalDTO | undefined> {
+    try {
+      const profesionales = await this.apiService.getProfesionalByEspecialidad(practica).toPromise();
+      if (profesionales && profesionales.length > 0) {
+        this.profesional = profesionales[0];
+        console.log('Profesional actualizado: ', this.profesional);
+        return this.profesional;
+      } else {
+        console.error('No se encontraron profesionales para la especialidad seleccionada');
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error al obtener profesionales', error);
+      return undefined;
+    }
+  }
+  
 
   //traer segun especialidad turnos disponibles MIO:
-  getListaTurnosDisponiblesByEnum(name : eEspecialidad){
+  getListaTurnosDisponiblesByEnum(name: eEspecialidad) {
     if (name) {
       this.getTurnosByEspecialidad(name)
     } else {
@@ -194,13 +205,18 @@ export class TurnosService {
   // getListaTurnosEstudio (){
   //   return this.turnosEstudios
   // }
+  
 
-  private generarTurnos(fecha: Date, tiempoTurno: number, especialidad: eEspecialidad): TurnoDTO[] { //, profesional: ProfesionalDTO
+  async generarTurnos(fecha: Date, tiempoTurno: number, especialidad: eEspecialidad): Promise<TurnoDTO[]> {
+    const profesionalDto = await this.actualizarProfesionalSegunEspecialidad(especialidad);
+    console.log('este es profesionalDto: ', profesionalDto);
+
     const turnos: TurnoDTO[] = [];
-    const inicioJornada = new Date(fecha.setHours(8, 0, 0)); // Inicio de la jornada a las 8:00
-    const finJornada = new Date(fecha.setHours(16, 0, 0)); // Fin de la jornada a las 16:00
+    const inicioJornada = new Date(fecha.setHours(8, 0, 0));
+    const finJornada = new Date(fecha.setHours(16, 0, 0));
 
     let currentTurno = new Date(inicioJornada);
+    let lastSobreturno = new Date(inicioJornada);
 
     while (currentTurno < finJornada) {
       const turno = new TurnoDTO(
@@ -211,19 +227,34 @@ export class TurnosService {
         especialidad,
         eEstadoTurno.PENDIENTE,
         undefined,
-        //profesional
+        profesionalDto,
       );
       turnos.push(turno);
+
+      if (currentTurno.getTime() - lastSobreturno.getTime() >= 60 * 60 * 1000) {
+        const sobreturno = new TurnoDTO(
+          eTipoTurno.CONSULTA,
+          new Date(currentTurno),
+          tiempoTurno,
+          true,
+          especialidad,
+          eEstadoTurno.PENDIENTE,
+          undefined,
+         profesionalDto,
+        );
+        turnos.push(sobreturno);
+        lastSobreturno = new Date(currentTurno);
+      }
+
       currentTurno.setMinutes(currentTurno.getMinutes() + tiempoTurno);
     }
+
     return turnos;
   }
 
-  getTurnosByEspecialidad(especialidad: eEspecialidad): TurnoDTO[] {//, profesional: ProfesionalDTO
+  async getTurnosByEspecialidad(especialidad: eEspecialidad): Promise<TurnoDTO[]> {
     const fechaActual = new Date();
     let tiempoTurno: number;
-
-    //!SEGUIR DESDE ACA CUANDO ESTE LA FUNCION DE BACK Y APISERVICE => const profesional: ProfesionalDTO = this.apiService.getProfesional(especialidad)
 
     switch (especialidad) {
       case eEspecialidad.FISIO_KINESIOLOGIA:
@@ -241,8 +272,7 @@ export class TurnosService {
         return [];
     }
 
-    return this.generarTurnos(fechaActual, tiempoTurno, especialidad);//, profesional
+    return await this.generarTurnos(fechaActual, tiempoTurno, especialidad);
   }
-
 
 }
