@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { TurnosService } from '../../../../services/turnos.service';
 import { eEspecialidad } from '../../../../core/enums/especialidad.enum';
 import { ProfesionalDTO } from '../../../../core/dtos/profesional.dto';
+import { TurnoDTO } from '../../../../core/dtos/turno.dto';
 
 interface Practica {
   name: eEspecialidad;
@@ -29,7 +30,7 @@ export class SeleccionarPracticaComponent implements OnInit {
 
   practicaControl = new FormControl<Practica | null>(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
-  turnos: any[] = [];
+  turnos: TurnoDTO[] = [];
 
   practicasEnum: Practica[] = [
     { name: eEspecialidad.FISIO_KINESIOLOGIA, tiempoTurno: 25 },
@@ -48,15 +49,15 @@ export class SeleccionarPracticaComponent implements OnInit {
 
   ngOnInit(): void {
     this.practicaControl.valueChanges.subscribe(value => {
-      //this.turnosService.actualizarPracticaSeleccionada(value);
-      if (value) {
-        console.log(value, 'este es value');        
-        this.turnos = this.turnosService.getTurnosByEspecialidad(value.name);
-        console.log('value.name: ',value.name);
+      this.turnosService.actualizarPracticaSeleccionada(value);//del original de mati
+      // if (value) {
+      //   console.log(value, 'este es value');        
+      //   this.turnos = this.turnosService.getTurnosByEspecialidad(value.name);
+      //   console.log('value.name: ',value.name);
         
-        console.log(this.turnos, 'este es turnos');
-        //crea turnos segun especialidad por duracion OK
-      }
+      //   console.log(this.turnos, 'este es turnos');
+      //   //crea turnos segun especialidad por duracion OK
+      // }
     });
   }
 

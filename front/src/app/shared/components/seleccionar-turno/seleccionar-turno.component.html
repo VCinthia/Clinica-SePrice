@@ -3,36 +3,28 @@
 </p>
 <p>Seleccione un turno disponible:
 </p>
-<table mat-table [dataSource]="listaTurnos" class="mat-elevation-z8">
+<table mat-table [dataSource]="turnos" class="mat-elevation-z8">
 
   <ng-container matColumnDef="fecha">
     <th mat-header-cell *matHeaderCellDef> Fecha </th>
-    <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
-    <!-- <td mat-cell *matCellDef="let element"> {{element.inicioFechaHora | date: 'dd/MM/yyyy'}} </td> -->
+    <td mat-cell *matCellDef="let element"> {{element.inicioFechaHora | date: 'dd/MM/yyyy'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="horaInicio">
-      <th mat-header-cell *matHeaderCellDef> Horario </th>
-      <td mat-cell *matCellDef="let element">
-        @if (element.sobreturno){
-          {{element.horaInicio}} (sobreturno)  
-        } @else {
-          {{element.horaInicio}} 
-        }
-       </td>
-    </ng-container>
-
-  <!-- <ng-container matColumnDef="horaInicio">
     <th mat-header-cell *matHeaderCellDef> Horario </th>
     <td mat-cell *matCellDef="let element">
       {{ element.inicioFechaHora | date: 'HH:mm' }}
-      <span @if(element.esSobreturno)>(sobreturno)</span>
+      @if (element.esSobreturno){
+      {{element.horaInicio}} (sobreturno)
+      } @else {
+      {{element.horaInicio}}
+      }
     </td>
-  </ng-container> -->
+  </ng-container>
 
   <ng-container matColumnDef="profesional">
     <th mat-header-cell *matHeaderCellDef> Profesional </th>
-    <td mat-cell *matCellDef="let element"> {{element.profesional}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.profesional.persona.apellido}} </td>
   </ng-container>
 
   <ng-container matColumnDef="select">
@@ -47,10 +39,10 @@
       </td>
     </mat-radio-group>
 
-  <!-- <ng-container matColumnDef="select">
+    <!-- <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef> Seleccionar </th>
     <td mat-cell *matCellDef="let element">
-      <mat-radio-button [value]="element.turnoId" [(ngModel)]="selectedOption"></mat-radio-button>
+      <mat-radio-button [value]="element.inicioFechaHora" [(ngModel)]="selectedOption"></mat-radio-button>
     </td>
   </ng-container> -->
   </ng-container>
