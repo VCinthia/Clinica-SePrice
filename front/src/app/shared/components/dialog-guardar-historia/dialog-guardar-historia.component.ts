@@ -33,6 +33,7 @@ export class DialogGuardarHistoriaComponent {
   historiaClinicaDB : HistoriaClinicaDTO | undefined;
   usuarioLogeado: UsuarioDTO | null= new UsuarioDTO;
   turnoUno : TurnoListaDeEspera | undefined;
+  turnosListEspera : TurnoListaDeEspera[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<DialogGuardarHistoriaComponent>,
@@ -59,6 +60,7 @@ export class DialogGuardarHistoriaComponent {
     });
 
     this.turnoService.turnosEnListaDeEspera$.subscribe((turnosEnListaDeEspera) => {
+      this.turnosListEspera = turnosEnListaDeEspera;
       this.turnoUno = turnosEnListaDeEspera[0];
     });
 
@@ -77,19 +79,11 @@ export class DialogGuardarHistoriaComponent {
     const detalleDB = (this.historiaClinicaDB?.detalle) ? this.historiaClinicaDB?.detalle : '';
     
     this.historiaClinicaDB!.detalle = detalleDB + nuevoText;
-    console.log("Actualizacion: ", this.historiaClinicaDB!.detalle);
     this.actualizarHistoriaClinica(this.historiaClinicaDB!);
 
 
 
-    if (this.router.url === '/estudiosClinicos/historiaClinica') {
-      this.router.navigate(['estudiosClinicos/listaEsperaProf/llamarPaciente']);
-      this.dialogRef.close()
-    }
-    if (this.router.url === '/consultoriosExternos/historiaClinica') {
-      this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
-      this.dialogRef.close()
-    }
+    this.dialogRef.close()
   }
   
   cancelar(){
@@ -115,7 +109,32 @@ export class DialogGuardarHistoriaComponent {
       },
       complete: () => {
         this.actualizarEstadoTurno(this.turnoUno?.idTurno!, eEstadoTurno.FINALIZADO);
-        this.turnoService.removeTurnosEnListaDeEspera(this.turnoUno?.idTurno!)
+        
+        
+        
+        const turnoEliminar = this.turnosListEspera[0];
+        this.turnoService.removeTurnosEnListaDeEspera(turnoEliminar.idTurno);
+        this.turnoService.removeTurno(turnoEliminar.idTurno);
+        console.log("se elimino", this.turnosListEspera);
+        console.log("this.turnosListEspera.length",this.turnosListEspera.length);
+        
+
+        //ACTUALIZACION DE RUTAS
+        if (this.router.url === '/estudiosClinicos/historiaClinica') {
+          if(this.turnosListEspera.length){
+            this.router.navigate(['estudiosClinicos/listaEsperaProf/llamarPaciente']);
+          }else{
+            this.router.navigate(['estudiosClinicos/listaEsperaProf']);
+          }
+        }
+        
+        if (this.router.url === '/consultoriosExternos/historiaClinica') {
+          if(this.turnosListEspera.length){
+            this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
+          }else{
+            this.router.navigate(['consultoriosExternos/listaEsperaProf']);
+          }
+        }
       }
     });
    }

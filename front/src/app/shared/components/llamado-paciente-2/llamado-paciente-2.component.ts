@@ -47,6 +47,8 @@ export class LlamadoPaciente2Component {
 
     
 
+
+
   confirmarAtencion(){
     //obtener historia clinica
     this.getHistoriaClinicaByDNI(this.turnoUno?.pacienteDNI!);
@@ -68,12 +70,14 @@ export class LlamadoPaciente2Component {
   eliminarTurnoDeListaEspera() {
     const turnoEliminar = this.turnosListEspera[0];
     this.turnoService.removeTurnosEnListaDeEspera(turnoEliminar.idTurno);
+    this.turnoService.removeTurno(turnoEliminar.idTurno);
     console.log("se elimino", this.turnosListEspera);
 
     //Cambiar Estado  al back:
     this.actualizarEstadoTurno(turnoEliminar.idTurno, eEstadoTurno.CANCELADO);
     if (this.router.url === '/estudiosClinicos/listaEsperaProf/llamarPaciente2') {
       this.router.navigate(['estudiosClinicos/listaEsperaProf']);
+      this.turnoService.setShowBtnComenzarLLamadas(true);
     } 
     if (this.router.url === '/consultoriosExternos/listaEsperaProf/llamarPaciente2') {
       this.router.navigate(['consultoriosExternos/listaEsperaProf']);

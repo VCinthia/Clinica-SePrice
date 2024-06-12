@@ -42,15 +42,19 @@ export class ListaEsperaProfComponent {
   ngOnInit(): void {
   //OBSERVABLES
   this.turnoService.turnosEnListaDeEspera$.subscribe((turnosEnListaDeEspera) => {
-    this.dataSource = turnosEnListaDeEspera;});
-  this.turnoService.turnosEnListaDeEspera$.subscribe((showBtnComenzarLLamadas) => {
+    this.dataSource = turnosEnListaDeEspera;
+  });
+
+  this.turnoService.showBtnComenzarLLamadas$.subscribe((showBtnComenzarLLamadas) => {
     this.btnInvisible = !showBtnComenzarLLamadas;});
 
-  //usuario:
   this.usuarioService.usuarioLogeado$.subscribe((usuarioLogueado) => {
     this.usuarioLogueado= usuarioLogueado;
-
   });  
+
+  this.turnoService.showBtnComenzarLLamadas$.subscribe((showBTN) => {
+    this.btnInvisible = showBTN;
+  });
   //------------
 
     this.currentRoute = this.router.url;

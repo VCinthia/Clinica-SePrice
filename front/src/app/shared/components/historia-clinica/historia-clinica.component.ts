@@ -47,6 +47,8 @@ export class HistoriaClinicaComponent {
     this.turnoService.turnosEnListaDeEspera$.subscribe((turnosEnListaDeEspera) => {
       this.turnosListEspera = turnosEnListaDeEspera;
       this.turnoUno = turnosEnListaDeEspera[0];
+
+      
     });
      
     this.usuarioService.usuarioLogeado$.subscribe((usuarioLogeado) => {
@@ -71,6 +73,8 @@ export class HistoriaClinicaComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('modal cerrado');
+      console.log(this.turnosListEspera);
+      
     });
 
   }
