@@ -90,7 +90,7 @@ export class TurnoService {
     }
 
     
-    public async getTurnosEnCursoByTipoAndProfesionalAndDay(tipo: eTipoTurno, profesionalDni: number, fechaTurno: Date) : Promise<Turno[]> {
+    public async getTurnosByTipoAndProfesionalAndEstadoAndDay(tipo: eTipoTurno, profesionalDni: number, fechaTurno: Date, estado:eEstadoTurno) : Promise<Turno[]> {
         log("FechaTurno", fechaTurno); //usar solo el dia, no la hora
 
        // Extraer año, mes y día
@@ -112,18 +112,52 @@ export class TurnoService {
                 tipo: tipo,
                 profesional: { dniProfesional: profesionalDni },
                 inicioFechaHora: Between(startOfDay, endOfDay),
+                estado: estado,
         }
         });
 
         if(turnosEncontrados.length <= 0){
           throw new NotFoundException("No se han encontrado turnos");
         }
-        // Filtro 'FINALIZADO' y especialidad 
-        const filteredTurnos = turnosEncontrados.filter(turno => turno.estado !== 'FINALIZADO' && turno.especialidad === turnosEncontrados[0].profesional.especialidad);
+        // Filtro especialidad 
+        const filteredTurnos = turnosEncontrados.filter(turno => turno.especialidad === turnosEncontrados[0].profesional.especialidad);
 
         console.log("turnosFiltrados: ", filteredTurnos);
         return filteredTurnos;
       }
+
+
+
+
+      public async getTurnosByTipoAndEstadoAndDay(tipo: eTipoTurno, estado:eEstadoTurno, fechaTurno: Date) : Promise<Turno[]> {
+        log("FechaTurno", fechaTurno); //usar solo el dia, no la hora
+       // Extraer año, mes y día
+       const year = fechaTurno.getUTCFullYear();
+       const month = fechaTurno.getUTCMonth(); 
+       const day = fechaTurno.getUTCDate();
+       
+       // Obtener el inicio y el fin del día
+       const startOfDay = new Date(Date.UTC(year, month, day));
+       const endOfDay = new Date(Date.UTC(year, month, day + 1));
+       endOfDay.getTime() - 1;   //2024-xx-xxT23:59:59.999Z
+
+        const turnosEncontrados =  await this.turnoRepo.find({
+            where: {
+                tipo: tipo,
+                inicioFechaHora: Between(startOfDay, endOfDay),
+                estado: estado,
+        }
+        });
+
+        if(turnosEncontrados.length <= 0){
+          throw new NotFoundException("No se han encontrado turnos");
+        }
+        console.log("turnosEncontrados: ", turnosEncontrados);
+        return turnosEncontrados;
+      }
+
+
+
 
    
       async patchEstadoDelTurno(idTurno: number, nuevoEstado: eEstadoTurno): Promise<ResponseDTO<Turno>> {

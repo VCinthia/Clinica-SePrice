@@ -11,6 +11,7 @@ import { eEspecialidad } from '../core/enums/especialidad.enum';
 import { eTipoTurno } from '../core/enums/tipo-turno.enum';
 import { eEstadoTurno } from '../core/enums/estado-turno.enum';
 import { ResponseDTO } from '../core/dtos/response.dto';
+import { HistoriaClinicaDTO } from '../core/dtos/historia-clinica.dto';
 
 @Injectable({
    //habilita la injeccion de dependencia del servicio
@@ -29,8 +30,8 @@ export class ApiService {
     return this.httpClient.get<TurnoDTO[]>(url);
   }
 
-  getTurnosByTipoAndProfesionalAndDay(tipo: eTipoTurno,  profesionalId: number, diaTurno:Date): Observable<TurnoDTO[]> {
-    const url = `${this.BASE_URL}/turno/encurso`;
+  getTurnosByTipoAndProfesionalAndDayAndEstado(tipo: eTipoTurno,  profesionalId: number, diaTurno:Date, estado:eEstadoTurno): Observable<TurnoDTO[]> {
+    const url = `${this.BASE_URL}/turno/tipo-profesional`;
     const fechaTurnoISO = diaTurno.toDateString();  //solo envio el dia, no hora
     console.log("fechaHoy", fechaTurnoISO);
     
@@ -39,9 +40,26 @@ export class ApiService {
         tipo,
         profesionalId,
         fechaTurnoISO,
+        estado
       }
     });
   }
+
+
+  getTurnosByTipoAndDayAndEstado(tipo: eTipoTurno, estado:eEstadoTurno,diaTurno:Date,): Observable<TurnoDTO[]> {
+    const url = `${this.BASE_URL}/turno/tipo`;
+    const fechaTurnoISO = diaTurno.toDateString();  //solo envio el dia, no hora
+    console.log("fechaHoy", fechaTurnoISO);
+    return this.httpClient.get<TurnoDTO[]>(url, {
+      params: {
+        tipo,
+        fechaTurnoISO,
+        estado
+      }
+    });
+  }
+
+
 
   //para postea  nuevo turno, no pasar el id, se genera automaticamente en la base
   postNewTurno(turnoDTO: TurnoDTO): Observable<TurnoDTO> {
@@ -113,4 +131,24 @@ export class ApiService {
     const url = `${this.BASE_URL}/insumo/all`;
     return this.httpClient.get<InsumoDTO[]>(url);
   }
+
+
+
+
+  //HISTORIA-CLINICA
+  getHistoriaClinicaByDni(dniPaciente: number): Observable<ResponseDTO<HistoriaClinicaDTO>> {
+    const url = `${this.BASE_URL}/historiaclinica/dni/${dniPaciente}`;
+    return this.httpClient.get<ResponseDTO<HistoriaClinicaDTO>>(url);
+   }
+
+
+   actualizarHistoriaClinica(historiaClinicaUpdated: HistoriaClinicaDTO, usuarioEditorUserName: string ): Observable<ResponseDTO<null>> {
+    const body = { historiaClinicaUpdated, usuarioEditorUserName };
+    const url = `${this.BASE_URL}/historiaclinica/edit`;
+    return this.httpClient.put<ResponseDTO<null>>(url, body);
+  }
+
+
+
+
 }

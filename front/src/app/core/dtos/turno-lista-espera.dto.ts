@@ -1,5 +1,6 @@
 export class TurnoListaDeEspera {
-    paciente: string;
+    pacienteNombre: string;
+    pacienteDNI: number;
     horario: Date;
     profesional: string;
     numAtencion: number;
@@ -7,13 +8,15 @@ export class TurnoListaDeEspera {
 
 
     constructor(
-        paciente: string,
+        pacienteNombre: string,
+        pacienteDNI: number,
         horario: Date,
         profesional: string,
         numAtencion: number,
         idTurno: number
     ) {
-        this.paciente = paciente;
+        this.pacienteNombre = pacienteNombre;
+        this.pacienteDNI = pacienteDNI;
         this.horario = horario;
         this.profesional = profesional;
         this.numAtencion = numAtencion;

@@ -10,6 +10,8 @@ import { Turno } from 'src/turno/entities/turno.entity';
 import { Profesional } from 'src/profesional/entities/profesional.entity';
 import { ProfesionalService } from 'src/profesional/profesional.service';
 import { HistoriaClinicaService } from 'src/historia-clinica/historia-clinica.service';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { UsuarioService } from 'src/usuario/usuario.service';
 
 @Module({
   imports: [
@@ -18,7 +20,8 @@ import { HistoriaClinicaService } from 'src/historia-clinica/historia-clinica.se
       HistoriaClinica, 
       Persona,
       Turno,
-      Profesional
+      Profesional,
+      Usuario
     ])
   ],
   providers: [

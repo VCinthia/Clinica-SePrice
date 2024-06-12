@@ -27,7 +27,7 @@ export class ListaEsperaProfComponent {
   turnosList : TurnoDTO[] = [];
   turnosConfirmadosListData: any = [];
   dataSource: any = [];
-  displayedColumns: string[] = ['paciente', 'horario', 'profesional', 'numAtencion'];
+  displayedColumns: string[] = ['pacienteNombre', 'horario', 'profesional', 'numAtencion'];
 
   constructor(
     private router : Router,
@@ -62,29 +62,22 @@ export class ListaEsperaProfComponent {
 
   }
 
-  
+
 
   getAndSortListaTurnosConfirmados(){
-    //Busco lista turnos no finalizados pera el usuario
+    //Busco lista turnos para el usuario
     this.turnosList = this.turnoService.getTurnos();
-    //FILTRO : turnos con estado Confirmado
-    let turnosConfirmados = this.turnosList.filter(turno => turno.estado === eEstadoTurno.CONFIRMADO);
-
-    //Ordenar Turnos
-      turnosConfirmados.sort((a, b) => {
-        const fechaA = new Date(a.inicioFechaHora!).getTime();
-        const fechaB = new Date(b.inicioFechaHora!).getTime();
-        return fechaA - fechaB; // Orden ascendente
-      });
-      console.log("TurnosListOrdenada:",turnosConfirmados);
+      console.log("TurnosListOrdenada:",this.turnosList);
 
       //CREO LISTA PERSONALIZADA
-      this.turnosConfirmadosListData = turnosConfirmados.map((turno, index) => {
-        const paciente = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
+      this.turnosConfirmadosListData = this.turnosList.map((turno, index) => {
+        const pacienteNombre = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
+        const pacienteDNI = `${turno.paciente?.persona?.dni}`;
         const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
         const turnoIdCustom = `T-${index+1}`; // Usar el índice en lugar del id del turno
         return {
-          'paciente': paciente,
+          'pacienteNombre': pacienteNombre,
+          'pacienteDNI': pacienteDNI,
           'horario': turno.inicioFechaHora,
           'profesional': profesional,
           'numAtencion': turnoIdCustom,
@@ -92,7 +85,7 @@ export class ListaEsperaProfComponent {
         };
       });
 
-      // Asignar la lista ordenada al dataSource
+      // Asignar la lista ordenada al dataSource y al Servicio
       this.dataSource = this.turnosConfirmadosListData;
       this.turnoService.setTurnosEnListaDeEspera(this.turnosConfirmadosListData)
 

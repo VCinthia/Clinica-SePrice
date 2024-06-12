@@ -1,13 +1,16 @@
 <h2>Historia Clínica</h2>
-<h2>Paciente: María García</h2>
+<h2>Paciente: {{turnoUno?.pacienteNombre}}</h2>
 <div class="historiaClinicaContainer">
-    <p>Lorem ipsum dolor sit amet consectetur adipiscing elit quis mus vivamus, sociosqu pulvinar suscipit hendrerit leo porta nam nibh tempus, tristique lacus curabitur himenaeos consequat euismod id cum dignissim. Consequat ornare erat integer tellus semper nostra ridiculus, congue cum penatibus dictum cubilia mollis cras, magna eget bibendum vestibulum netus dui. Sagittis per feugiat porttitor fringilla varius nunc lobortis nascetur felis, urna senectus neque vulputate est habitasse rhoncus erat vehicula, eleifend curae semper vel in taciti ultrices ligula.</p>
+    <p>{{historiaClinicaDB?.detalle  ? historiaClinicaDB?.detalle: "" }}</p>
 </div>
 <div class="textareaContainer">
-    <h2>Registro de la atención 22/05/2024</h2>
+    <h2>Registro de la atención {{hoy | date: 'dd/MM/yyyy'}}</h2>
     <mat-form-field class="textarea">
     <mat-label>Descripción:</mat-label>
-    <textarea matInput></textarea>
+    <textarea 
+    matInput
+    [(ngModel)]="textoDelTextArea"
+    ></textarea>
     </mat-form-field>
     <div class="btnContainer">
         <app-btn-primary (click)='notificacionConfirmar()' buttonText="Guardar y Finalizar"></app-btn-primary>

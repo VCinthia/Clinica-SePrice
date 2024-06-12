@@ -10,6 +10,7 @@ import { Persona } from 'src/persona/entities/persona.entity';
 import { ProfesionalService } from 'src/profesional/profesional.service';
 import { HistoriaClinicaService } from 'src/historia-clinica/historia-clinica.service';
 import { HistoriaClinica } from 'src/historia-clinica/entities/historia-clinica.entity';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Module({
   imports:[
@@ -19,6 +20,7 @@ import { HistoriaClinica } from 'src/historia-clinica/entities/historia-clinica.
       Profesional,
       Persona,
       HistoriaClinica,
+      Usuario
     ])
   ],
   providers: [

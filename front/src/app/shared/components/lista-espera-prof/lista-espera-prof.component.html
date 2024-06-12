@@ -3,9 +3,9 @@
     
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="paciente">
+    <ng-container matColumnDef="pacienteNombre">
       <th mat-header-cell *matHeaderCellDef> Paciente </th>
-      <td mat-cell *matCellDef="let element"> {{element.paciente}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.pacienteNombre}} </td>
     </ng-container>
   
     <ng-container matColumnDef="horario">

@@ -25,22 +25,33 @@ export class TurnoController {
       return this.turnoService.getAllTurnos();
     }
 
-    @Get('encurso')
-    async getTurnosEnCursoByTipoAndProfesionalAndDay(
+    @Get('tipo-profesional')
+    async getTurnosByTipoAndProfesionalAndEstadoAndDay(
       @Query('tipo') tipo: eTipoTurno,
       @Query('profesionalId') profesionalId: number,
-      @Query('fechaTurnoISO') fechaTurno: string
+      @Query('fechaTurnoISO') fechaTurno: string,
+      @Query('estado') estado: eEstadoTurno
     ): Promise<Turno[]> {
-      log("fechaController: ",fechaTurno)
-      const fechaTurnoDate = new Date(fechaTurno);;
-      
-      // Asegurar que es un string primitivo
-      return this.turnoService.getTurnosEnCursoByTipoAndProfesionalAndDay(tipo, profesionalId, fechaTurnoDate);
+      log("fechaController: ", fechaTurno)
+      const fechaTurnoDate = new Date(fechaTurno);
+      return this.turnoService.getTurnosByTipoAndProfesionalAndEstadoAndDay(tipo, profesionalId, fechaTurnoDate, estado);
+    }
+
+
+    @Get('tipo')
+    async getTurnosByTipoAndEstadoAndDay(
+      @Query('tipo') tipo: eTipoTurno,
+      @Query('fechaTurnoISO') fechaTurno: string,
+      @Query('estado') estado: eEstadoTurno
+    ): Promise<Turno[]> {
+      log("fechaController: ", fechaTurno)
+      const fechaTurnoDate = new Date(fechaTurno);
+      return this.turnoService.getTurnosByTipoAndEstadoAndDay1(tipo, fechaTurnoDate, estado);
     }
 
 
 
-    @Patch('/estado')
+    @Patch('estado')
     async actualizarEstadoDelTurno(@Body() body: { id: number; estado: eEstadoTurno }): Promise<ResponseDTO<Turno>> {
       const { id, estado } = body;
       return this.turnoService.patchEstadoDelTurno(id, estado);
