@@ -53,7 +53,7 @@ export class ListaEsperaProfComponent {
   });  
 
   this.turnoService.showBtnComenzarLLamadas$.subscribe((showBTN) => {
-    this.btnInvisible = showBTN;
+    this.btnInvisible = !showBTN;
   });
   //------------
 
