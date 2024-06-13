@@ -88,7 +88,10 @@ export class DialogGuardarHistoriaComponent {
     this.dialogRef.close()
 
     this.dialogRef.afterClosed().subscribe(() => {
-      this.dialog.open(DialogFinalizarConsultaComponent);
+      this.dialog.open(DialogFinalizarConsultaComponent, {
+        width: '600px',
+        height: '250px'
+      });
     });
   }
   
@@ -125,22 +128,7 @@ export class DialogGuardarHistoriaComponent {
         console.log("this.turnosListEspera.length",this.turnosListEspera.length);
         
 
-        //ACTUALIZACION DE RUTAS
-        if (this.router.url === '/estudiosClinicos/historiaClinica') {
-          if(this.turnosListEspera.length){
-            this.router.navigate(['estudiosClinicos/listaEsperaProf/llamarPaciente']);
-          }else{
-            this.router.navigate(['estudiosClinicos/listaEsperaProf']);
-          }
-        }
-        
-        if (this.router.url === '/consultoriosExternos/historiaClinica') {
-          if(this.turnosListEspera.length){
-            this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
-          }else{
-            this.router.navigate(['consultoriosExternos/listaEsperaProf']);
-          }
-        }
+      
       }
     });
    }

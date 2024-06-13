@@ -89,14 +89,14 @@ export class MainLayoutComponent {
   setSideBarAndGetTurnosListByUser(): void {
     //ADMIN
     if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {
-      this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
-      this.sidenavConsultoriosExternos = this.sidenavConsultoriosExternosAdmin;
-      //busqueda de turnos:
-      if (this.currentRoute?.includes('estudiosClinicos')) {
-        this.getTurnosByTipoPendientesHoy(eTipoTurno.ESTUDIO);
-      } else if (this.currentRoute?.includes('consultoriosExternos')) {
-        this.getTurnosByTipoPendientesHoy(eTipoTurno.CONSULTA);
+      if(this.usuarioLogueado?.grupo === eGrupo.ESTUDIOS_CONSULTORIOS){
+        this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
+        this.sidenavConsultoriosExternos = this.sidenavConsultoriosExternosAdmin;
+      } else{
+        this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin.filter(item => item.name !== 'Volver al Menu Principal');
+        this.sidenavConsultoriosExternos = this.sidenavConsultoriosExternosAdmin.filter(item => item.name !== 'Volver al Menu Principal');
       }
+      //busqueda de turnos:
 
     //PROFESIONAL  
     } else if (this.usuarioLogueado?.tipo === eTipoUsuario.PROFESIONAL) {
