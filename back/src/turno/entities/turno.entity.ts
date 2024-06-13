@@ -1,5 +1,6 @@
 import { eEspecialidad } from "src/enums/especialidad.enum";
 import { eEstadoTurno } from "src/enums/estado-turno.enum";
+import { eModalidadDePago } from "src/enums/modalidad-de-pago.enum";
 import { eTipoTurno } from "src/enums/tipo-turno.enum";
 import { Paciente } from "src/paciente/entities/paciente.entity";
 import { Profesional } from "src/profesional/entities/profesional.entity";
@@ -30,6 +31,13 @@ export class Turno {
         enum:eEstadoTurno
     })
     estado: eEstadoTurno;
+
+    @Column({
+        type:'enum',
+        enum:eModalidadDePago,
+        nullable: true
+    })
+    modalidadPago?: eModalidadDePago;
 
     @ManyToOne(()=> Paciente, paciente => paciente.dniPaciente, {cascade: true, eager:true, nullable:false})
     @JoinColumn({name:'dniPaciente'})

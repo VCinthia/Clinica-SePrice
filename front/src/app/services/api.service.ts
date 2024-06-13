@@ -12,6 +12,7 @@ import { eTipoTurno } from '../core/enums/tipo-turno.enum';
 import { eEstadoTurno } from '../core/enums/estado-turno.enum';
 import { ResponseDTO } from '../core/dtos/response.dto';
 import { HistoriaClinicaDTO } from '../core/dtos/historia-clinica.dto';
+import { eModalidadDePago } from '../core/enums/modalidad-de-pago.enum';
 
 @Injectable({
    //habilita la injeccion de dependencia del servicio
@@ -74,6 +75,12 @@ export class ApiService {
     return this.httpClient.patch<ResponseDTO<TurnoDTO>>(url, body);
   }
 
+
+  actualizarModalidadPagoDelTurno(id: number, modalidadPago: eModalidadDePago): Observable<ResponseDTO<TurnoDTO>> {
+    const body = { id, modalidadPago };
+    const url = `${this.BASE_URL}/turno/modalidad-pago`;
+    return this.httpClient.patch<ResponseDTO<TurnoDTO>>(url, body);
+  }
 
 
 

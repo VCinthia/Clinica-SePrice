@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { ApiService } from '../../../services/api.service';
 import { TurnoListaDeEspera } from '../../../core/dtos/turno-lista-espera.dto';
+import { eModalidadDePago } from '../../../core/enums/modalidad-de-pago.enum';
 
 @Component({
   selector: 'app-gestionar-pago',
@@ -57,20 +58,22 @@ export class GestionarPagoComponent {
 
 
   async navegarAConfirmarAcreditacion(){
+    let nuevaModalidadPago;
+    if(this.selectedOption =="obraSocial"){
+      nuevaModalidadPago = eModalidadDePago.OBRA_SOCIAL
+    }else if(this.selectedOption == "particular"){
+      nuevaModalidadPago = eModalidadDePago.PARTICULAR
+    }
+  
     //Se actualiza el Estado del turno a Confirmado, y se actualiza la lista de Espera
-    const turnoPersistido = await this.actualizarEstadoTurno(this.turnoAFacturar.turnoId!, eEstadoTurno.CONFIRMADO);
+    const turnoPersistido = await this.actualizarEstadoYModalidadDePagoTurno(this.turnoAFacturar.turnoId!, eEstadoTurno.CONFIRMADO, nuevaModalidadPago!);
     const turnoSavedListaEsperaFormat = this.convertirTurnoAListaDeESperaTurno(turnoPersistido);
-    console.log("TurnosSAVEEED", turnoSavedListaEsperaFormat);
+    console.log("TurnosLisEsperaSAVEEED", turnoSavedListaEsperaFormat);
     this.turnoService.addTurnoEnListaDeEspera(turnoSavedListaEsperaFormat);
 
 
 
 
-    if(this.selectedOption =="obraSocial"){
-
-    }else if(this.selectedOption == "particular"){
-
-    }
 
 
     if (this.router.url === '/estudiosClinicos/gestionarPago') {
@@ -94,18 +97,14 @@ export class GestionarPagoComponent {
 
 
 
-  async actualizarEstadoTurno(idTurno: number, estadoNuevo: eEstadoTurno): Promise<TurnoDTO> {
+  async actualizarEstadoYModalidadDePagoTurno(idTurno: number, estadoNuevo: eEstadoTurno, modalidadNueva: eModalidadDePago): Promise<TurnoDTO> {
     return new Promise<TurnoDTO>((resolve, reject) => {
-      const estadoString: string = estadoNuevo;
       this.apiService.actualizarEstadoDelTurno(idTurno, estadoNuevo).subscribe({
         next: (response) => {
           if (!response.success) {
             this.toastr.error('No se pudo actualizar el estado', 'Error');
             reject(new Error('No se pudo actualizar el estado'));
-          } else {
-            this.toastr.success("El turno ha sido " + estadoString);
-            resolve(response.data!);
-          }
+          } 
         },
         error: (error) => {
           this.toastr.error(error?.message, 'Error');
@@ -113,12 +112,40 @@ export class GestionarPagoComponent {
           reject(error);
         },
         complete: () => {
-          // No se necesita hacer nada en complete
+          // Actualizo modalidad de pago
+          this.apiService.actualizarModalidadPagoDelTurno(idTurno, modalidadNueva).subscribe({
+            next: (response) => {
+              if (!response.success) {
+                this.toastr.error('No se pudo actualizar la modalidad de pago', 'Error');
+                reject(new Error('No se pudo actualizar la modalidad de pago'));
+              } else {
+                this.toastr.success("El turno ha sido actualizado");
+                resolve(response.data!);
+
+              }
+            },
+            error: (error) => {
+              this.toastr.error(error?.message, 'Error');
+              console.error('Error al actualizar la modalidad de pago', error);
+              reject(error);
+            }
+          })
+          
         }
       });
     });
   }
   
+
+
+
+  
+
+
+
+
+
+
 
 
   convertirTurnoAListaDeESperaTurno(turno: TurnoDTO): TurnoListaDeEspera {

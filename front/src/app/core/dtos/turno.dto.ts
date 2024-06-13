@@ -1,5 +1,6 @@
 import { eEspecialidad } from "../enums/especialidad.enum";
 import { eEstadoTurno } from "../enums/estado-turno.enum";
+import { eModalidadDePago } from "../enums/modalidad-de-pago.enum";
 import { eTipoTurno } from "../enums/tipo-turno.enum";
 import { PacienteDTO } from "./paciente.dto";
 import { ProfesionalDTO } from "./profesional.dto";
@@ -12,6 +13,7 @@ export class TurnoDTO {
     esSobreturno?: boolean;
     especialidad?: eEspecialidad;
     estado?: eEstadoTurno;
+    modalidadPago?: eModalidadDePago;
     paciente?: PacienteDTO;
     profesional?: ProfesionalDTO;
 
@@ -23,6 +25,7 @@ export class TurnoDTO {
         esSobreturno?: boolean,
         especialidad?: eEspecialidad,
         estado?: eEstadoTurno,
+        modalidadPago?: eModalidadDePago,
         paciente?: PacienteDTO,
         profesional?: ProfesionalDTO
     ) {
@@ -32,6 +35,7 @@ export class TurnoDTO {
         this.esSobreturno = esSobreturno;
         this.especialidad = especialidad;
         this.estado = estado;
+        this.modalidadPago = modalidadPago;
         this.paciente = paciente;
         this.profesional = profesional;
     }

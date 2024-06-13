@@ -7,6 +7,7 @@ import { eTipoTurno } from 'src/enums/tipo-turno.enum';
 import { eEstadoTurno } from 'src/enums/estado-turno.enum';
 import { ResponseDTO } from 'src/Utils/responseDTO.dto';
 import { log } from 'console';
+import { eModalidadDePago } from 'src/enums/modalidad-de-pago.enum';
 
 @Controller('turno')
 export class TurnoController {
@@ -55,6 +56,13 @@ export class TurnoController {
     async actualizarEstadoDelTurno(@Body() body: { id: number; estado: eEstadoTurno }): Promise<ResponseDTO<Turno>> {
       const { id, estado } = body;
       return this.turnoService.patchEstadoDelTurno(id, estado);
+    }
+
+
+    @Patch('modalidad-pago')
+    async actualizarModalidadPagoDelTurno(@Body() body: { id: number; modalidadPago: eModalidadDePago }): Promise<ResponseDTO<Turno>> {
+      const { id, modalidadPago } = body;
+      return this.turnoService.patchModalidadPagoDelTurno(id, modalidadPago);
     }
 
 }

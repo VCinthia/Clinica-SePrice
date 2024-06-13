@@ -9,11 +9,8 @@ export class Paciente {
   @PrimaryColumn()
   dniPaciente: number;
 
-  @Column({
-    type:'enum',
-    enum: eModalidadDePago
-  })
-  modalidadPago: eModalidadDePago;
+  @Column({nullable:true})
+  contactoEmergencia?: string;
 
   //cascade:true, sirve para  insertar,eliminar,actualizar las entidades relacionadas 
   //eager:true indica que se debe cargar automáticamente la entidad relacionada junto con la entidad principal cuando se recupera esta última de la base de datos.

@@ -7,7 +7,7 @@ import { Turno } from 'src/turno/entities/turno.entity';
 export class PacienteDTO 
 {
   dniPaciente: number;
-  modalidadPago: eModalidadDePago;
+  contactoEmergencia?: string;
   persona: PersonaDTO;
   historiaClinica: HistoriaClinicaDTO;
   turnos?: TurnoDTO[];

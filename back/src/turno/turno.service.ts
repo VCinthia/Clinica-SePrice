@@ -12,6 +12,7 @@ import { log } from 'console';
 import { eEstadoTurno } from 'src/enums/estado-turno.enum';
 import { ResponseDTO } from 'src/Utils/responseDTO.dto';
 import { response } from 'express';
+import { eModalidadDePago } from 'src/enums/modalidad-de-pago.enum';
 
 @Injectable()
 export class TurnoService {
@@ -183,7 +184,26 @@ export class TurnoService {
 
 
 
+      async patchModalidadPagoDelTurno(idTurno: number, modalidadPago: eModalidadDePago): Promise<ResponseDTO<Turno>> {
+        // Buscar el turno en la base de datos
+        const turnoDB = await this.turnoRepo.findOne({
+            where: {
+              turnoId: idTurno
+            },
+          });
 
+        if (!turnoDB) {
+            throw new NotFoundException(`El turno con ID  no fue encontrado.`);
+        }
+    
+        // Actualizar el estado del turno
+        turnoDB.modalidadPago = modalidadPago;
+    
+        // Guardar los cambios en la base de datos
+        const turnoActualizado = await this.turnoRepo.save(turnoDB);
+        const response = new ResponseDTO(true, "La modalidad de pago del turno ha sido actualizada", turnoActualizado)
+        return response;
+      }
 
     
 

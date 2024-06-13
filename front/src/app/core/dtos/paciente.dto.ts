@@ -5,7 +5,7 @@ import { TurnoDTO } from "./turno.dto";
 
 export class PacienteDTO {
     dniPaciente?: number;
-    modalidadPago?: eModalidadDePago;
+    contactoEmergencia?: string;
     persona?: PersonaDTO;
     historiaClinica?: HistoriaClinicaDTO;
     turnos?: TurnoDTO[];
