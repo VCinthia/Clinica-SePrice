@@ -28,23 +28,15 @@
   </ng-container>
 
   <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>
-      Seleccionar
-    </th>
-    <mat-radio-group [(ngModel)]="selectedOption">
-      <td mat-cell *matCellDef="let element" class="radioBtn">
-        <mat-radio-button class="custom-radio" [value]="element.fecha + element.horario">
-
-        </mat-radio-button>
-      </td>
-    </mat-radio-group>
-
-    <!-- <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef> Seleccionar </th>
-    <td mat-cell *matCellDef="let element">
-      <mat-radio-button [value]="element.inicioFechaHora" [(ngModel)]="selectedOption"></mat-radio-button>
+    <td mat-cell *matCellDef="let element" class="radioBtn">
+      <mat-radio-group [(ngModel)]="selectedOption">
+        <mat-radio-button
+          class="custom-radio"
+          [value]="element.inicioFechaHora + '-' + element.esSobreturno">
+        </mat-radio-button>
+      </mat-radio-group>
     </td>
-  </ng-container> -->
   </ng-container>
 
 
