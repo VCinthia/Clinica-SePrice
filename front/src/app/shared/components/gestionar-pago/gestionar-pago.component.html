@@ -7,7 +7,7 @@
     <h4>Paciente: {{turnoAFacturar.paciente?.persona?.nombre}} {{turnoAFacturar.paciente?.persona?.apellido}}</h4>
     <p>DNI: {{turnoAFacturar.paciente?.persona?.dni}}</p>
     <p>Dirección: {{turnoAFacturar.paciente?.persona?.domicilio}}</p>
-    <p>Turno: {{turnoAFacturar.inicioFechaHora | date:'short'}}</p>
+    <p>Turno: {{turnoAFacturar.inicioFechaHora | date:'dd/MM/yyyy HH:mm'}}</p>
     <p>Práctica {{turnoAFacturar.especialidad}}</p>
     <p>Profesional: {{turnoAFacturar.profesional?.persona?.nombre}} {{turnoAFacturar.profesional?.persona?.apellido}}</p>
     </div>

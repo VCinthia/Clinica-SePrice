@@ -28,12 +28,14 @@ export class CardDatosTurnoComponent {
 
 
   ngOnInit(): void {
-    if(this.currentRoute?.includes('consultoriosExternos/acreditarTurno/confirmarTurno')){
-      //busqueda de turno:
-      this.turnosEnCursoByDNI= this.turnoService.getTurnosEncontradosParaElUserLogueado();
+    //OBSERVABLES
+    this.turnoService.turnosEncontradosElUserLogueado$.subscribe((turnoAcreditar)=>{
+      this.turnosEnCursoByDNI = turnoAcreditar;
       this.primerTurno = this.turnosEnCursoByDNI[0];
-      this.turnoService.setTurnosAFacturar(this.primerTurno);
-      }
+      this.turnoService.setTurnoAFacturar(this.primerTurno);
+    })
+    
+
 
   }
 

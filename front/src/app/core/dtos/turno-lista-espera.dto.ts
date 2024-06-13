@@ -3,7 +3,7 @@ export class TurnoListaDeEspera {
     pacienteDNI: number;
     horario: Date;
     profesional: string;
-    numAtencion: number;
+    numAtencion: string;
     idTurno: number;
 
 
@@ -12,7 +12,7 @@ export class TurnoListaDeEspera {
         pacienteDNI: number,
         horario: Date,
         profesional: string,
-        numAtencion: number,
+        numAtencion: string,
         idTurno: number
     ) {
         this.pacienteNombre = pacienteNombre;
