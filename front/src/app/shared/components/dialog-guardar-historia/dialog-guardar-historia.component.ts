@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
 import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component';
@@ -14,6 +14,7 @@ import { UsuarioDTO } from '../../../core/dtos/usuario.dto';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { TurnoService } from '../../services/turno.service';
 import { TurnoListaDeEspera } from '../../../core/dtos/turno-lista-espera.dto';
+import { DialogFinalizarConsultaComponent } from '../dialog-finalizar-consulta/dialog-finalizar-consulta.component';
 
 @Component({
   selector: 'app-dialog-guardar-historia',
@@ -44,6 +45,7 @@ export class DialogGuardarHistoriaComponent {
     private turnoService: TurnoService,
     private usuarioService: UsuarioService,
     private historiaClinicaService: HistoriaClinicaService,
+    private dialog: MatDialog
   ) {}
   
 
@@ -73,7 +75,7 @@ export class DialogGuardarHistoriaComponent {
 
 
 
-  volverAListaEspera(){
+    guardarHistoriaClinica(){
     //put historia
     const nuevoText = (this.historiaClinicaDB?.detalle) ? ("\n" + this.data.nuevoDetalle) : this.data.nuevoDetalle;
     const detalleDB = (this.historiaClinicaDB?.detalle) ? this.historiaClinicaDB?.detalle : '';
@@ -84,6 +86,10 @@ export class DialogGuardarHistoriaComponent {
 
 
     this.dialogRef.close()
+
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.dialog.open(DialogFinalizarConsultaComponent);
+    });
   }
   
   cancelar(){

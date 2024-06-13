@@ -10,6 +10,7 @@ import { UsuarioDTO } from '../../../core/dtos/usuario.dto';
 import { eTipoUsuario } from '../../../core/enums/tipo-usuario.enum';
 import { TurnoService } from '../../services/turno.service';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
+import { eGrupo } from '../../../core/enums/grupo.enum';
 
 interface Sidenav {
   name: string;
@@ -37,7 +38,6 @@ export class MainLayoutComponent {
   sidenavProfesional: Sidenav[] = [
     { name: 'Ver Lista de Espera', route: 'listaEsperaProf' },
     { name: 'Historias Clínicas', route: 'historiasClinicas' },
-    { name: 'Volver al Menu Principal', route: '/inicio' },
     { name: 'Cerrar Sesión', route: '' },
   ];
 
@@ -91,6 +91,12 @@ export class MainLayoutComponent {
     if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {
       this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
       this.sidenavConsultoriosExternos = this.sidenavConsultoriosExternosAdmin;
+      //busqueda de turnos:
+      if (this.currentRoute?.includes('estudiosClinicos')) {
+        this.getTurnosByTipoPendientesHoy(eTipoTurno.ESTUDIO);
+      } else if (this.currentRoute?.includes('consultoriosExternos')) {
+        this.getTurnosByTipoPendientesHoy(eTipoTurno.CONSULTA);
+      }
 
     //PROFESIONAL  
     } else if (this.usuarioLogueado?.tipo === eTipoUsuario.PROFESIONAL) {
