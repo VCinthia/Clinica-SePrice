@@ -18,6 +18,7 @@ import { eTipoUsuario } from '../../../core/enums/tipo-usuario.enum';
 import { eGrupo } from '../../../core/enums/grupo.enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsuarioService } from '../../services/usuario.service';
+import { eEstadoUsuario } from '../../../core/enums/estado-usuario.enum';
 
 @Component({
   selector: 'app-login',
@@ -64,7 +65,11 @@ login(username: string, pass: string){
       if(!response){
         this.toastr.error('Login incorrecto','Error' );
       }
-      this.toastr.success('credenciales validadas','')
+      if(response.estado === eEstadoUsuario.INACTIVO){
+        this.toastr.warning('El usuario no tiene permisos para ingresar al sistema.','Acceso denegado' );
+        return;
+      }
+      this.toastr.success('credenciales validadas')
 
       //Actualizo el servicio con la informacion del login
       this.usuarioService.setUsuarioLogeado(response)
