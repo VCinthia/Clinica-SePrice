@@ -105,6 +105,11 @@ export class SeleccionarTurnoComponent {
 
 
   navegarAIngresarPaciente(){
+    const turnoSeleccionado = this.turnos.find(
+      turno => turno.inicioFechaHora + '-' + turno.esSobreturno === this.selectedOption
+    );
+    console.log(turnoSeleccionado);
+    
     if (this.router.url === '/estudiosClinicos/seleccionarTurno') {
       this.router.navigate(['estudiosClinicos/ingresarPaciente']);
     }
