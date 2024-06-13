@@ -91,12 +91,6 @@ export class MainLayoutComponent {
     if (this.usuarioLogueado?.tipo === eTipoUsuario.ADMINISTRATIVO) {
       this.sidenavEstudiosClinicos = this.sidenavEstudiosClinicosAdmin;
       this.sidenavConsultoriosExternos = this.sidenavConsultoriosExternosAdmin;
-      //busqueda de turnos:
-      if (this.currentRoute?.includes('estudiosClinicos')) {
-        this.getTurnosByTipoPendientesHoy(eTipoTurno.ESTUDIO);
-      } else if (this.currentRoute?.includes('consultoriosExternos')) {
-        this.getTurnosByTipoPendientesHoy(eTipoTurno.CONSULTA);
-      }
 
     //PROFESIONAL  
     } else if (this.usuarioLogueado?.tipo === eTipoUsuario.PROFESIONAL) {
