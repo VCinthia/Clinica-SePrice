@@ -9,6 +9,7 @@ import { Profesional } from 'src/profesional/entities/profesional.entity';
 import { log } from 'console';
 import { ResponseDTO } from 'src/Utils/responseDTO.dto';
 import { response } from 'express';
+import { eEstadoUsuario } from 'src/enums/estado-usuario.enum';
 
 @Injectable()
 export class UsuarioService {

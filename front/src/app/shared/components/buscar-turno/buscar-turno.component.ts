@@ -97,6 +97,7 @@ getTurnosAcreditarAndSetInServiceTurnos(){
 
 
 
+
 getTurnosByTipoPendientesHoy(tipo:eTipoTurno): void {
   this.apiService.getTurnosByTipoAndDayAndEstado(tipo, eEstadoTurno.PENDIENTE, new Date()).subscribe({
     next: (response) => {
