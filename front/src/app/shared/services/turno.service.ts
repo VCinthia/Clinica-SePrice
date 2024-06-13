@@ -80,6 +80,10 @@ export class TurnoService {
   setTurnosEnListaDeEspera(turnoListaEsperaCustom: TurnoListaDeEspera[]): void {
     this.turnosEnListaDeEspera.next(turnoListaEsperaCustom);
   }
+  addTurnoEnListaDeEspera(turno: TurnoListaDeEspera): void {
+    const currentTurnosEnListaEspera = this.getTurnosEnListaDeEspera();
+    this.turnosEnListaDeEspera.next([...currentTurnosEnListaEspera, turno]);
+  }
   removeTurnosEnListaDeEspera(idTurno: number): void {
     const currentTurnos = this.getTurnosEnListaDeEspera();
     this.turnosEnListaDeEspera.next(currentTurnos.filter(turno => turno.idTurno !== idTurno));

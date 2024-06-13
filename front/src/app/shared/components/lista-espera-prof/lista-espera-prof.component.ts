@@ -10,6 +10,8 @@ import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { TurnoService } from '../../services/turno.service';
 import { ToastrService } from 'ngx-toastr';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
+import { eTipoTurno } from '../../../core/enums/tipo-turno.enum';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-lista-espera-prof',
@@ -34,7 +36,7 @@ export class ListaEsperaProfComponent {
     private toastr : ToastrService,
     private usuarioService: UsuarioService,
     private turnoService: TurnoService,
-
+    private apiService: ApiService,
   ){
   }
 
@@ -58,7 +60,8 @@ export class ListaEsperaProfComponent {
       this.btnInvisible = false;
     }
 
-  this.getAndSortListaTurnosDelsServiceTurnos();
+  this.getTurnosConfirmadosParaListaDeEspera();  
+
 
   }
 
@@ -109,4 +112,59 @@ export class ListaEsperaProfComponent {
   }
   
     
+
+
+
+getTurnosConfirmadosParaListaDeEspera(){
+        //busqueda de turnos:
+        if (this.currentRoute?.includes('estudiosClinicos')) {
+          this.getTurnosByTipoProfesionalIdConfirmadosHoy(eTipoTurno.ESTUDIO, this.usuarioLogueado?.persona?.dni! );
+        } else if (this.currentRoute?.includes('consultoriosExternos')) {
+          this.getTurnosByTipoProfesionalIdConfirmadosHoy( eTipoTurno.CONSULTA, this.usuarioLogueado?.persona?.dni!);
+        }
+}
+
+
+
+getTurnosByTipoProfesionalIdConfirmadosHoy(tipo: eTipoTurno, profesionalDni: number ): void {
+  this.apiService.getTurnosByTipoAndProfesionalAndDayAndEstado( tipo, profesionalDni, new Date(), eEstadoTurno.CONFIRMADO ).subscribe({
+      next: (response) => {
+        if (!response) {
+          this.toastr.warning('Error al obtener turnos confirmados');
+          return;
+        }
+        if (response.length) {
+          let turnosConfirmados = response;
+          //Ordenar Turnos
+          turnosConfirmados.sort((a, b) => {
+            const fechaA = new Date(a.inicioFechaHora!).getTime();
+            const fechaB = new Date(b.inicioFechaHora!).getTime();
+            return fechaA - fechaB; // Orden ascendente
+          });
+          this.toastr.success('Tiene ' + turnosConfirmados.length + ' turnos asignados');
+          //Actualizo el servicio con los turnos de la Base
+          this.turnoService.setTurnos(turnosConfirmados);
+          console.log('TurnosConfirmados: ', turnosConfirmados);
+        } else {
+          this.toastr.warning('No tiene turnos confirmados');
+        }
+      },
+      error: (error) => {
+        this.toastr.warning(error.error?.message, 'Error');
+        console.error('Error al obtener turnos:', error);
+      },
+      complete:() =>{
+        this.getAndSortListaTurnosDelsServiceTurnos();
+        console.log("turnosListFinal: ",this.turnosList);
+        
+
+      }
+    });
+}
+
+
+
+
+
+
 }

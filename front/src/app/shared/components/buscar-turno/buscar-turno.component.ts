@@ -9,6 +9,9 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { TurnoService } from '../../services/turno.service';
 import { ToastrService } from 'ngx-toastr';
+import { eTipoTurno } from '../../../core/enums/tipo-turno.enum';
+import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-buscar-turno',
@@ -23,12 +26,11 @@ export class BuscarTurnoComponent {
   turnosList : TurnoDTO[]  = [];
 
 
-
-
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private turnoService: TurnoService,
+    private apiService: ApiService,
   ){
 
   }
@@ -36,16 +38,16 @@ export class BuscarTurnoComponent {
 
 
 
-
-
   ngOnInit(): void {
     this.currentRoute = this.router.url;
+    //OBSERVABLES
+    this.turnoService.turnos$.subscribe((turnosAcreditar) => {
+    this.turnosList = turnosAcreditar;
+  });
 
-    if(this.currentRoute?.includes('consultoriosExternos/acreditarTurno')){
-      //busqueda de turno:
-      this.turnosList= this.turnoService.getTurnos();
-      }
 
+
+  this.getTurnosAcreditarAndSetInServiceTurnos();
   }
 
   
@@ -79,4 +81,53 @@ export class BuscarTurnoComponent {
       this.router.navigate(['consultoriosExternos']);
     }
   }
+
+
+
+
+getTurnosAcreditarAndSetInServiceTurnos(){
+        //busqueda de turnos:
+        if (this.currentRoute?.includes('estudiosClinicos')) {
+          this.getTurnosByTipoPendientesHoy(eTipoTurno.ESTUDIO);
+        } else if (this.currentRoute?.includes('consultoriosExternos')) {
+          this.getTurnosByTipoPendientesHoy(eTipoTurno.CONSULTA);
+        }
+}
+
+
+
+
+getTurnosByTipoPendientesHoy(tipo:eTipoTurno): void {
+  this.apiService.getTurnosByTipoAndDayAndEstado(tipo, eEstadoTurno.PENDIENTE, new Date()).subscribe({
+    next: (response) => {
+      if (!response) {
+        this.toastr.error('No se ha podido obtener turnos pendientes', 'Error');
+        return;
+      }
+
+      if (response.length) {
+        let turnosPendientes = response;
+        //Ordenar Turnos
+        turnosPendientes.sort((a, b) => {
+          const fechaA = new Date(a.inicioFechaHora!).getTime();
+          const fechaB = new Date(b.inicioFechaHora!).getTime();
+          return fechaA - fechaB; // Orden ascendente
+        });
+        this.toastr.success('Hay ' + turnosPendientes.length + ' turnos para acreditar hoy');
+        //Actualizo el servicio "TURNOS" con los turnos pendientes de la Base 
+        this.turnoService.setTurnos(turnosPendientes);
+        console.log('TurnosPendientes: ', turnosPendientes);
+      } else {
+        this.toastr.warning('No hay turnos para acreditar hoy');
+      }
+    },
+    error: (error) => {
+      this.toastr.warning(error.error?.message, 'Error');
+      console.error('Error al obtener turnos Pendientes para hoy', error);
+    },
+  });
+}
+
+
+
 }
