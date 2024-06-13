@@ -15,7 +15,6 @@ import { CommonModule } from '@angular/common';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { ApiService } from '../../../services/api.service';
 import { TurnoListaDeEspera } from '../../../core/dtos/turno-lista-espera.dto';
-import { ListaEsperaAdminComponent } from '../lista-espera-admin/lista-espera-admin.component';
 
 @Component({
   selector: 'app-gestionar-pago',
@@ -67,14 +66,11 @@ export class GestionarPagoComponent {
 
 
 
-
-
     if(this.selectedOption =="obraSocial"){
 
     }else if(this.selectedOption == "particular"){
 
     }
-//TODOOOOOOOOOOO: VER CONFIRMADOS PARA LISTA DE ESPERAA
 
 
     if (this.router.url === '/estudiosClinicos/gestionarPago') {

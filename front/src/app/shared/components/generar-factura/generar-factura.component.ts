@@ -3,6 +3,9 @@ import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
 import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ApiService } from '../../../services/api.service';
+import { TurnoService } from '../../services/turno.service';
+import { TurnoDTO } from '../../../core/dtos/turno.dto';
 
 @Component({
   selector: 'app-generar-factura',
@@ -12,8 +15,32 @@ import { Router } from '@angular/router';
   styleUrl: './generar-factura.component.scss'
 })
 export class GenerarFacturaComponent {
+  turnoAFacturar : TurnoDTO  = new TurnoDTO;
 
-  constructor(private toastr: ToastrService, private router: Router) {}
+
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private turnoService: TurnoService,
+    private apiService: ApiService,
+  ) {}
+
+
+
+
+  ngOnInit(): void {
+    //OBSERVABLES
+    this.turnoService.turnoAFacturar$.subscribe((turnoAFacturar)=>{
+      this.turnoAFacturar = turnoAFacturar;
+    })
+
+    //------------------
+    console.log("TurnoAFActurar:", this.turnoAFacturar);
+    
+
+  }
+
+
 
   
   imprimirFactura(){
