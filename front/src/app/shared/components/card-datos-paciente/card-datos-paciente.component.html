@@ -1,15 +1,16 @@
+<!-- card-datos-paciente.component.html -->
 <div class="card">
-    <h4>Paciente: María Garcia</h4>
+    <h4>Paciente: {{ paciente.persona!.nombre }} {{ paciente.persona!.apellido }}</h4>
     <div class="dataContainer">
-    <p>DNI: 11111111</p>
-    <p>Dirección: Córdoba 1111</p>
-    <p>Tel: 2234444444</p>
-    <p>Obra Social: OPM</p>
+      <p>DNI: {{ paciente.dniPaciente }}</p>
+      <p>Dirección: {{ paciente.persona!.domicilio }}</p>
+      <p>Tel: {{ paciente.persona!.telefono }}</p>
+      <!-- <p>Obra Social: {{ paciente.obraSocial }}</p> -->
     </div>
-    
+  
     <div class="btnContainer">
-        <app-btn-secondary buttonText="Editar datos"></app-btn-secondary>
-        <app-btn-primary (click)="navegarAConfirmarTurno()" buttonText="Continuar"></app-btn-primary>
+      <app-btn-secondary buttonText="Editar datos"></app-btn-secondary>
+      <app-btn-primary (click)="navegarAConfirmarTurno()" buttonText="Continuar"></app-btn-primary>
     </div>
-</div>
-
+  </div>
+  
