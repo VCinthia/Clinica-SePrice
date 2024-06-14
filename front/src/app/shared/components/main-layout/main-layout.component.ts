@@ -11,6 +11,8 @@ import { eTipoUsuario } from '../../../core/enums/tipo-usuario.enum';
 import { TurnoService } from '../../services/turno.service';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { eGrupo } from '../../../core/enums/grupo.enum';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCerrarSesionComponent } from '../dialog-cerrar-sesion/dialog-cerrar-sesion.component';
 
 interface Sidenav {
   name: string;
@@ -61,6 +63,7 @@ export class MainLayoutComponent {
     private router: Router,
     private usuarioService: UsuarioService,
     private turnoService: TurnoService,
+    public dialog: MatDialog
   ) {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
@@ -105,6 +108,12 @@ export class MainLayoutComponent {
     }
   }
 
+  cerrarSesion(): void {
+    const dialogRef = this.dialog.open(DialogCerrarSesionComponent, {
+      width: '400px',
+      height: '250px'
+    });
 
+  }
 
 }

@@ -3,12 +3,20 @@
         <div class="sidenavContainer">
             @if (currentRoute?.includes('estudiosClinicos')) {
                 @for (opcion of sidenavEstudiosClinicos; track opcion) {
-                    <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                    @if (opcion.name === 'Cerrar Sesión') {
+                        <a (click)="cerrarSesion()">{{opcion.name}}</a>
+                        } @else {
+                            <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                        }
                   }
              }
              @if (currentRoute?.includes('consultoriosExternos')) {
                 @for (opcion of sidenavConsultoriosExternos; track opcion) {
-                    <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                    @if (opcion.name === 'Cerrar Sesión') {
+                    <a (click)="cerrarSesion()">{{opcion.name}}</a>
+                    } @else {
+                        <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                    }
                   }
              }
         </div>

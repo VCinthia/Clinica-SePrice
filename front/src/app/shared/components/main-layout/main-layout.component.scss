@@ -26,6 +26,11 @@ a{
     color: white;
     font-weight: 500;
     text-decoration: none;
+    cursor: pointer;
+}
+
+a:last-child{
+    padding-top: 100px;
 }
 
 .main-content{
