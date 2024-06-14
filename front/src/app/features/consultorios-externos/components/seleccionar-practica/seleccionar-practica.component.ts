@@ -49,20 +49,12 @@ export class SeleccionarPracticaComponent implements OnInit {
 
   ngOnInit(): void {
     this.practicaControl.valueChanges.subscribe(value => {
-      this.turnosService.actualizarPracticaSeleccionada(value);//del original de mati
-      // if (value) {
-      //   console.log(value, 'este es value');        
-      //   this.turnos = this.turnosService.getTurnosByEspecialidad(value.name);
-      //   console.log('value.name: ',value.name);
-        
-      //   console.log(this.turnos, 'este es turnos');
-      //   //crea turnos segun especialidad por duracion OK
-      // }
+      this.turnosService.actualizarPracticaSeleccionada(value);
     });
   }
 
   navegarASeleccionarTurno() {
-    if (this.router.url === '/consultoriosExternos/nuevoTurno') {
+    if (this.router.url === '/consultoriosExternos/nuevoTurno') {//va a a la ruta que muestra el deplegable de especialidades
       this.router.navigate(['consultoriosExternos/seleccionarTurno']);
     }
   }

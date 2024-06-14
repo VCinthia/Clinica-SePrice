@@ -22,24 +22,16 @@ import { eEspecialidad } from '../../../core/enums/especialidad.enum';
 })
 export class SeleccionarTurnoComponent {
 
-  //Todo: importo estructura dto
   practicaSeleccionada: eEspecialidad | null = null;
   estudioSeleccionado: string | null = null;
-  turnoDto : TurnoDTO  | null = null;
+  //turnoDto : TurnoDTO  | null = null;//ver si hace falta
   turnos : TurnoDTO [] = [];
-  turnoSeleccionado : number = 0;
-  
+  //turnoSeleccionado : number = 0;  
   selectedOption: string | null = null;
 
-
-  //----- original:
-  // selectedOption: string;
-  // practicaSeleccionada : string = '';
   tiempoTurno : number  = 0;
-  // estudioSeleccionado : string = '';
   listaTurnos: TurnoDTO[] = [];
   turnosTomados: any[] = [];
-  //-----
 
   constructor(
     private router: Router,
@@ -54,20 +46,17 @@ export class SeleccionarTurnoComponent {
     if (this.router.url === '/consultoriosExternos/seleccionarTurno') {
       this.turnosService.practicaSeleccionada$.subscribe(async practica => {
         this.practicaSeleccionada = practica.name;
-        console.log('holis2', practica.name);
-
         this.tiempoTurno = practica.tiempoTurno;
-        console.log('holis3', practica.tiempoTurno);
+        console.log('Practica', practica.name, 'Tiempo Turno', practica.tiempoTurno);
 
         if (practica) {
-          console.log(practica, 'este es value');
-          this.turnos = await this.turnosService.getTurnosByEspecialidad(practica.name);
-          console.log('value.name: ', practica.name);
-
-          console.log(this.turnos, 'este es turnos');
+          // this.turnos = await this.turnosService.getTurnosByEspecialidad(practica.name);
+          // console.log('Este son los turnos', this.turnos);
+          this.turnosService.getTurnosByEspecialidad(practica.name).then(turnos => {
+            this.turnos = turnos;
+          });
         }
       });
-
       this.getAllTurnos();
     }
 
@@ -108,13 +97,15 @@ export class SeleccionarTurnoComponent {
     const turnoSeleccionado = this.turnos.find(
       turno => turno.inicioFechaHora + '-' + turno.esSobreturno === this.selectedOption
     );
-    console.log(turnoSeleccionado);
+    console.log('TurnoSeleccionado', turnoSeleccionado);
     
-    if (this.router.url === '/estudiosClinicos/seleccionarTurno') {
-      this.router.navigate(['estudiosClinicos/ingresarPaciente']);
-    }
-    if (this.router.url === '/consultoriosExternos/seleccionarTurno') {
+    if (turnoSeleccionado && this.router.url === '/consultoriosExternos/seleccionarTurno') {
+      this.turnosService.actualizarTurnoSeleccionado(turnoSeleccionado);
       this.router.navigate(['consultoriosExternos/ingresarPaciente']);
+    }
+    if (turnoSeleccionado && this.router.url === '/estudiosClinicos/seleccionarTurno') {
+      this.turnosService.actualizarTurnoSeleccionado(turnoSeleccionado);
+      this.router.navigate(['estudiosClinicos/ingresarPaciente']);
     }
   }
 

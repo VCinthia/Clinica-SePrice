@@ -13,6 +13,7 @@ import { eEstadoTurno } from '../core/enums/estado-turno.enum';
 import { ResponseDTO } from '../core/dtos/response.dto';
 import { HistoriaClinicaDTO } from '../core/dtos/historia-clinica.dto';
 import { eModalidadDePago } from '../core/enums/modalidad-de-pago.enum';
+import { PacienteDTO } from '../core/dtos/paciente.dto';
 
 @Injectable({
    //habilita la injeccion de dependencia del servicio
@@ -64,8 +65,11 @@ export class ApiService {
 
   //para postea  nuevo turno, no pasar el id, se genera automaticamente en la base
   postNewTurno(turnoDTO: TurnoDTO): Observable<TurnoDTO> {
+    const url = `${this.BASE_URL}/turno`;
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.httpClient.post(this.BASE_URL, turnoDTO, { headers: headers });
+    console.log('turnoDTO: ', turnoDTO);
+    return this.httpClient.post(url, turnoDTO, { headers: headers });
+    
   }
 
 
@@ -113,7 +117,10 @@ export class ApiService {
     return this.httpClient.get<PersonaDTO>(url);
   }
 
-
+  getPaciente(dni: number): Observable<PacienteDTO> {
+    const url = `${this.BASE_URL}/paciente/${dni}`;
+    return this.httpClient.get<PacienteDTO>(url);
+  }
 
    //PROFESIONAL
    getProfesionalByDni(dni: number): Observable<ProfesionalDTO> {

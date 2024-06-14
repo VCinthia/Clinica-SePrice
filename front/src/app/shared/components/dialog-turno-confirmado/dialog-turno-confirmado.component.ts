@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
   templateUrl: './dialog-turno-confirmado.component.html',
   styleUrl: './dialog-turno-confirmado.component.scss'
 })
+
 export class DialogTurnoConfirmadoComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogTurnoConfirmadoComponent>,
@@ -33,12 +34,12 @@ export class DialogTurnoConfirmadoComponent {
   ) {}
   
   volverAlInicio(){
-    if (this.router.url === '/estudiosClinicos/confirmarTurno') {
-      this.router.navigate(['estudiosClinicos']);
-      this.dialogRef.close()
-    }
     if (this.router.url === '/consultoriosExternos/confirmarTurno') {
       this.router.navigate(['consultoriosExternos']);
+      this.dialogRef.close()
+    }
+    if (this.router.url === '/estudiosClinicos/confirmarTurno') {
+      this.router.navigate(['estudiosClinicos']);
       this.dialogRef.close()
     }
   }

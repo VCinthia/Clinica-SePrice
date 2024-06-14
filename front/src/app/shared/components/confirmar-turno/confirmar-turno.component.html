@@ -1,17 +1,19 @@
 <div class="card">
     <h2>Confirmar Turno</h2>
-    <h4>Paciente: María Garcia</h4>
-    <h4>Turno: 27 de mayo 15:00hs</h4>
+    <h4>Paciente: {{ pacienteSeleccionado?.persona?.nombre }} {{ pacienteSeleccionado?.persona?.apellido }}</h4>
+    <h4>Turno: {{ turnoSeleccionado?.inicioFechaHora | date: 'd/M/yy, h:mm a' }}</h4>
+    <h4>Especialidad: {{ turnoSeleccionado?.especialidad }}</h4>
+    <h4>Profesional: {{ turnoSeleccionado?.profesional?.persona?.apellido}}, {{ turnoSeleccionado?.profesional?.persona?.nombre}}</h4>
     <div class="dataContainer">
-    <p>DNI: 11111111</p>
-    <p>Dirección: Córdoba 1111</p>
-    <p>Tel: 2234444444</p>
-    <p>Obra Social: OPM</p>
-    <p>Observaciones: -</p>
+      <p>DNI: {{ pacienteSeleccionado?.persona?.dni }}</p>
+      <p>Dirección: {{ pacienteSeleccionado?.persona?.domicilio }}</p>
+      <p>Tel: {{ pacienteSeleccionado?.persona?.telefono }}</p>
+      <!-- <p>Obra Social: {{ pacienteSeleccionado?.obraSocial?.nombre }}</p> -->
+      <!-- <p>Observaciones: {{ pacienteSeleccionado?.observaciones }}</p> -->
     </div>
     
     <div class="btnContainer">
-        <app-btn-secondary buttonText="Volver"></app-btn-secondary>
-        <app-btn-primary (click)="notificacionConfirmar()" buttonText="Confirmar"></app-btn-primary>
-    </div>
+      <app-btn-secondary buttonText="Volver"></app-btn-secondary>
+      <app-btn-primary (click)="notificacionConfirmar()" buttonText="Confirmar"></app-btn-primary>
+  </div>
 </div>

@@ -7,6 +7,8 @@ import { eTipoTurno } from '../core/enums/tipo-turno.enum';
 import { eEstadoTurno } from '../core/enums/estado-turno.enum';
 import { ApiService } from './api.service';
 import { Router } from '@angular/router';
+import { PacienteDTO } from '../core/dtos/paciente.dto';
+import { eModalidadDePago } from '../core/enums/modalidad-de-pago.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -14,159 +16,23 @@ import { Router } from '@angular/router';
 
 export class TurnosService {
   profesional: ProfesionalDTO | undefined;
-
-
-  // turnosEstudios : any[] = [
-  //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:45', profesional:'Dr. González', sobreturno: false},
-  // ]
-
-  // // //MEDICINA_GENERAL, PEDIATRIA O ODONTOLOGIA
-  // turnos15 : any[] = [
-  //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '9:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '10:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '11:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '12:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '14:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '15:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '16:00', profesional:'Dr. González', sobreturno: true},
-  // ]
-
-  // //FISIO_KINESIOLOGIA
-  // turnos25 : any[] = [
-  //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:25', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:50', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:15', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '9:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:40', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:05', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:30', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '10:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:55', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:20', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '11:20', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:45', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:10', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:35', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '12:35', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:25', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:50', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:15', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '14:15', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:40', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:05', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:55', profesional:'Dr. González', sobreturno: false},
-  // ]
-
-  // //SALUD_MENTAL
-  // turnos30 : any[] = [
-  //   {fecha: '22/06/2024', horaInicio: '8:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '8:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '9:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '9:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '10:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '10:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '11:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '11:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '12:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '12:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '13:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '13:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '14:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '14:30', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:00', profesional:'Dr. González', sobreturno: true},
-  //   {fecha: '22/06/2024', horaInicio: '15:00', profesional:'Dr. González', sobreturno: false},
-  //   {fecha: '22/06/2024', horaInicio: '15:30', profesional:'Dr. González', sobreturno: false},
-  // ]
+  paciente: PacienteDTO | undefined;
 
   constructor(
     private router: Router,
-    private apiService: ApiService) { }
+    private apiService: ApiService
+  ) { }
 
-
+  //PRACTICA SELECCIONADA LA USE PARA IDENTIFICAR ESPECIALIDAD
   private practicaSeleccionadaSource = new BehaviorSubject<any>(null);
   practicaSeleccionada$ = this.practicaSeleccionadaSource.asObservable();
-
 
   actualizarPracticaSeleccionada(practica: any): void {
     this.practicaSeleccionadaSource.next(practica);
     console.log('practica: ', practica);
-    
   }
 
+  //VER DE USAR LA DE PRACTICA PARA AMBOS CIRCUITOS
   private estudioSeleccionadoSource = new BehaviorSubject<any>(null);
   estudioSeleccionado$ = this.estudioSeleccionadoSource.asObservable();
 
@@ -174,6 +40,25 @@ export class TurnosService {
     this.estudioSeleccionadoSource.next(practica);
   }
 
+  //OBSERVABLE DE TURNO SIN PACIENTE ASIGNADO
+  private turnoSeleccionadoSource = new BehaviorSubject<TurnoDTO | null>(null);
+  turnoSeleccionado$ = this.turnoSeleccionadoSource.asObservable();
+
+  actualizarTurnoSeleccionado(turno: TurnoDTO | null): void {
+    this.turnoSeleccionadoSource.next(turno);
+    console.log('Turno actualizado:', turno);
+  }
+
+  // OBSERVABLE PARA PACIENTE SELECCIONADO
+  private pacienteSeleccionadoSource = new BehaviorSubject<PacienteDTO | null>(null);
+  pacienteSeleccionado$ = this.pacienteSeleccionadoSource.asObservable();
+
+  actualizarPacienteSeleccionado(paciente: PacienteDTO | null): void {
+    this.pacienteSeleccionadoSource.next(paciente);
+    console.log('Paciente actualizado:', paciente);
+  }
+
+  // Actualización de profesional según especialidad
   async actualizarProfesionalSegunEspecialidad(practica: eEspecialidad): Promise<ProfesionalDTO | undefined> {
     try {
       const profesionales = await this.apiService.getProfesionalByEspecialidad(practica).toPromise();
@@ -190,9 +75,9 @@ export class TurnosService {
       return undefined;
     }
   }
-  
 
-  //traer segun especialidad turnos disponibles MIO:
+
+  // Obtener lista de turnos disponibles por especialidad
   getListaTurnosDisponiblesByEnum(name: eEspecialidad) {
     if (name) {
       this.getTurnosByEspecialidad(name)
@@ -202,11 +87,7 @@ export class TurnosService {
     }
   }
 
-  // getListaTurnosEstudio (){
-  //   return this.turnosEstudios
-  // }
-  
-
+  // Generar lista de turnos sin paciente asociado
   async generarTurnos(fecha: Date, tiempoTurno: number, especialidad: eEspecialidad): Promise<TurnoDTO[]> {
     const profesionalDto = await this.actualizarProfesionalSegunEspecialidad(especialidad);
     console.log('este es profesionalDto: ', profesionalDto);
@@ -226,7 +107,8 @@ export class TurnosService {
         false,
         especialidad,
         eEstadoTurno.PENDIENTE,
-        undefined,
+        eModalidadDePago.PARTICULAR,
+        undefined,//paciente
         profesionalDto,
       );
       turnos.push(turno);
@@ -239,19 +121,19 @@ export class TurnosService {
           true,
           especialidad,
           eEstadoTurno.PENDIENTE,
-          undefined,
-         profesionalDto,
+          eModalidadDePago.PARTICULAR,
+          undefined,//paciente
+          profesionalDto,
         );
         turnos.push(sobreturno);
         lastSobreturno = new Date(currentTurno);
       }
-
       currentTurno.setMinutes(currentTurno.getMinutes() + tiempoTurno);
     }
-
     return turnos;
   }
 
+  //Genera la lista segun tiempo de turno x especialidad
   async getTurnosByEspecialidad(especialidad: eEspecialidad): Promise<TurnoDTO[]> {
     const fechaActual = new Date();
     let tiempoTurno: number;
@@ -271,8 +153,21 @@ export class TurnosService {
       default:
         return [];
     }
-
     return await this.generarTurnos(fechaActual, tiempoTurno, especialidad);
+  }
+
+  async crearTurnoEnBDD(turno : TurnoDTO, paciente : PacienteDTO): Promise<void>{
+    try{
+      if(turno && paciente){
+        turno.paciente = paciente;
+        //console.log('PRUEBA DE AGREGAR INFO DEL PACIENTE AL TURNO', turno);
+        const turnoCreado = await this.apiService.postNewTurno(turno).toPromise();
+      console.log('Turno creado en la BDD: ', turnoCreado);        
+      }
+    } catch (error) {
+      console.error('Error al crear turno', error);
+      return undefined;
+    }
   }
 
 }
