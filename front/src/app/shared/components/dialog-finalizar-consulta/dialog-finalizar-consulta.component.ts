@@ -59,14 +59,6 @@ export class DialogFinalizarConsultaComponent {
         this.router.navigate(['estudiosClinicos/listaEsperaProf']);
       }
     }
-    
-    if (this.router.url === '/consultoriosExternos/historiaClinica') {
-      if(this.turnosListEspera.length){
-        this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
-      }else{
-        this.router.navigate(['consultoriosExternos/listaEsperaProf']);
-      }
-    }
   }
       
   finalizarConsulta(): void {
@@ -80,12 +72,5 @@ export class DialogFinalizarConsultaComponent {
         }
       }
       
-      if (this.router.url === '/consultoriosExternos/historiaClinica') {
-        if(this.turnosListEspera.length){
-          this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
-        }else{
-          this.router.navigate(['consultoriosExternos/listaEsperaProf']);
-        }
-      }
   }
 }

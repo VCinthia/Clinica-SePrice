@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { BtnSecondaryComponent } from '../btn-secondary/btn-secondary.component';
 import { BtnPrimaryComponent } from '../btn-primary/btn-primary.component';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-turno-confirmado',
@@ -30,7 +31,8 @@ import { Router } from '@angular/router';
 export class DialogTurnoConfirmadoComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogTurnoConfirmadoComponent>,
-    private router : Router
+    private router : Router,
+    private toastr : ToastrService
   ) {}
   
   volverAlInicio(){
@@ -41,6 +43,19 @@ export class DialogTurnoConfirmadoComponent {
     if (this.router.url === '/estudiosClinicos/confirmarTurno') {
       this.router.navigate(['estudiosClinicos']);
       this.dialogRef.close()
+    }
+  }
+
+  imprimirComprobante(){
+    if (this.router.url === '/consultoriosExternos/confirmarTurno') {
+      this.router.navigate(['consultoriosExternos']);
+      this.dialogRef.close();
+      this.toastr.success('Turno impreso correctamente');
+    }
+    if (this.router.url === '/estudiosClinicos/confirmarTurno') {
+      this.router.navigate(['estudiosClinicos']);
+      this.dialogRef.close();
+      this.toastr.success('Turno impreso correctamente');
     }
   }
 }

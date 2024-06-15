@@ -20,7 +20,7 @@ p{
 
 }
 
-app-btn-primary, app-btn-secondary{
+app-btn-primary, app-btn-secondary, app-btn-inactive{
     width: 240px;
     height: 90px;
 }

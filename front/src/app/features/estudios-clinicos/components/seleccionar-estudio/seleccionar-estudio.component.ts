@@ -55,4 +55,10 @@ export class SeleccionarEstudioComponent {
     }
   }
 
+  volver(){
+    if (this.router.url === '/estudiosClinicos/nuevoTurno') {
+      this.router.navigate(['estudiosClinicos/gestionarTurnos']);
+    }
+  }
+
 }

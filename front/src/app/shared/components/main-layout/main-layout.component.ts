@@ -39,7 +39,7 @@ export class MainLayoutComponent {
 
   sidenavProfesional: Sidenav[] = [
     { name: 'Ver Lista de Espera', route: 'listaEsperaProf' },
-    { name: 'Historias Clínicas', route: 'historiasClinicas' },
+    // { name: 'Historias Clínicas', route: 'historiasClinicas' },
     { name: 'Cerrar Sesión', route: '' },
   ];
 

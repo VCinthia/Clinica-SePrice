@@ -87,12 +87,23 @@ export class DialogGuardarHistoriaComponent {
 
     this.dialogRef.close()
 
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.dialog.open(DialogFinalizarConsultaComponent, {
-        width: '600px',
-        height: '250px'
+    if (this.router.url === '/consultoriosExternos/historiaClinica') {
+      if(this.turnosListEspera.length){
+        this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
+      }else{
+        this.router.navigate(['consultoriosExternos/listaEsperaProf']);
+      }
+    }
+
+    if (this.router.url === '/estudiosClinicos/historiaClinica'){
+      this.dialogRef.afterClosed().subscribe(() => {
+        this.dialog.open(DialogFinalizarConsultaComponent, {
+          width: '600px',
+          height: '250px'
+        });
       });
-    });
+    }
+    
   }
   
   cancelar(){

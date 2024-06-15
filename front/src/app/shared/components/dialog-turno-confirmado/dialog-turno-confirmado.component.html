@@ -2,7 +2,7 @@
     <h2>¡Turno Confirmado!</h2>
 
 <mat-dialog-actions>
-  <app-btn-secondary buttonText="Imprimir Comprobante"></app-btn-secondary>
+  <app-btn-secondary (click)="imprimirComprobante()" buttonText="Imprimir Comprobante"></app-btn-secondary>
   <app-btn-primary (click)="volverAlInicio()" buttonText="Finalizar"></app-btn-primary>
 </mat-dialog-actions>
 </div>

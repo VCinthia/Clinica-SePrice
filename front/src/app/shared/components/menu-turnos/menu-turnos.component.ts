@@ -3,11 +3,12 @@ import { MatCard } from '@angular/material/card';
 import { BtnPrimaryComponent } from '../../../shared/components/btn-primary/btn-primary.component';
 import { BtnSecondaryComponent } from '../../../shared/components/btn-secondary/btn-secondary.component';
 import { Router } from '@angular/router';
+import { BtnInactiveComponent } from '../btn-inactive/btn-inactive.component';
 
 @Component({
   selector: 'app-menu-turnos',
   standalone: true,
-  imports: [MatCard, BtnPrimaryComponent, BtnSecondaryComponent],
+  imports: [MatCard, BtnPrimaryComponent, BtnSecondaryComponent, BtnInactiveComponent],
   templateUrl: './menu-turnos.component.html',
   styleUrl: './menu-turnos.component.css'
 })

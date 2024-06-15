@@ -3,10 +3,10 @@
     <p>Seleccione una opción:</p>
     <div class="btnContainer">
         <app-btn-primary (click)="navegarANuevoTurno()" [buttonText]="'Nuevo Turno'"></app-btn-primary>
-        <app-btn-primary [buttonText]="'Eliminar Turno'"></app-btn-primary>
+        <app-btn-inactive [buttonText]="'Eliminar Turno'"></app-btn-inactive>
     </div>
     <div class="btnContainer">
         <app-btn-secondary (click)="volver()" [buttonText]="'Volver'"></app-btn-secondary>
-        <app-btn-primary [buttonText]="'Ver Turnos'"></app-btn-primary>
+        <app-btn-inactive [buttonText]="'Ver Turnos'"></app-btn-inactive>
     </div>
 </mat-card>

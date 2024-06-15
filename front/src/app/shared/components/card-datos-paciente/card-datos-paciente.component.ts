@@ -8,11 +8,12 @@ import { PersonaDTO } from '../../../core/dtos/persona.dto';
 import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { CommonModule } from '@angular/common';
 import { PacienteDTO } from '../../../core/dtos/paciente.dto';
+import { BtnInactiveComponent } from '../btn-inactive/btn-inactive.component';
 
 @Component({
   selector: 'app-card-datos-paciente',
   standalone: true,
-  imports: [BtnPrimaryComponent, BtnSecondaryComponent,CommonModule],
+  imports: [BtnPrimaryComponent, BtnSecondaryComponent, BtnInactiveComponent, CommonModule],
   templateUrl: './card-datos-paciente.component.html',
   styleUrl: './card-datos-paciente.component.scss'
 })

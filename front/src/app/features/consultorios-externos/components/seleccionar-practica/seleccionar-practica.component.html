@@ -19,5 +19,5 @@
     } @else {
       <app-btn-primary (click)="navegarASeleccionarTurno()" [buttonText]="'Ver turnos disponibles'"></app-btn-primary>
     }
-    <app-btn-secondary [buttonText]="'Volver'"></app-btn-secondary>
+    <app-btn-secondary (click)="volver()" [buttonText]="'Volver'"></app-btn-secondary>
 </mat-card>
