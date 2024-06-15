@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { eTipoTurno } from '../../../core/enums/tipo-turno.enum';
 import { ApiService } from '../../../services/api.service';
+import { eSexo } from '../../../core/enums/sexo.enum';
 
 @Component({
   selector: 'app-lista-espera-prof',
@@ -30,6 +31,7 @@ export class ListaEsperaProfComponent {
   turnosConfirmadosListData: any = [];
   dataSource: any = [];
   displayedColumns: string[] = ['pacienteNombre', 'horario', 'profesional', 'numAtencion'];
+  abreviatura: string = "Dr. ";
 
   constructor(
     private router : Router,
@@ -48,6 +50,9 @@ export class ListaEsperaProfComponent {
 
   this.usuarioService.usuarioLogeado$.subscribe((usuarioLogueado) => {
     this.usuarioLogueado= usuarioLogueado;
+    if(usuarioLogueado?.persona?.sexo == eSexo.FEMENINO){
+        this.abreviatura = "Dra. " 
+    }
   });  
 
   this.turnoService.showBtnComenzarLLamadas$.subscribe((showBTN) => {
@@ -74,9 +79,10 @@ export class ListaEsperaProfComponent {
 
       //CREO LISTA PERSONALIZADA
       this.turnosConfirmadosListData = this.turnosList.map((turno, index) => {
+        const abreviatura = turno.profesional?.persona?.sexo == eSexo.FEMENINO ? 'Dra. ' : 'Dr. ';
         const pacienteNombre = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
         const pacienteDNI = `${turno.paciente?.persona?.dni}`;
-        const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
+        const profesional = `${abreviatura} ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
         const turnoIdCustom = `T-${turno.turnoId}`; // Usar el índice en lugar del id del turno index+1
         return {
           'pacienteNombre': pacienteNombre,

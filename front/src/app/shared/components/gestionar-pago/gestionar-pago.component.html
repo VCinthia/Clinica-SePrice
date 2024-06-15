@@ -8,7 +8,7 @@
     <p>Dirección: {{turnoAFacturar.paciente?.persona?.domicilio}}</p>
     <p>Turno: {{turnoAFacturar.inicioFechaHora | date:'dd/MM/yyyy HH:mm'}}</p>
     <p>Práctica {{turnoAFacturar.especialidad}}</p>
-    <p>Profesional: {{turnoAFacturar.profesional?.persona?.nombre}} {{turnoAFacturar.profesional?.persona?.apellido}}</p>
+    <p>Profesional: {{abreviatura}} {{turnoAFacturar.profesional?.persona?.nombre}} {{turnoAFacturar.profesional?.persona?.apellido}}</p>
     </div>
     <div class="pagoContainer">
         <h4>Seleccione modo de atención:</h4>

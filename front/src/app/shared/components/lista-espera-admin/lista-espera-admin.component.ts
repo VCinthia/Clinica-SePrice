@@ -11,6 +11,7 @@ import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { TurnoDTO } from '../../../core/dtos/turno.dto';
 import { ApiService } from '../../../services/api.service';
 import { CommonModule } from '@angular/common';
+import { eSexo } from '../../../core/enums/sexo.enum';
 
 @Component({
   selector: 'app-lista-espera-admin',
@@ -102,9 +103,10 @@ export class ListaEsperaAdminComponent {
       
       //CREO LISTA PERSONALIZADA
       this.turnosConfirmadosListData = turnosListDB.map((turno, index) => {
+        const abreviatura = turno.profesional?.persona?.sexo == eSexo.FEMENINO ? 'Dra. ' : 'Dr. ';
         const pacienteNombre = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido}`;
         const pacienteDNI = `${turno.paciente?.persona?.dni}`;
-        const profesional = `Dr. ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
+        const profesional = `${abreviatura} ${turno.profesional?.persona?.nombre}, ${turno.profesional?.persona?.apellido}`;
         const turnoIdCustom = `T-${turno.turnoId}`; // Usar el índice en lugar del id del turno index+1
         return {
           'pacienteNombre': pacienteNombre,

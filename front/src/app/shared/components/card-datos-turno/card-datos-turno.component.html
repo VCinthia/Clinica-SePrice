@@ -5,7 +5,7 @@
     <h4>Paciente: {{primerTurno.paciente?.persona?.nombre}}  {{primerTurno.paciente?.persona?.apellido}}</h4>
     <h4>Turno: {{primerTurno.inicioFechaHora | date:'dd/MM/yyyy HH:mm'}}</h4>
     <p>Práctica Médica: {{primerTurno.especialidad}}</p>
-    <p>Profesional: {{primerTurno.profesional?.persona?.nombre}} {{primerTurno.profesional?.persona?.apellido}}</p>
+    <p>Profesional: {{abreviatura}} {{primerTurno.profesional?.persona?.nombre}} {{primerTurno.profesional?.persona?.apellido}}</p>
     </div>
     
     <div class="btnContainer">

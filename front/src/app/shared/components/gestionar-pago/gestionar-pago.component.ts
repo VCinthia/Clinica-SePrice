@@ -16,6 +16,7 @@ import { eEstadoTurno } from '../../../core/enums/estado-turno.enum';
 import { ApiService } from '../../../services/api.service';
 import { TurnoListaDeEspera } from '../../../core/dtos/turno-lista-espera.dto';
 import { eModalidadDePago } from '../../../core/enums/modalidad-de-pago.enum';
+import { eSexo } from '../../../core/enums/sexo.enum';
 
 @Component({
   selector: 'app-gestionar-pago',
@@ -31,6 +32,7 @@ export class GestionarPagoComponent {
   selectedOption : string;
   obraSocial = new FormControl('', Validators.required);
   metodoPago = new FormControl('', Validators.required);
+  abreviatura: string = ''
 
 
   constructor(
@@ -48,6 +50,8 @@ export class GestionarPagoComponent {
     //OBSERVABLES
     this.turnoService.turnoAFacturar$.subscribe((turnoAFacturar)=>{
       this.turnoAFacturar = turnoAFacturar;
+      this.abreviatura = turnoAFacturar.profesional?.persona?.sexo == eSexo.FEMENINO ? 'Dra. ' : 'Dr. ';
+  
     })
 
     //------------------
@@ -149,9 +153,10 @@ export class GestionarPagoComponent {
 
 
   convertirTurnoAListaDeESperaTurno(turno: TurnoDTO): TurnoListaDeEspera {
+    const abreviatura = turno.profesional?.persona?.sexo == eSexo.FEMENINO ? 'Dra. ' : 'Dr. ';
     const pacienteNombre = `${turno.paciente?.persona?.nombre}, ${turno.paciente?.persona?.apellido }`;
     const pacienteDNI = turno.paciente?.dniPaciente!; 
-    const profesional = `Dr. ${turno.profesional?.persona?.nombre }, ${turno.profesional?.persona?.apellido}`;
+    const profesional = `${abreviatura} ${turno.profesional?.persona?.nombre }, ${turno.profesional?.persona?.apellido}`;
     const turnoIdCustom = `T-${turno.turnoId}`;
     
     let turnoListaDeEsperaFormat = new TurnoListaDeEspera(pacienteNombre, pacienteDNI ,turno.inicioFechaHora!,profesional,turnoIdCustom,turno.turnoId!)
