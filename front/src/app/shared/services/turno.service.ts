@@ -87,7 +87,7 @@ export class TurnoService {
   removeTurnosEnListaDeEspera(idTurno: number): void {
     const currentTurnos = this.getTurnosEnListaDeEspera();
     this.turnosEnListaDeEspera.next(currentTurnos.filter(turno => turno.idTurno !== idTurno));
-  console.log("deleted: ", this.turnosEnListaDeEspera);
+  console.log("deleted: ", currentTurnos);
   
   }
 

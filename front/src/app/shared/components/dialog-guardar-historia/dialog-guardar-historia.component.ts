@@ -75,19 +75,19 @@ export class DialogGuardarHistoriaComponent {
 
 
 
-    guardarHistoriaClinica(){
+    async guardarHistoriaClinica(){
     //put historia
     const nuevoText = (this.historiaClinicaDB?.detalle) ? ("\n" + this.data.nuevoDetalle) : this.data.nuevoDetalle;
     const detalleDB = (this.historiaClinicaDB?.detalle) ? this.historiaClinicaDB?.detalle : '';
     
     this.historiaClinicaDB!.detalle = detalleDB + nuevoText;
-    this.actualizarHistoriaClinica(this.historiaClinicaDB!);
-
-
-
+    const isHCActualizada = await this.actualizarHistoriaClinica(this.historiaClinicaDB!);
+   if(isHCActualizada){
     this.dialogRef.close()
 
     if (this.router.url === '/consultoriosExternos/historiaClinica') {
+      console.log('*****', this.turnosListEspera);
+      
       if(this.turnosListEspera.length){
         this.router.navigate(['consultoriosExternos/listaEsperaProf/llamarPaciente']);
       }else{
@@ -103,6 +103,8 @@ export class DialogGuardarHistoriaComponent {
         });
       });
     }
+       
+   }
     
   }
   
@@ -114,55 +116,64 @@ export class DialogGuardarHistoriaComponent {
 
   
 
-  actualizarHistoriaClinica(histCliUpdated: HistoriaClinicaDTO):void{
+  actualizarHistoriaClinica(histCliUpdated: HistoriaClinicaDTO) : Promise<boolean>{ 
+    return new Promise<boolean>((resolve, reject) => { 
     this.apiService.actualizarHistoriaClinica(histCliUpdated, this.usuarioLogeado?.username! ).subscribe({
       next: (response) =>{
         if(!response){
           this.toastr.error('Error al actualizar la historia clínica','Error' );
-          return;
+          resolve(false)
         }
         this.toastr.success('Historia clínica actualizada')
+      
+        
       },
       error:(error) => {
         this.toastr.error(error.error?.message, 'Error' );
         console.error('Error al actualizar Historiaclinica:', error);
       },
-      complete: () => {
-        this.actualizarEstadoTurno(this.turnoUno?.idTurno!, eEstadoTurno.FINALIZADO);
-        
-        
-        
-        const turnoEliminar = this.turnosListEspera[0];
-        this.turnoService.removeTurnosEnListaDeEspera(turnoEliminar.idTurno);
-        this.turnoService.removeTurno(turnoEliminar.idTurno);
-        console.log("se elimino", this.turnosListEspera);
-        console.log("this.turnosListEspera.length",this.turnosListEspera.length);
-        
-
-      
+      complete: async () => {
+       const isTurnosActualizado =await this.actualizarEstadoTurno(this.turnoUno?.idTurno!, eEstadoTurno.FINALIZADO);
+         //actualizo observables
+         if(isTurnosActualizado){
+          this.turnoService.removeTurnosEnListaDeEspera(this.turnoUno?.idTurno!);
+          this.turnoService.removeTurno(this.turnoUno?.idTurno!);
+          this.turnoService.setShowBtnComenzarLLamadas(true);
+          console.log("listaEspera**", this.turnosListEspera);
+          console.log("lista turnos**",this.turnoService.getTurnos);
+          resolve(true)
+         }
+       
       }
     });
+  })
    }
 
 
 
-   actualizarEstadoTurno(idTurno: number, estadoNuevo: eEstadoTurno) : void {  
+   actualizarEstadoTurno(idTurno: number, estadoNuevo: eEstadoTurno) : Promise<boolean>{ 
+    return new Promise<boolean>((resolve, reject) => { 
     const estadoString : string = estadoNuevo;
+    
     this.apiService.actualizarEstadoDelTurno(idTurno,estadoNuevo).subscribe({
       next: (response) =>{
         if(!response.success){
+          reject(new Error('No se pudo actualizar el estado'));
           this.toastr.error('No se pudo actualizar el estado ','Error' );
         }
           this.toastr.success("El turno ha sido "+ estadoString)
+          resolve(true);
       },
       error:(error) => {
+        resolve(false);
         this.toastr.error(error?.message, 'Error' );
         console.error('Error alactualizar estado del turno', error);
       },
       complete: () => {
       }
     });
-  }
+  })
+}
 
 
 

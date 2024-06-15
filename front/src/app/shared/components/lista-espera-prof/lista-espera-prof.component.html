@@ -1,6 +1,8 @@
 <h2>Lista de espera Dr. {{usuarioLogueado?.persona?.nombre}} {{usuarioLogueado?.persona?.apellido}}</h2>
-<h2>{{hoy  | date:'dd-MM-yyyy'   }}</h2>
-    
+<div class="container-titulo">
+  <h2>{{hoy  | date:'dd-MM-yyyy'   }}</h2>
+  <img class="reload-icon"  src="assets/img/autorenew.png" alt="volver a cargar lista de espera" (click)="getTurnosConfirmadosParaListaDeEspera()">
+</div>  
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <ng-container matColumnDef="pacienteNombre">

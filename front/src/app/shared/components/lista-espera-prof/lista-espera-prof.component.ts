@@ -150,7 +150,7 @@ getTurnosByTipoProfesionalIdConfirmadosHoy(tipo: eTipoTurno, profesionalDni: num
         }
       },
       error: (error) => {
-        this.toastr.warning(error.error?.message, 'Error');
+        this.toastr.warning(error.error?.message);
         console.error('Error al obtener turnos:', error);
       },
       complete:() =>{

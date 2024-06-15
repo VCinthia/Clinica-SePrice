@@ -53,7 +53,7 @@ export class LoginComponent {
     if(this.username && this.password){
       this.login(this.username, this.password);
     }else{
-      this.toastr.warning('Debe ingresar Usuario y contraseña','Alerta' );
+      this.toastr.warning('Debe ingresar Usuario y contraseña' );
     }
     
 }

@@ -68,7 +68,7 @@ export class BuscarTurnoComponent {
       }
 
     }else{
-      this.toastr.error('No se han encontrado turnos ','Error' );
+      this.toastr.warning('No se han encontrado turnos' );
     }
 
   }
@@ -123,7 +123,7 @@ getTurnosByTipoPendientesHoy(tipo:eTipoTurno): void {
       }
     },
     error: (error) => {
-      this.toastr.warning(error.error?.message, 'Error');
+      this.toastr.warning(error.error?.message);
       console.error('Error al obtener turnos Pendientes para hoy', error);
     },
   });

@@ -83,7 +83,7 @@ export class ListaEsperaAdminComponent {
           }
         },
         error: (error: { error: { message: string | undefined; }; }) => {
-          this.toastr.warning(error.error?.message, 'Error');
+          this.toastr.warning(error.error?.message);
           console.error('Error al obtener turnos confirmados para hoy', error);
         },
       });
