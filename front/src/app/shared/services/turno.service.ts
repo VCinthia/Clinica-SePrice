@@ -11,7 +11,7 @@ export class TurnoService {
   constructor() { }
 
 
-  //Generic turnosList -> preferible los que vienen de la base
+  //Generic turnosList -> Almacenar turnos que vienen de la base
   private turnosDB = new BehaviorSubject<TurnoDTO[]>([]);
   turnos$ = this.turnosDB.asObservable();
 
@@ -36,7 +36,7 @@ export class TurnoService {
 
 
 
-  //turnos filtrados segun PRofesional, tipoCircuito, enCurso, y fecha de hoy
+  //turnos filtrados segun Profesional, tipoCircuito, enCurso, y fecha de hoy
   private turnosEncontradosElUserLogueado = new BehaviorSubject<TurnoDTO[]>([]);
   turnosEncontradosElUserLogueado$ = this.turnosEncontradosElUserLogueado.asObservable();
 

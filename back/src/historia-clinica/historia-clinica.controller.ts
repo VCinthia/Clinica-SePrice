@@ -8,10 +8,6 @@ import { ResponseDTO } from 'src/Utils/responseDTO.dto';
 export class HistoriaClinicaController {
   constructor(private readonly historiaClinicaService: HistoriaClinicaService) {}
 
-  // @Post()
-  // createHistoriaClinica(@Body() historiaClinicaDTO: HistoriaClinicaDTO): Promise<HistoriaClinica> {
-  //   return this.historiaClinicaService.createHistoriaClinica(historiaClinicaDTO);
-  // }
 
   @Put('edit')
   updateHistoriaClinica(@Body() body: { historiaClinicaUpdated: HistoriaClinicaDTO, usuarioEditorUserName: string }): Promise<ResponseDTO<null>> {

@@ -12,8 +12,5 @@ export class TurnoMapper {
       return turno;
     }
   
-    // static toDto(usuario: Usuario): UsuarioDTO{
-    //   //todo: revisar que agrege persona
-    //   return plainToClass(UsuarioDTO, usuario);
-    // }
+
   }

@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
   declarations: [],
   imports: [
     CommonModule
-    //todo: verificar si es necesario o se puede eliminar
   ]
 })
 export class SharedModule { }
