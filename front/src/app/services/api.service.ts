@@ -64,12 +64,23 @@ export class ApiService {
 
 
   //para postea  nuevo turno, no pasar el id, se genera automaticamente en la base
+  getTurnosByTipoAndProfesionalAndDayAndEstadoParaCreacion(tipo: eTipoTurno, profesionalId: number, diaTurno: Date, estado: eEstadoTurno): Observable<TurnoDTO[]> {
+    const url = `${this.BASE_URL}/turno/tipo-profesional`;
+    const fechaTurnoISO = diaTurno.toISOString().split('T')[0];
+    return this.httpClient.get<TurnoDTO[]>(url, {
+      params: {
+        tipo,
+        profesionalId,
+        fechaTurnoISO,
+        estado
+      }
+    });
+  }
+
   postNewTurno(turnoDTO: TurnoDTO): Observable<TurnoDTO> {
     const url = `${this.BASE_URL}/turno`;
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    console.log('turnoDTO: ', turnoDTO);
-    return this.httpClient.post(url, turnoDTO, { headers: headers });
-    
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post<TurnoDTO>(url, turnoDTO, { headers });
   }
 
 

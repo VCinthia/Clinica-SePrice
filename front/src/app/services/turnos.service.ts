@@ -17,11 +17,13 @@ import { eModalidadDePago } from '../core/enums/modalidad-de-pago.enum';
 export class TurnosService {
   profesional: ProfesionalDTO | undefined;
   paciente: PacienteDTO | undefined;
+  turnosOcupados : TurnoDTO[] = [];
 
   constructor(
     private router: Router,
     private apiService: ApiService
-  ) { }
+  ) {this.loadTurnosOcupados(); }
+  
 
   //PRACTICA SELECCIONADA LA USE PARA IDENTIFICAR ESPECIALIDAD
   private practicaSeleccionadaSource = new BehaviorSubject<any>(null);
@@ -56,6 +58,22 @@ export class TurnosService {
   actualizarPacienteSeleccionado(paciente: PacienteDTO | null): void {
     this.pacienteSeleccionadoSource.next(paciente);
     console.log('Paciente actualizado:', paciente);
+  }
+
+  // CARGAR TURNOS OCUPADOS:
+  private loadTurnosOcupados(): void {
+    this.apiService.getAllTurnos().subscribe({
+      next: (turnos) => {
+        this.turnosOcupados = turnos;
+      },
+      error: (error) => {
+        console.error('Error fetching turnos data:', error);
+      }
+    });
+  }
+
+  getTurnosOcupados(): TurnoDTO[] {
+    return this.turnosOcupados;
   }
 
   // Actualización de profesional según especialidad

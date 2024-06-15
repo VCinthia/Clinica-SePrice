@@ -7,33 +7,34 @@
 
   <ng-container matColumnDef="fecha">
     <th mat-header-cell *matHeaderCellDef> Fecha </th>
-    <td mat-cell *matCellDef="let element"> {{element.inicioFechaHora | date: 'dd/MM/yyyy'}} </td>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'ocupado': isTurnoOcupado(element), 'sobreturno': element.esSobreturno}"> {{element.inicioFechaHora | date: 'dd/MM/yyyy'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="horaInicio">
     <th mat-header-cell *matHeaderCellDef> Horario </th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" [ngClass]="{'ocupado': isTurnoOcupado(element), 'sobreturno': element.esSobreturno}">
       {{ element.inicioFechaHora | date: 'HH:mm' }}
       @if (element.esSobreturno){
       {{element.horaInicio}} (sobreturno)
       } @else {
       {{element.horaInicio}}
       }
+      <!-- <span *ngIf="element.esSobreturno">(sobreturno)</span> -->
     </td>
   </ng-container>
 
   <ng-container matColumnDef="profesional">
     <th mat-header-cell *matHeaderCellDef> Profesional </th>
-    <td mat-cell *matCellDef="let element"> {{element.profesional.persona.apellido}} </td>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'ocupado': isTurnoOcupado(element), 'sobreturno': element.esSobreturno}"> Dr./Dra. {{element.profesional.persona.apellido}} </td>
   </ng-container>
 
   <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef> Seleccionar </th>
-    <td mat-cell *matCellDef="let element" class="radioBtn">
+    <td mat-cell *matCellDef="let element">
       <mat-radio-group [(ngModel)]="selectedOption">
         <mat-radio-button
           class="custom-radio"
-          [value]="element.inicioFechaHora + '-' + element.esSobreturno">
+          [value]="element.inicioFechaHora + '-' + element.esSobreturno" [disabled]="isTurnoOcupado(element)">
         </mat-radio-button>
       </mat-radio-group>
     </td>
