@@ -1,0 +1,41 @@
+<mat-drawer-container class="container">
+    <mat-drawer mode="side" opened class="sidenav">
+        <div class="sidenavContainer">
+            @if (currentRoute?.includes('estudiosClinicos')) {
+                @for (opcion of sidenavEstudiosClinicos; track opcion) {
+                    @if (opcion.name === 'Cerrar Sesión') {
+                        <a (click)="cerrarSesion()">{{opcion.name}}</a>
+                        } @else {
+                            <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                        }
+                  }
+             }
+             @if (currentRoute?.includes('consultoriosExternos')) {
+                @for (opcion of sidenavConsultoriosExternos; track opcion) {
+                    @if (opcion.name === 'Cerrar Sesión') {
+                    <a (click)="cerrarSesion()">{{opcion.name}}</a>
+                    } @else {
+                        <a [routerLink]="opcion.route">{{opcion.name}}</a>
+                    }
+                  }
+             }
+        </div>
+         
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="main-content">
+            @if (currentRoute?.includes('estudiosClinicos')) {
+                <h1>ESTUDIOS CLÍNICOS</h1>
+            }
+            @if (currentRoute?.includes('consultoriosExternos')) {
+                <h1>CONSULTORIOS EXTERNOS</h1>
+            }
+            @if (currentRoute === '/estudiosClinicos' || currentRoute === '/consultoriosExternos') {
+                <p>En el menú lateral podrás acceder a las distintas opciones disponibles</p>
+            }
+            <router-outlet></router-outlet>
+        </div>
+        
+    </mat-drawer-content>
+</mat-drawer-container>
+

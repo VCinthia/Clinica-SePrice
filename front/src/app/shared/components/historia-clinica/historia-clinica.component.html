@@ -1,0 +1,18 @@
+<h2>Historia Clínica</h2>
+<h2>Paciente: {{turnoUno?.pacienteNombre}}</h2>
+<div class="historiaClinicaContainer">
+    <p>{{historiaClinicaDB?.detalle  ? historiaClinicaDB?.detalle: "" }}</p>
+</div>
+<div class="textareaContainer">
+    <h2>Registro de la atención {{hoy | date: 'dd/MM/yyyy'}}</h2>
+    <mat-form-field class="textarea">
+    <mat-label>Descripción:</mat-label>
+    <textarea 
+    matInput
+    [(ngModel)]="textoDelTextArea"
+    ></textarea>
+    </mat-form-field>
+    <div class="btnContainer">
+        <app-btn-primary (click)='notificacionConfirmar()' buttonText="Guardar y Finalizar"></app-btn-primary>
+    </div>
+</div>

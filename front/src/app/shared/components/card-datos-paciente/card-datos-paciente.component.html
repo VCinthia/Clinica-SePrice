@@ -1,0 +1,15 @@
+<!-- card-datos-paciente.component.html -->
+<div class="card">
+    <h4>Paciente: {{ paciente.persona!.nombre }} {{ paciente.persona!.apellido }}</h4>
+    <div class="dataContainer">
+      <p>DNI: {{ paciente.dniPaciente }}</p>
+      <p>Dirección: {{ paciente.persona!.domicilio }}</p>
+      <p>Tel: {{ paciente.persona!.telefono }}</p>
+    </div>
+  
+    <div class="btnContainer">
+      <app-btn-inactive buttonText="Editar datos"></app-btn-inactive>
+      <app-btn-primary (click)="navegarAConfirmarTurno()" buttonText="Continuar"></app-btn-primary>
+    </div>
+  </div>
+  

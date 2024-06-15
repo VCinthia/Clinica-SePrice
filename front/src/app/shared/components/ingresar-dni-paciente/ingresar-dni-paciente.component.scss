@@ -1,0 +1,40 @@
+
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btnContainer{
+    display: flex;
+    width: 500px;
+    gap: 20px;
+    justify-content: end;
+}
+
+app-btn-primary, app-btn-inactive, app-btn-secondary{
+    height: 40px;
+    width: 158px;
+}
+
+.inputContainer{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+mat-form-field{
+    display: flex;
+    width: 500px;
+    padding-bottom: 10px;
+}
+
+h2,p{
+    text-align: center;
+}
+
+p{
+    padding: 20px;
+    font-size: 24px;
+}

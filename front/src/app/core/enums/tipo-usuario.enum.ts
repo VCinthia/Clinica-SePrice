@@ -1,0 +1,4 @@
+export enum eTipoUsuario{
+    ADMINISTRATIVO = 'ADMINISTRATIVO',
+    PROFESIONAL = 'PROFESIONAL'
+}

@@ -1,0 +1,23 @@
+.dialogContentContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100%;
+}
+
+h2{
+    text-align: center;
+    font-size: 30px;
+}
+
+mat-dialog-actions{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+app-btn-primary, app-btn-secondary{
+    width: 250px;
+    height: 50px;
+}

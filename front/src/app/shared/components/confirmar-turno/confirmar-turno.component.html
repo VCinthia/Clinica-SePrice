@@ -1,0 +1,18 @@
+<div class="card">
+    <h2>Confirmar Turno</h2>
+    
+    <h4>Turno: {{ turnoSeleccionado?.inicioFechaHora | date: 'd/M/yy, h:mm a' }}</h4>
+    <h4>Especialidad: {{ turnoSeleccionado?.especialidad }}</h4><br>
+    <h4>Profesional: {{ turnoSeleccionado?.profesional?.persona?.apellido}}, {{ turnoSeleccionado?.profesional?.persona?.nombre}}</h4><br>
+    <h4>Paciente: {{ pacienteSeleccionado?.persona?.nombre }} {{ pacienteSeleccionado?.persona?.apellido }}</h4>
+    <div class="dataContainer">
+      <p>DNI: {{ pacienteSeleccionado?.persona?.dni }}</p>
+      <p>Dirección: {{ pacienteSeleccionado?.persona?.domicilio }}</p>
+      <p>Tel: {{ pacienteSeleccionado?.persona?.telefono }}</p>
+    </div>
+    
+    <div class="btnContainer">
+      <app-btn-secondary buttonText="Volver"></app-btn-secondary>
+      <app-btn-primary (click)="notificacionConfirmar()" buttonText="Confirmar"></app-btn-primary>
+  </div>
+</div>

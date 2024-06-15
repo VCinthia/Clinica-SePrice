@@ -1,0 +1,28 @@
+
+<h2>Lista de espera de pacientes</h2>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="pacienteNombre">
+      <th mat-header-cell *matHeaderCellDef> Paciente </th>
+      <td mat-cell *matCellDef="let element"> {{element.pacienteNombre}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="horario">
+      <th mat-header-cell *matHeaderCellDef> Horario </th>
+      <td mat-cell *matCellDef="let element"> {{element.horario | date:'HH:mm'}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="profesional">
+        <th mat-header-cell *matHeaderCellDef> Profesional </th>
+        <td mat-cell *matCellDef="let element"> {{element.profesional}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="numAtencion">
+      <th mat-header-cell *matHeaderCellDef> N° de Atención </th>
+      <td mat-cell *matCellDef="let element" class="numAtencionColumn"> {{element.numAtencion}} </td>
+    </ng-container>
+  
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

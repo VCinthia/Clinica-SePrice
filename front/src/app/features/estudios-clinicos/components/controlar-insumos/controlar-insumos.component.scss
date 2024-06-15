@@ -1,0 +1,38 @@
+.btnContainer{
+    display: flex;
+    height: 20vh;
+    align-items: center;
+    justify-content: center;
+}
+
+app-btn-primary, app-btn-inactive{
+    height: 40px;
+    width: 158px;
+}
+
+.redText{
+    color: rgb(146, 4, 4);
+    font-weight: bold;
+}
+
+table{
+    width: 40vw;
+    box-shadow: none;
+    background-color: var(--terciary);
+    height: 40vh;
+    margin-bottom: 40px;
+}
+
+.cell-cantidad {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.mat-cell{
+    font-size: 16px;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 20px;
+}

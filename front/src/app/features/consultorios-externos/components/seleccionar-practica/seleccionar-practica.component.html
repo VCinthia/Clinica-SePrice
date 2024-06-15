@@ -1,0 +1,23 @@
+<mat-card>
+  <h2 >Solicitud de Turno</h2>
+    <p>Seleccione una opción:</p>
+    <mat-form-field class="custom-width">
+        <mat-label>Seleccione tipo de práctica médica...</mat-label>
+        <mat-select [formControl]="practicaControl" required>
+          <mat-option>--</mat-option>
+          <!-- @for (practica of practicas; track practica) { -->
+          @for (practica of practicasEnum; track practica) {
+            <mat-option [value]="practica">{{practica.name}}</mat-option>
+          }
+        </mat-select>
+        @if (practicaControl.hasError('required')) {
+          <mat-error>Por favor, elija una práctica médica para continuar</mat-error>
+        }
+    </mat-form-field>
+    @if (practicaControl.hasError('required')) {
+      <app-btn-inactive [buttonText]="'Ver turnos disponibles'"></app-btn-inactive>
+    } @else {
+      <app-btn-primary (click)="navegarASeleccionarTurno()" [buttonText]="'Ver turnos disponibles'"></app-btn-primary>
+    }
+    <app-btn-secondary (click)="volver()" [buttonText]="'Volver'"></app-btn-secondary>
+</mat-card>

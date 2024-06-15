@@ -1,0 +1,17 @@
+<div class="container">
+    <h2>Siguiente turno</h2>
+    <div class="infoContainer">
+        <p>Paciente: {{turnoUno?.pacienteNombre}}</p>
+        <p>Horario: {{turnoUno?.horario | date:'HH:mm'}}hs</p>
+    </div>
+ 
+    <div class="btnContainer">
+        @if (!segundoLlamadoRealizado) {
+            <app-btn-secondary (click)="realizarSegundoLlamado()" buttonText="Realizar 2do llamado"></app-btn-secondary>
+        }@else {
+            <app-btn-secondary (click)="eliminarTurnoDeListaEspera()"  buttonText="Eliminar paciente de lista"></app-btn-secondary>
+
+        }
+        <app-btn-primary buttonText="Confirmar atención" (click)="confirmarAtencion()" ></app-btn-primary>
+    </div>
+</div>

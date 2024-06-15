@@ -1,0 +1,42 @@
+<h2>Lista de espera {{abreviatura}} {{usuarioLogueado?.persona?.nombre}} {{usuarioLogueado?.persona?.apellido}}</h2>
+<div class="container-titulo">
+  <h2>{{hoy  | date:'dd-MM-yyyy'   }}</h2>
+  <img class="reload-icon"  src="assets/img/autorenew.png" alt="volver a cargar lista de espera" (click)="getTurnosConfirmadosParaListaDeEspera()">
+</div>  
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="pacienteNombre">
+      <th mat-header-cell *matHeaderCellDef> Paciente </th>
+      <td mat-cell *matCellDef="let element"> {{element.pacienteNombre}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="horario">
+      <th mat-header-cell *matHeaderCellDef> Horario </th>
+      <td mat-cell *matCellDef="let element"> {{element.horario | date:'HH:mm' }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="profesional">
+        <th mat-header-cell *matHeaderCellDef> Profesional </th>
+        <td mat-cell *matCellDef="let element"> {{element.profesional}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="numAtencion">
+      <th mat-header-cell *matHeaderCellDef> N° de Atención </th>
+      <td mat-cell *matCellDef="let element" class="numAtencionColumn"> {{element.numAtencion}} </td>
+    </ng-container>
+  
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  @if (currentRoute === '/estudiosClinicos/listaEsperaProf'  || currentRoute === '/consultoriosExternos/listaEsperaProf'){
+    @if (!btnInvisible) {
+      <div class="btnContainer">
+        <app-btn-primary 
+        buttonText="Comenzar llamados" 
+        (click)='comenzarLlamados()'></app-btn-primary>
+      </div>
+    }
+  }
+
+  <router-outlet></router-outlet>

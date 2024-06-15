@@ -1,0 +1,38 @@
+table{
+    width: 60vw;
+    box-shadow: none;
+    background-color: var(--terciary);
+    height: 40vh;
+    margin-bottom: 40px;
+    align-self: center;
+}
+
+.numAtencionColumn{
+    padding-left: 40px;
+}
+
+h2{
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.btnContainer{
+    display: flex;
+    justify-content: end;
+    padding-bottom: 30px;
+}
+
+app-btn-primary{
+    height: 40px;
+    width: 250px;
+}
+
+.reload-icon{
+    height: 25px;
+    padding-top: .25em;
+    padding-left: 1em;
+}
+.container-titulo{
+   display: flex;
+   justify-content: center;
+}

@@ -1,0 +1,59 @@
+<h2>Gestionar Pago</h2>
+
+<div class="card">
+    <h2>Datos de facturación</h2>
+    <div class="dataContainer">
+    <h4>Paciente: {{turnoAFacturar.paciente?.persona?.nombre}} {{turnoAFacturar.paciente?.persona?.apellido}}</h4>
+    <p>DNI: {{turnoAFacturar.paciente?.persona?.dni}}</p>
+    <p>Dirección: {{turnoAFacturar.paciente?.persona?.domicilio}}</p>
+    <p>Turno: {{turnoAFacturar.inicioFechaHora | date:'dd/MM/yyyy HH:mm'}}</p>
+    <p>Práctica {{turnoAFacturar.especialidad}}</p>
+    <p>Profesional: {{abreviatura}} {{turnoAFacturar.profesional?.persona?.nombre}} {{turnoAFacturar.profesional?.persona?.apellido}}</p>
+    </div>
+    <div class="pagoContainer">
+        <h4>Seleccione modo de atención:</h4>
+        <mat-radio-group [(ngModel)]="selectedOption" ngDefaultControl>
+            <mat-radio-button value="obraSocial">
+                Obra Social
+            </mat-radio-button> 
+            <mat-radio-button value="particular">
+                Particular
+            </mat-radio-button> 
+        </mat-radio-group>
+    </div>
+@if (selectedOption === 'obraSocial') {
+    <mat-form-field>
+        <mat-label>Seleccione Obra Social</mat-label>
+        <mat-select [formControl]="obraSocial" required>
+          <mat-option value="osde">OSDE</mat-option>
+          <mat-option value="medife">Medifé</mat-option>
+          <mat-option value="osecac">OSECAC</mat-option>
+          <mat-option value="oam">OAM</mat-option>
+        </mat-select>
+        @if (obraSocial.hasError('required')) {
+          <mat-error>Por favor, elija una opción</mat-error>
+        }
+      </mat-form-field>
+}
+@if (selectedOption === 'particular') {
+    <mat-form-field>
+        <mat-label>Seleccione Método de Pago</mat-label>
+        <mat-select [formControl]="metodoPago" required>
+          <mat-option value="efectivo">Efectivo</mat-option>
+          <mat-option value="debito">Débito</mat-option>
+          <mat-option value="credito">Crédito</mat-option>
+        </mat-select>
+        @if (metodoPago.hasError('required')) {
+          <mat-error>Por favor, elija una opción</mat-error>
+        }
+      </mat-form-field>
+}
+    <div class="btnContainer">
+        <app-btn-secondary (click)="volver()" buttonText="Volver"></app-btn-secondary>
+        @if (metodoPago.hasError('required') && obraSocial.hasError('required')) {
+          <app-btn-inactive buttonText="Confirmar"></app-btn-inactive>
+        } @else {
+          <app-btn-primary (click)="navegarAConfirmarAcreditacion()" buttonText="Confirmar"></app-btn-primary>
+        }
+    </div>
+</div>

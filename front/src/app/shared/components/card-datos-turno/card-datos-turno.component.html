@@ -1,0 +1,14 @@
+<div class="card">
+    <h2>Turno Encontrado</h2>
+    <div class="dataContainer">
+    <h4>DNI: {{primerTurno.paciente?.dniPaciente}}</h4>
+    <h4>Paciente: {{primerTurno.paciente?.persona?.nombre}}  {{primerTurno.paciente?.persona?.apellido}}</h4>
+    <h4>Turno: {{primerTurno.inicioFechaHora | date:'dd/MM/yyyy HH:mm'}}</h4>
+    <p>Práctica Médica: {{primerTurno.especialidad}}</p>
+    <p>Profesional: {{abreviatura}} {{primerTurno.profesional?.persona?.nombre}} {{primerTurno.profesional?.persona?.apellido}}</p>
+    </div>
+    
+    <div class="btnContainer">
+        <app-btn-primary (click)="navegarAConfirmarTurno()" buttonText="Confirmar"></app-btn-primary>
+    </div>
+</div>

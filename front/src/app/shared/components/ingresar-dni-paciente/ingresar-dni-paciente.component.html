@@ -1,0 +1,33 @@
+<div class="mainContainer">
+    <h2> Solicitud de Turno</h2>
+    <h2>{{ turnoSeleccionado?.especialidad }} {{ turnoSeleccionado?.inicioFechaHora | date: 'M/d/yy, h:mm a' }}</h2>
+    <h2>Profesional: {{ turnoSeleccionado?.profesional?.persona?.apellido }}, {{
+        turnoSeleccionado?.profesional?.persona?.nombre }}</h2>
+
+    <p>Ingrese DNI del paciente:</p>
+    
+    <div class="inputContainer">
+        <mat-form-field appearance="outline">
+            <mat-label>DNI</mat-label>
+            <input matInput [formControl]="dniFormControl">
+            @if (dniFormControl.hasError('pattern') && !dniFormControl.hasError('required')) {
+            <mat-error>Por favor, ingrese un DNI</mat-error>
+            }
+            @if (dniFormControl.hasError('required')) {
+            <mat-error>Por favor, ingrese un DNI</mat-error>
+            }
+        </mat-form-field>
+    </div>
+    
+    <div class="btnContainer">
+        <app-btn-secondary (click)="volver()" buttonText="Volver"></app-btn-secondary>
+        @if (dniFormControl.hasError('required')) {
+            <app-btn-inactive buttonText="Buscar paciente"></app-btn-inactive>
+        } @else {    
+            @if (dniFormControl.value) {
+                <app-btn-primary (click)="getPersonByDniYNavegar(dniFormControl.value)" buttonText="Buscar paciente"></app-btn-primary>
+            }
+        }
+    </div>
+    <router-outlet></router-outlet>
+</div>
